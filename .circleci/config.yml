@@ -60,7 +60,16 @@ references:
       _JAVA_OPTIONS: "-Xmx2048m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
       GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m"'
 
-
+  ## Although gcloud tools are included in the circleci image, they are in the latest version which, in the
+  ## time of writing, is 217.0.0 and contains a bug that breaks code coverage support. It can be solved by downgrading to
+  ## the 216.0.0 version, but it's not possible to use "gcloud components update --version 216.0.0" on the circleci image.
+  ## Therefore we use another image with older version.
+  gcloud_config: &gcloud_config
+    working_directory: *workspace
+    docker:
+      - image: google/cloud-sdk:216.0.0
+    environment:
+      TERM: dumb
   ## Keys
 
   # Android Key Store
@@ -204,39 +213,34 @@ jobs:
 
   ## Run instrumented tests
 
+  ## Note: removed sudo in order to make it work with gcloud images
   test_instrumented:
-    <<: *android_config
+    <<: *gcloud_config
     steps:
       - *attach_debug_workspace
       - *export_gcloud_key
       - run:
           name: Authorize gcloud and set config defaults
           command: |
-            sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
-            sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-      - run:
-          name: Debug gcloud
-          command: >
-            sudo gcloud info --run-diagnostics
+            gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
       - run:
           name: Run instrumented test on Firebase Test Lab
           command: >
-            sudo gcloud firebase test android run \
+            gcloud firebase test android run \
               --type instrumentation \
               --app app/build/outputs/apk/debug/app-debug.apk \
               --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
               --device model=Nexus6,version=21,locale=en,orientation=portrait \
-              --timeout 20m
-              --environment-variables coverage=true,coverageFile="/sdcard/tmp/code-coverage/connected/coverage.ec" \
-              --directories-to-pull=/sdcard/tmp \
+              --timeout 20m \
+              --environment-variables coverage=true,coverageFile=/sdcard/coverage.ec --directories-to-pull=/sdcard/
       - run:
           name: Create directory to store test results
           command: mkdir firebase
       - run:
           name: Install gsutil dependency and copy test results data
           command: |
-            sudo pip install -U crcmod
-            sudo gsutil -m cp -r -U `sudo gsutil ls gs://test-lab-5x2v4n5ait0uk-h9vfm1c4z2344 | tail -1`* firebase/ | true
+            gsutil -m cp -r -U "`gsutil ls gs://test-lab-5x2v4n5ait0uk-h9vfm1c4z2344 | tail -1`*" firebase/ | true
       - *persist_firebase_workspace
       - store_artifacts:
           path: firebase/
@@ -244,33 +248,30 @@ jobs:
 
   ## Submit JaCoCo coverage report
 
-#  report_coverage:
-#    <<: *android_config
-#    steps:
-#      - checkout
-#      - *restore_cache
-#      - run:
-#          name: Download dependencies
-#          command: ./gradlew androidDependencies
-#      - *attach_debug_workspace
-#      - *attach_firebase_workspace
+  report_coverage:
+    <<: *android_config
+    steps:
+      - checkout
+      - *restore_cache
+      - run:
+          name: Download dependencies
+          command: ./gradlew androidDependencies
+      - *attach_debug_workspace
+      - *attach_firebase_workspace
 #      - run:
 #          name: Move Firebase coverage report
 #          command: mkdir -p app/build/outputs/code-coverage/connected && cp firebase/sailfish-26-en_US-portrait/artifacts/coverage.ec app/build/outputs/code-coverage/connected/coverage.ec
 #      - *export_gservices_key
 #      - *decode_gservices_key
-#      - run:
-#          name: Generate JaCoCo report
-#          command: ./gradlew -PciBuild=true :app:jacocoTestReport
-#      - run:
-#          name: Upload coverage report to Codacy
-#          command: ./gradlew -PciBuild=true uploadCoverageToCodacy
-#      - run:
-#          name: Upload coverage report to CodeCov
-#          command: bash <(curl -s https://codecov.io/bash)
-#      - store_artifacts:
-#          path: app/build/reports/
-#          destination: /reports/
+      - run:
+          name: Generate JaCoCo report
+          command: ./gradlew -PciBuild=true jacocoTestReport
+      - run:
+          name: Upload coverage report to CodeCov
+          command: bash <(curl -s https://codecov.io/bash)
+      - store_artifacts:
+          path: app/build/reports/
+          destination: /reports/
 
   ## Deploy release APK to Fabric Beta
 
@@ -304,10 +305,10 @@ workflows:
       - test_instrumented:
           requires:
             - build_debug
-#      - report_coverage:
-#          requires:
-#            - test_unit
-#            - test_instrumented
+      - report_coverage:
+          requires:
+            - test_unit
+            - test_instrumented
 #      - deploy:
 #          filters:
 #            branches:
