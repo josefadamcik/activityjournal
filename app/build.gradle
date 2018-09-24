@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 //apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: "org.jlleitschuh.gradle.ktlint"
+apply plugin: 'org.jmailen.kotlinter'
 apply from: 'jacoco.gradle'
 apply from: 'testlog.gradle'
 
@@ -95,20 +95,13 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
 }
 
+kotlinter {
+    ignoreFailures = true
+    indentSize = 4
+    continuationIndentSize = 4
+    reporters = ['checkstyle', 'plain']
+}
 
 
 
-//import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
-//ktlint {
-//    version = "0.22.0"
-//    debug = true
-//    verbose = true
-//    android = false
-//    outputToConsole = true
-//    reporters = [ReporterType.PLAIN, ReporterType.CHECKSTYLE]
-//    ignoreFailures = true
-////    ruleSets = [
-////            "/path/to/custom/rulseset.jar",
-////            "com.github.username:rulseset:master-SNAPSHOT"
-////    ]
-//}
+

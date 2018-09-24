@@ -179,9 +179,9 @@ jobs:
       - run:
           name: Run lint
           command: ./gradlew -PciBuild=true lintDebug
-#      - run:
-#          name: Run ktlint
-#          command: ./gradlew -PciBuild=true ktlintDebugCheck
+      - run:
+          name: Run ktlint
+          command: ./gradlew -PciBuild=true lintKotlin
       - run:
           name: Run detekt
           command: ./gradlew -PciBuild=true detektCheck
