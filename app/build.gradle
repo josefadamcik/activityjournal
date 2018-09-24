@@ -31,13 +31,13 @@ android {
         unitTests {
             includeAndroidResources = true
         }
-
-        //https://medium.com/@rafael_toledo/setting-up-an-unified-coverage-report-in-android-with-jacoco-robolectric-and-espresso-ffe239aaf3fa
-        unitTests.all {
-            jacoco {
-                includeNoLocationClasses = true
-            }
-        }
+//
+//        //https://medium.com/@rafael_toledo/setting-up-an-unified-coverage-report-in-android-with-jacoco-robolectric-and-espresso-ffe239aaf3fa
+//        unitTests.all {
+//            jacoco {
+//                includeNoLocationClasses = true
+//            }
+//        }
     }
     //https://developer.android.com/training/testing/set-up-project
 //    useLibrary 'android.test.runner'
@@ -47,17 +47,23 @@ android {
 }
 
 dependencies {
+    def espresso_version = '3.0.2'
+    def android_test_version = '1.0.2'
+    def support_version = '28.0.0-rc02'
+    def constraint_layout = '1.1.3'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:28.0.0-rc02'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.android.support:design:28.0.0-rc02'
+    implementation "com.android.support:appcompat-v7:$support_version"
+    implementation "com.android.support.constraint:constraint-layout:$constraint_layout"
+    implementation "com.android.support:design:$support_version"
+
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test:rules:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
-
+    androidTestImplementation "com.android.support.test:runner:$android_test_version"
+    androidTestImplementation "com.android.support.test:rules:$android_test_version"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espresso_version"
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espresso_version"
 }
