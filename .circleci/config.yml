@@ -165,27 +165,33 @@ jobs:
 
   ## Check code quality
 
-#  check_quality:
-#    <<: *android_config
-#    steps:
-#      - checkout
-#      - *restore_cache
-#      - run:
-#          name: Download dependencies
-#          command: ./gradlew androidDependencies
-#      - *save_cache
+  check_quality:
+    <<: *android_config
+    steps:
+      - checkout
+      - *restore_cache
+      - run:
+          name: Download dependencies
+          command: ./gradlew androidDependencies
+      - *save_cache
 #      - *export_gservices_key
 #      - *decode_gservices_key
-#      - run:
-#          name: Run Checkstyle
-#          command: ./gradlew -PciBuild=true :app:customCheckstyle
-#      - run:
-#          name: Run FindBugs
-#          command: ./gradlew -PciBuild=true :app:customFindBugs
-#      - *persist_debug_workspace
-#      - store_artifacts:
-#          path: app/build/reports/
-#          destination: /reports/
+      - run:
+          name: Run lint
+          command: ./gradlew -PciBuild=true lintDebug
+      - run:
+          name: Run ktlint
+          command: ./gradlew -PciBuild=true ktlintDebugCheck
+      - run:
+          name: Run detekt
+          command: ./gradlew -PciBuild=true detektCheck
+      - *persist_debug_workspace
+      - store_artifacts:
+          path: app/build/reports/
+          destination: /reports/
+      - store_artifacts:
+          path: build/reports/
+          destination: /reports/
 
   ## Run unit tests
 
@@ -296,9 +302,9 @@ workflows:
     jobs:
       - build_debug
       - build_release
-#      - check_quality:
-#          requires:
-#            - build_debug
+      - check_quality:
+          requires:
+            - build_debug
       - test_unit:
           requires:
             - build_debug

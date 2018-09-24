@@ -1,7 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: "org.jlleitschuh.gradle.ktlint"
 apply from: 'jacoco.gradle'
+apply from: 'testlog.gradle'
+
+
 
 android {
     compileSdkVersion 28
@@ -27,10 +32,18 @@ android {
     testOptions {
 //        execution 'ANDROID_TEST_ORCHESTRATOR'
         animationsDisabled true
-
         unitTests {
             includeAndroidResources = true
-        }
+    }
+
+    lintOptions {
+        // If set to true, turns off analysis progress reporting by lint.
+        quiet true
+        // if set to true (default), stops the build if errors are found.
+        abortOnError false
+        // if true, only report errors.
+        ignoreWarnings false
+    }
 //
 //        //https://medium.com/@rafael_toledo/setting-up-an-unified-coverage-report-in-android-with-jacoco-robolectric-and-espresso-ffe239aaf3fa
 //        unitTests.all {
@@ -43,12 +56,13 @@ android {
 //    useLibrary 'android.test.runner'
 //    useLibrary 'android.test.base'
 //    useLibrary 'android.test.mock'
-
 }
 
 dependencies {
     def espresso_version = '3.1.0-alpha4'
     def android_test_version = '1.1.0-alpha4'
+    def ktx_version = '1.0.0'
+    def mockito_version = '2.22.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -56,12 +70,45 @@ dependencies {
     implementation "com.google.android.material:material:1.0.0"
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha2"
 
+    // https://developer.android.com/kotlin/ktx
+    implementation "androidx.core:core-ktx:$ktx_version"
+    implementation "androidx.fragment:fragment-ktx:$ktx_version"
+
+    testImplementation 'io.kotlintest:kotlintest-runner-junit5:3.1.8'
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}"
+    testImplementation 'com.natpryce:hamkrest:1.6.0.0'
+
+    //https://static.javadoc.io/org.mockito/mockito-core/2.22.0/org/mockito/Mockito.html
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
+
+    //https://github.com/nhaarman/mockito-kotlin/wiki
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+
 
     androidTestImplementation "androidx.test:runner:$android_test_version"
     androidTestImplementation "androidx.test:rules:$android_test_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
+}
+
+
+
+
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+ktlint {
+    version = "0.22.0"
+    debug = true
+    verbose = true
+    android = false
+    outputToConsole = true
+    reporters = [ReporterType.PLAIN, ReporterType.CHECKSTYLE]
+    ignoreFailures = true
+//    ruleSets = [
+//            "/path/to/custom/rulseset.jar",
+//            "com.github.username:rulseset:master-SNAPSHOT"
+//    ]
 }
