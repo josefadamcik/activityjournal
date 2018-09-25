@@ -23,12 +23,13 @@ class TimelineFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_timeline, container, false)
     }
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,7 +43,6 @@ class TimelineFragment : Fragment() {
             setHasFixedSize(true)
             adapter = this@TimelineFragment.adapter
         }
-
     }
 
     override fun onAttach(context: Context) {
@@ -50,7 +50,7 @@ class TimelineFragment : Fragment() {
         if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            throw IllegalStateException(context.toString() + " must implement OnFragmentInteractionListener")
         }
     }
 
@@ -59,9 +59,7 @@ class TimelineFragment : Fragment() {
         listener = null
     }
 
-
-
-    fun showRecords(list : List<String>) {
+    fun showRecords(list: List<String>) {
         listOfRecords = list
         adapter?.updateList(list)
     }

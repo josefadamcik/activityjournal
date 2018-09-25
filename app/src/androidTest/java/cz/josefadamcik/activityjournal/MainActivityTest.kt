@@ -14,7 +14,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class MainActivityTest {
@@ -44,7 +43,7 @@ class MainActivityTest {
         actExecuteAddActivityWithoutTimeFlow(testTitle)
 
         assertOnTimeline()
-        //check if the activity was added to the list
+        // check if the activity was added to the list
         onView(withText(testTitle))
                 .check(matches(isDisplayed()))
     }
@@ -59,7 +58,7 @@ class MainActivityTest {
         actExecuteAddActivityWithoutTimeFlow(testTitle2)
         assertOnTimeline()
 
-        //check if the activity was added to the list
+        // check if the activity was added to the list
         onView(withText(testTitle))
                 .check(matches(isDisplayed()))
         onView(withText(testTitle2))
@@ -70,16 +69,16 @@ class MainActivityTest {
     fun addActivity_chooseStartTime() {
         val testTitle = "a new title for our activity"
 
-        //start flow and enter a title
+        // start flow and enter a title
         actClickOnFab()
         actEnterTitleToInputAndSubmit(testTitle)
 
-        //select start time
+        // select start time
         onView(withId(R.id.input_time))
                 .check(matches(isDisplayed()))
                 .perform(typeText("10:00"))
 
-        //finish
+        // finish
         onView(withId(R.id.button_add))
                 .check(matches(allOf(
                         isDisplayed(),
@@ -111,7 +110,6 @@ class MainActivityTest {
     private fun assertOnTimeline() {
         assertToolbarTitle("Timeline")
     }
-
 
     private fun actClickOnFab() {
         onView(withId(R.id.fab))

@@ -1,7 +1,6 @@
 package cz.josefadamcik.activityjournal.screens.addactivity
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import cz.josefadamcik.activityjournal.R
 
 import kotlinx.android.synthetic.main.fragment_add_activity_time.*
-
 
 /**
  *
@@ -23,8 +21,11 @@ class AddActivityTimeFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_add_activity_time, container, false)
     }
 
@@ -40,7 +41,7 @@ class AddActivityTimeFragment : Fragment() {
         if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            throw IllegalStateException(context.toString() + " must implement OnFragmentInteractionListener")
         }
     }
 
@@ -65,6 +66,6 @@ class AddActivityTimeFragment : Fragment() {
          * this fragment using the provided parameters.
          */
         @JvmStatic
-        fun newInstance() =  AddActivityTimeFragment()
+        fun newInstance() = AddActivityTimeFragment()
     }
 }

@@ -11,8 +11,7 @@ import cz.josefadamcik.activityjournal.screens.timeline.TimelineFragment
  */
 class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteractionListener,
         AddActivityTitleFragment.OnFragmentInteractionListener,
-        AddActivityTimeFragment.OnFragmentInteractionListener
-{
+        AddActivityTimeFragment.OnFragmentInteractionListener {
     private val activityRecordsList = mutableListOf<String>()
 
     private lateinit var lastAddActivityTitle: String
@@ -45,21 +44,15 @@ class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteraction
                 .commit()
     }
 
-
-
     override fun onAddActivityTimeFinished(time: String) {
         supportFragmentManager.popBackStackImmediate()
         supportFragmentManager.popBackStackImmediate()
         val timelineFragment = findTimelineFragment()
         activityRecordsList.add(lastAddActivityTitle + ";" + time)
         timelineFragment.showRecords(activityRecordsList)
-
     }
-
 
     private fun findTimelineFragment(): TimelineFragment {
         return supportFragmentManager.findFragmentById(android.R.id.content) as TimelineFragment
     }
-
-
 }

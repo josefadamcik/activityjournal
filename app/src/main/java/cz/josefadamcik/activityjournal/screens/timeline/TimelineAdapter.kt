@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import cz.josefadamcik.activityjournal.R
 
 class TimelineAdapter(
-        private val layoutInflater: LayoutInflater,
-        initialList: List<String>
+    private val layoutInflater: LayoutInflater,
+    initialList: List<String>
 ) : RecyclerView.Adapter<TimelineAdapter.ViewHolder>() {
     private var list: MutableList<String> = initialList.toMutableList()
 
@@ -36,9 +36,8 @@ class TimelineAdapter(
         notifyItemInserted(list.size - 1)
     }
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val timeText : TextView = view.findViewById(R.id.time)
-        val titleText : TextView = view.findViewById(R.id.title)
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val timeText: TextView = view.findViewById(R.id.time)
+        val titleText: TextView = view.findViewById(R.id.title)
     }
 }
-
