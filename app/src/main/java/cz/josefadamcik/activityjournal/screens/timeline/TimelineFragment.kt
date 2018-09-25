@@ -1,4 +1,4 @@
-package cz.josefadamcik.activityjournal
+package cz.josefadamcik.activityjournal.screens.timeline
 
 import android.content.Context
 import android.os.Bundle
@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import cz.josefadamcik.activityjournal.R
 import kotlinx.android.synthetic.main.fragment_timeline.*
 
 /**
@@ -13,6 +16,8 @@ import kotlinx.android.synthetic.main.fragment_timeline.*
  */
 class TimelineFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
+    private var listOfRecords: List<String> = emptyList()
+    private var adapter: TimelineAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,10 +28,21 @@ class TimelineFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_timeline, container, false)
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         fab.setOnClickListener { _ -> listener?.onNavigationToAddActivityRecord() }
+
+        adapter = TimelineAdapter(LayoutInflater.from(context), listOfRecords)
+
+        list.apply {
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            setHasFixedSize(true)
+            adapter = this@TimelineFragment.adapter
+        }
+
     }
 
     override fun onAttach(context: Context) {
@@ -43,8 +59,11 @@ class TimelineFragment : Fragment() {
         listener = null
     }
 
-    fun displayNewActivityRecord(title: String) {
-        timeline_textview.text = title
+
+
+    fun showRecords(list : List<String>) {
+        listOfRecords = list
+        adapter?.updateList(list)
     }
 
     /**

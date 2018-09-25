@@ -2,6 +2,8 @@ package cz.josefadamcik.activityjournal
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityTitleFragment
+import cz.josefadamcik.activityjournal.screens.timeline.TimelineFragment
 
 /**
  * The main and only activity in the application.
@@ -9,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteractionListener,
         AddActivityTitleFragment.OnFragmentInteractionListener
 {
+
+    private val activityRecordsList = mutableListOf<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -17,6 +22,9 @@ class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteraction
             supportFragmentManager.beginTransaction()
                     .add(android.R.id.content, TimelineFragment.newInstance())
                     .commit()
+            supportFragmentManager.executePendingTransactions()
+            val timelineFragment = findTimelineFragment()
+            timelineFragment.showRecords(activityRecordsList)
         }
     }
 
@@ -30,12 +38,15 @@ class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteraction
     override fun onAddActivityFinished(title: String) {
         supportFragmentManager.popBackStack()
         supportFragmentManager.executePendingTransactions()
-        val timelineFragment = supportFragmentManager.findFragmentById(android.R.id.content) as TimelineFragment
-        timelineFragment.displayNewActivityRecord(title)
+        val timelineFragment = findTimelineFragment()
+        activityRecordsList.add(title)
+        timelineFragment.showRecords(activityRecordsList)
 
     }
 
-
+    private fun findTimelineFragment(): TimelineFragment {
+        return supportFragmentManager.findFragmentById(android.R.id.content) as TimelineFragment
+    }
 
 
 }

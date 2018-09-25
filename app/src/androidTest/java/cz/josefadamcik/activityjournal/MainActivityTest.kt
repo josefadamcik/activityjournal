@@ -68,6 +68,26 @@ class MainActivityTest {
 
     }
 
+    @Test
+    fun addActivityFlow_titleMultipleActivityRecordsCanBeAdded() {
+        actClickOnFab()
+        val testTitle = "a new title for our activity"
+        actEnterTitliIntoInput(testTitle)
+        assertToolbarTitle("Timeline")
+
+        actClickOnFab()
+        val testTitle2 = "another title"
+        actEnterTitliIntoInput(testTitle2)
+        assertToolbarTitle("Timeline")
+
+
+        //check if the activity was added to the list
+        onView(withText(testTitle))
+                .check(matches(isDisplayed()))
+        onView(withText(testTitle2))
+                .check(matches(isDisplayed()))
+    }
+
     private fun actClickOnFab() {
         onView(withId(R.id.fab))
                 .check(matches(isDisplayed()))
