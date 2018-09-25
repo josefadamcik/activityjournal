@@ -1,8 +1,6 @@
 package cz.josefadamcik.activityjournal
 
-import android.net.Uri
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 
 /**
@@ -11,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteractionListener,
         AddActivityTitleFragment.OnFragmentInteractionListener
 {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -22,6 +19,7 @@ class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteraction
                     .commit()
         }
     }
+
     override fun onNavigationToAddActivityRecord() {
         supportFragmentManager.beginTransaction()
                 .replace(android.R.id.content, AddActivityTitleFragment.newInstance())
@@ -29,9 +27,15 @@ class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteraction
                 .commit()
     }
 
-    override fun onFragmentInteraction(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onAddActivityFinished(title: String) {
+        supportFragmentManager.popBackStack()
+        supportFragmentManager.executePendingTransactions()
+        val timelineFragment = supportFragmentManager.findFragmentById(android.R.id.content) as TimelineFragment
+        timelineFragment.displayNewActivityRecord(title)
+
     }
+
+
 
 
 }

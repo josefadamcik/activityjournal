@@ -7,7 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import android.view.inputmethod.EditorInfo
+import kotlinx.android.synthetic.main.fragment_add_activity_title.*
 /**
  *
  */
@@ -24,6 +25,17 @@ class AddActivityTitleFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add_activity_title, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        title_input.setOnEditorActionListener { textView, actionId, keyEvent ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                listener?.onAddActivityFinished(textView.text.toString())
+                true
+            }
+            false
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -44,15 +56,9 @@ class AddActivityTitleFragment : Fragment() {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
      */
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+        fun onAddActivityFinished(title: String)
     }
 
     companion object {
