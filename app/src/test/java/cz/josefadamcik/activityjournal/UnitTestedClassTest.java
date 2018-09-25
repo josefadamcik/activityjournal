@@ -9,6 +9,7 @@ public class UnitTestedClassTest {
 	@Test
 	public void testcoveragetest() {
 		UnitTestedClass sut = new UnitTestedClass();
+
 		assertNotNull(sut.testcoveragetest());
 	}
 

@@ -27,6 +27,8 @@ class MainActivityTest {
                 .check(matches(isDisplayed()))
     }
 
-
-
+//    @Test
+//    fun fabPressed_addActivityFlowDisplayed() {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//    }
 }
