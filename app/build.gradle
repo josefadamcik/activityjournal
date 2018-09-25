@@ -3,10 +3,12 @@ apply plugin: 'kotlin-android'
 //apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.jmailen.kotlinter'
+apply plugin: 'com.adarshr.test-logger'
 apply from: 'jacoco.gradle'
-apply from: 'testlog.gradle'
 
-
+testlogger {
+    theme 'standard' //theme 'mocha'
+}
 
 android {
     compileSdkVersion 28
@@ -29,11 +31,9 @@ android {
         }
     }
 
-    testOptions {
-//        execution 'ANDROID_TEST_ORCHESTRATOR'
-        animationsDisabled true
-        unitTests {
-            includeAndroidResources = true
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
     }
 
     lintOptions {
@@ -44,13 +44,13 @@ android {
         // if true, only report errors.
         ignoreWarnings false
     }
-//
-//        //https://medium.com/@rafael_toledo/setting-up-an-unified-coverage-report-in-android-with-jacoco-robolectric-and-espresso-ffe239aaf3fa
-//        unitTests.all {
-//            jacoco {
-//                includeNoLocationClasses = true
-//            }
-//        }
+
+    testOptions {
+//        execution 'ANDROID_TEST_ORCHESTRATOR'
+        animationsDisabled true
+        unitTests {
+            includeAndroidResources = true
+        }
     }
     //https://developer.android.com/training/testing/set-up-project
 //    useLibrary 'android.test.runner'
@@ -69,6 +69,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.0.0"
     implementation "com.google.android.material:material:1.0.0"
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha2"
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
     // https://developer.android.com/kotlin/ktx
     implementation "androidx.core:core-ktx:$ktx_version"
@@ -77,6 +78,7 @@ dependencies {
     testImplementation 'io.kotlintest:kotlintest-runner-junit5:3.1.8'
     testImplementation 'junit:junit:4.12'
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}"
+    //https://github.com/npryce/hamkrest
     testImplementation 'com.natpryce:hamkrest:1.6.0.0'
 
     //https://static.javadoc.io/org.mockito/mockito-core/2.22.0/org/mockito/Mockito.html
