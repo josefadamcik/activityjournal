@@ -1,18 +1,22 @@
 package cz.josefadamcik.activityjournal.screens.addactivity
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
+
 import cz.josefadamcik.activityjournal.R
-import kotlinx.android.synthetic.main.fragment_add_activity_title.*
+
+import kotlinx.android.synthetic.main.fragment_add_activity_time.*
+
+
 /**
  *
  */
-class AddActivityTitleFragment : Fragment() {
+class AddActivityTimeFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,18 +25,13 @@ class AddActivityTitleFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_add_activity_title, container, false)
+        return inflater.inflate(R.layout.fragment_add_activity_time, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        title_input.setOnEditorActionListener { textView, actionId, keyEvent ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                listener?.onAddActivityTitleFinished(textView.text.toString())
-                true
-            }
-            false
+        button_add.setOnClickListener {
+            listener?.onAddActivityTimeFinished()
         }
     }
 
@@ -57,13 +56,15 @@ class AddActivityTitleFragment : Fragment() {
      * activity.
      */
     interface OnFragmentInteractionListener {
-        fun onAddActivityTitleFinished(title: String)
+        fun onAddActivityTimeFinished()
     }
 
     companion object {
-        fun newInstance() =
-                AddActivityTitleFragment().apply {
-                    arguments = Bundle()
-                }
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         */
+        @JvmStatic
+        fun newInstance() =  AddActivityTimeFragment()
     }
 }

@@ -2,6 +2,7 @@ package cz.josefadamcik.activityjournal
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityTimeFragment
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityTitleFragment
 import cz.josefadamcik.activityjournal.screens.timeline.TimelineFragment
 
@@ -9,11 +10,12 @@ import cz.josefadamcik.activityjournal.screens.timeline.TimelineFragment
  * The main and only activity in the application.
  */
 class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteractionListener,
-        AddActivityTitleFragment.OnFragmentInteractionListener
+        AddActivityTitleFragment.OnFragmentInteractionListener,
+        AddActivityTimeFragment.OnFragmentInteractionListener
 {
-
     private val activityRecordsList = mutableListOf<String>()
 
+    private lateinit var lastAddActivityTitle: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,14 +37,25 @@ class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteraction
                 .commit()
     }
 
-    override fun onAddActivityFinished(title: String) {
-        supportFragmentManager.popBackStack()
-        supportFragmentManager.executePendingTransactions()
+    override fun onAddActivityTitleFinished(title: String) {
+        lastAddActivityTitle = title
+        supportFragmentManager.beginTransaction()
+                .replace(android.R.id.content, AddActivityTimeFragment.newInstance())
+                .addToBackStack(null)
+                .commit()
+    }
+
+
+
+    override fun onAddActivityTimeFinished() {
+        supportFragmentManager.popBackStackImmediate()
+        supportFragmentManager.popBackStackImmediate()
         val timelineFragment = findTimelineFragment()
-        activityRecordsList.add(title)
+        activityRecordsList.add(lastAddActivityTitle)
         timelineFragment.showRecords(activityRecordsList)
 
     }
+
 
     private fun findTimelineFragment(): TimelineFragment {
         return supportFragmentManager.findFragmentById(android.R.id.content) as TimelineFragment

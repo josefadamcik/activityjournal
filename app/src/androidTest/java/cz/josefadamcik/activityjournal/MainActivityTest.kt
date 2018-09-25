@@ -34,51 +34,30 @@ class MainActivityTest {
     fun fabPressed_addActivityFlowDisplayed() {
         actClickOnFab()
 
-        assertToolbarTitle("Add activity")
+        assertToolbarTitle("Add activity 1/2")
     }
 
     @Test
     fun addActivityFlow_titleCanBeEnteredAndTheNewRecordDisplayed() {
-        actClickOnFab()
-
         val testTitle = "a new title for our activity"
-        actEnterTitliIntoInput(testTitle)
 
-        //returned back to the timeline
-        assertToolbarTitle("Timeline")
+        actExecuteAddActivityFlow(testTitle)
 
+        assertOnTimeline()
         //check if the activity was added to the list
         onView(withText(testTitle))
                 .check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun addActivityFlow_titleCanBeEnteredAndTheNewRecordDisplayed2() {
-        actClickOnFab()
-
-        val testTitle = "another title for the activity"
-        actEnterTitliIntoInput(testTitle)
-
-        //returned back to the timeline
-        assertToolbarTitle("Timeline")
-
-        //check if the activity was added to the list
-        onView(withText(testTitle))
-                .check(matches(isDisplayed()))
-
     }
 
     @Test
     fun addActivityFlow_titleMultipleActivityRecordsCanBeAdded() {
-        actClickOnFab()
         val testTitle = "a new title for our activity"
-        actEnterTitliIntoInput(testTitle)
-        assertToolbarTitle("Timeline")
+        actExecuteAddActivityFlow(testTitle)
+        assertOnTimeline()
 
-        actClickOnFab()
         val testTitle2 = "another title"
-        actEnterTitliIntoInput(testTitle2)
-        assertToolbarTitle("Timeline")
+        actExecuteAddActivityFlow(testTitle2)
+        assertOnTimeline()
 
 
         //check if the activity was added to the list
@@ -88,13 +67,31 @@ class MainActivityTest {
                 .check(matches(isDisplayed()))
     }
 
+    private fun actExecuteAddActivityFlow(testTitle: String) {
+        actClickOnFab()
+        actEnterTitleToInputAndSubmit(testTitle)
+
+        assertToolbarTitle("Add activity 2/2")
+        onView(withId(R.id.button_add))
+                .check(matches(allOf(
+                        isDisplayed(),
+                        withText("Add activity")
+                        )))
+                .perform(click())
+    }
+
+    private fun assertOnTimeline() {
+        assertToolbarTitle("Timeline")
+    }
+
+
     private fun actClickOnFab() {
         onView(withId(R.id.fab))
                 .check(matches(isDisplayed()))
                 .perform(click())
     }
 
-    private fun actEnterTitliIntoInput(testTitle: String) {
+    private fun actEnterTitleToInputAndSubmit(testTitle: String) {
         onView(withId(R.id.title_input))
                 .check(matches(isCompletelyDisplayed()))
                 .perform(typeText(testTitle), pressImeActionButton())
