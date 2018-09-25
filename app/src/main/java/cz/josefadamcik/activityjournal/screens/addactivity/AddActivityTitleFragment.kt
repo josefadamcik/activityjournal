@@ -27,7 +27,7 @@ class AddActivityTitleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        title_input.setOnEditorActionListener { textView, actionId, keyEvent ->
+        input_title.setOnEditorActionListener { textView, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 listener?.onAddActivityTitleFinished(textView.text.toString())
                 true

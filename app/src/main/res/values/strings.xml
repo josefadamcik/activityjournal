@@ -9,4 +9,5 @@
     <string name="title_input_hint_text">What are you up to?</string>
     <string name="add_activity_step_time">Add activity 2/2</string>
     <string name="add_activity_finish_button">Add activity</string>
+    <string name="time_input_hint">Starting time or empty for now.</string>
 </resources>

@@ -41,7 +41,7 @@ class MainActivityTest {
     fun addActivityFlow_titleCanBeEnteredAndTheNewRecordDisplayed() {
         val testTitle = "a new title for our activity"
 
-        actExecuteAddActivityFlow(testTitle)
+        actExecuteAddActivityWithoutTimeFlow(testTitle)
 
         assertOnTimeline()
         //check if the activity was added to the list
@@ -52,13 +52,12 @@ class MainActivityTest {
     @Test
     fun addActivityFlow_titleMultipleActivityRecordsCanBeAdded() {
         val testTitle = "a new title for our activity"
-        actExecuteAddActivityFlow(testTitle)
+        actExecuteAddActivityWithoutTimeFlow(testTitle)
         assertOnTimeline()
 
         val testTitle2 = "another title"
-        actExecuteAddActivityFlow(testTitle2)
+        actExecuteAddActivityWithoutTimeFlow(testTitle2)
         assertOnTimeline()
-
 
         //check if the activity was added to the list
         onView(withText(testTitle))
@@ -67,7 +66,36 @@ class MainActivityTest {
                 .check(matches(isDisplayed()))
     }
 
-    private fun actExecuteAddActivityFlow(testTitle: String) {
+    @Test
+    fun addActivity_chooseStartTime() {
+        val testTitle = "a new title for our activity"
+
+        //start flow and enter a title
+        actClickOnFab()
+        actEnterTitleToInputAndSubmit(testTitle)
+
+        //select start time
+        onView(withId(R.id.input_time))
+                .check(matches(isDisplayed()))
+                .perform(typeText("10:00"))
+
+        //finish
+        onView(withId(R.id.button_add))
+                .check(matches(allOf(
+                        isDisplayed(),
+                        withText("Add activity")
+                )))
+                .perform(click())
+
+        assertOnTimeline()
+
+        onView(withText(testTitle))
+                .check(matches(isDisplayed()))
+        onView(withText("10:00"))
+                .check(matches(isDisplayed()))
+    }
+
+    private fun actExecuteAddActivityWithoutTimeFlow(testTitle: String) {
         actClickOnFab()
         actEnterTitleToInputAndSubmit(testTitle)
 
@@ -92,7 +120,7 @@ class MainActivityTest {
     }
 
     private fun actEnterTitleToInputAndSubmit(testTitle: String) {
-        onView(withId(R.id.title_input))
+        onView(withId(R.id.input_title))
                 .check(matches(isCompletelyDisplayed()))
                 .perform(typeText(testTitle), pressImeActionButton())
     }

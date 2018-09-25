@@ -47,11 +47,11 @@ class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteraction
 
 
 
-    override fun onAddActivityTimeFinished() {
+    override fun onAddActivityTimeFinished(time: String) {
         supportFragmentManager.popBackStackImmediate()
         supportFragmentManager.popBackStackImmediate()
         val timelineFragment = findTimelineFragment()
-        activityRecordsList.add(lastAddActivityTitle)
+        activityRecordsList.add(lastAddActivityTitle + ";" + time)
         timelineFragment.showRecords(activityRecordsList)
 
     }

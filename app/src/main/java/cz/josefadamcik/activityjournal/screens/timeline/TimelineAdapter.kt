@@ -21,7 +21,9 @@ class TimelineAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
-        holder.titleText.text = item
+        val parts = item.split(";")
+        holder.timeText.text = parts[1]
+        holder.titleText.text = parts[0]
     }
 
     fun updateList(items: List<String>) {
@@ -35,6 +37,7 @@ class TimelineAdapter(
     }
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        val timeText : TextView = view.findViewById(R.id.time)
         val titleText : TextView = view.findViewById(R.id.title)
     }
 }
