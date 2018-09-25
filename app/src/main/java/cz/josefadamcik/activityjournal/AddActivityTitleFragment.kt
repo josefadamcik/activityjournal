@@ -7,13 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_timeline.*
 
 /**
  *
  */
-class TimelineFragment : Fragment() {
+class AddActivityTitleFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,14 +20,10 @@ class TimelineFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_timeline, container, false)
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_add_activity_title, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        fab.setOnClickListener { _ -> listener?.onNavigationToAddActivityRecord() }
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -50,19 +44,21 @@ class TimelineFragment : Fragment() {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
+     *
+     *
+     * See the Android Training lesson [Communicating with Other Fragments]
+     * (http://developer.android.com/training/basics/fragments/communicating.html)
+     * for more information.
      */
     interface OnFragmentInteractionListener {
-        fun onNavigationToAddActivityRecord()
+        // TODO: Update argument type and name
+        fun onFragmentInteraction(uri: Uri)
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @return A new instance of fragment TimelineFragment.
-         */
-        @JvmStatic
-        fun newInstance() = TimelineFragment()
+        fun newInstance() =
+                AddActivityTitleFragment().apply {
+                    arguments = Bundle()
+                }
     }
 }

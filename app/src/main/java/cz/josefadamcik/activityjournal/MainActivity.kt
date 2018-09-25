@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 /**
  * The main and only activity in the application.
  */
-class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteractionListener {
+class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteractionListener,
+        AddActivityTitleFragment.OnFragmentInteractionListener
+{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +21,12 @@ class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteraction
                     .add(android.R.id.content, TimelineFragment.newInstance())
                     .commit()
         }
+    }
+    override fun onNavigationToAddActivityRecord() {
+        supportFragmentManager.beginTransaction()
+                .replace(android.R.id.content, AddActivityTitleFragment.newInstance())
+                .addToBackStack(null)
+                .commit()
     }
 
     override fun onFragmentInteraction(uri: Uri) {
