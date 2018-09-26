@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cz.josefadamcik.activityjournal.R
+import cz.josefadamcik.activityjournal.model.ActivityRecord
 import kotlinx.android.synthetic.main.fragment_timeline.*
 
 /**
@@ -16,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_timeline.*
  */
 class TimelineFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
-    private var listOfRecords: List<String> = emptyList()
+    private var listOfRecords: List<ActivityRecord> = emptyList()
     private var adapter: TimelineAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +60,7 @@ class TimelineFragment : Fragment() {
         listener = null
     }
 
-    fun showRecords(list: List<String>) {
+    fun showRecords(list: MutableList<ActivityRecord>) {
         listOfRecords = list
         adapter?.updateList(list)
     }

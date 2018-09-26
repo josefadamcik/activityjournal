@@ -69,22 +69,10 @@ class MainActivityTest {
     fun addActivity_chooseStartTime() {
         val testTitle = "a new title for our activity"
 
-        // start flow and enter a title
         actClickOnFab()
         actEnterTitleToInputAndSubmit(testTitle)
-
-        // select start time
-        onView(withId(R.id.input_time))
-                .check(matches(isDisplayed()))
-                .perform(typeText("10:00"))
-
-        // finish
-        onView(withId(R.id.button_add))
-                .check(matches(allOf(
-                        isDisplayed(),
-                        withText("Add activity")
-                )))
-                .perform(click())
+        actEnterStartingTime()
+        actClickOnFinishButton()
 
         assertOnTimeline()
 
@@ -94,16 +82,54 @@ class MainActivityTest {
                 .check(matches(isDisplayed()))
     }
 
+    @Test
+    fun addActivity_chooseStartTimeAndDate() {
+        val testTitle = "a new title for our activity"
+
+        actClickOnFab()
+        actEnterTitleToInputAndSubmit(testTitle)
+        actEnterStartingTime()
+        actEnterDate()
+        actClickOnFinishButton()
+
+        assertOnTimeline()
+
+        onView(withText(testTitle))
+                .check(matches(isDisplayed()))
+        onView(withText("10:00"))
+                .check(matches(isDisplayed()))
+        onView(withText("25.9.2018"))
+                .check(matches(isDisplayed()))
+
+    }
+
+    private fun actEnterDate() {
+        onView(withId(R.id.input_date))
+                .check(matches(isDisplayed()))
+                .perform(typeText("25.9.2018"))
+    }
+
+    private fun actEnterStartingTime() {
+        onView(withId(R.id.input_time))
+                .check(matches(isDisplayed()))
+                .perform(typeText("10:00"))
+    }
+
+
     private fun actExecuteAddActivityWithoutTimeFlow(testTitle: String) {
         actClickOnFab()
         actEnterTitleToInputAndSubmit(testTitle)
 
         assertToolbarTitle("Add activity 2/2")
+        actClickOnFinishButton()
+    }
+
+    private fun actClickOnFinishButton() {
         onView(withId(R.id.button_add))
                 .check(matches(allOf(
                         isDisplayed(),
                         withText("Add activity")
-                        )))
+                )))
                 .perform(click())
     }
 

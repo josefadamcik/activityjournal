@@ -2,6 +2,8 @@ package cz.josefadamcik.activityjournal
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import cz.josefadamcik.activityjournal.model.ActivityRecord
+import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityFlow
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityTimeFragment
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityTitleFragment
 import cz.josefadamcik.activityjournal.screens.timeline.TimelineFragment
@@ -12,9 +14,10 @@ import cz.josefadamcik.activityjournal.screens.timeline.TimelineFragment
 class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteractionListener,
         AddActivityTitleFragment.OnFragmentInteractionListener,
         AddActivityTimeFragment.OnFragmentInteractionListener {
-    private val activityRecordsList = mutableListOf<String>()
+    private val activityRecordsList = mutableListOf<ActivityRecord>()
+    private val dateTimeProvider : DateTimeProvider = DateTimeProviderImpl()
+    private var addActivityFlow : AddActivityFlow? = null
 
-    private lateinit var lastAddActivityTitle: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,26 +33,43 @@ class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteraction
     }
 
     override fun onNavigationToAddActivityRecord() {
+
+        //start the add activity flow
+        addActivityFlow = AddActivityFlow(getString(R.string.add_activity_default_title), dateTimeProvider)
+
         supportFragmentManager.beginTransaction()
                 .replace(android.R.id.content, AddActivityTitleFragment.newInstance())
                 .addToBackStack(null)
                 .commit()
     }
 
+
     override fun onAddActivityTitleFinished(title: String) {
-        lastAddActivityTitle = title
+        // second step finished
+        addActivityFlow?.title = title
+
         supportFragmentManager.beginTransaction()
                 .replace(android.R.id.content, AddActivityTimeFragment.newInstance())
                 .addToBackStack(null)
                 .commit()
     }
 
-    override fun onAddActivityTimeFinished(time: String) {
+    override fun onAddActivityTimeFinished(time: String, date: String) {
         supportFragmentManager.popBackStackImmediate()
         supportFragmentManager.popBackStackImmediate()
+
         val timelineFragment = findTimelineFragment()
-        activityRecordsList.add(lastAddActivityTitle + ";" + time)
+        addActivityFlow?.let {
+            it.time = time
+            it.date = date
+        }
+
+        addActivityFlow?.apply {
+            activityRecordsList.add(produceActivityRecord())
+        }
+
         timelineFragment.showRecords(activityRecordsList)
+
     }
 
     private fun findTimelineFragment(): TimelineFragment {

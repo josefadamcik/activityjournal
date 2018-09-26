@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import cz.josefadamcik.activityjournal.R
+import cz.josefadamcik.activityjournal.model.ActivityRecord
 
 class TimelineAdapter(
-    private val layoutInflater: LayoutInflater,
-    initialList: List<String>
+        private val layoutInflater: LayoutInflater,
+        initialList: List<ActivityRecord>
 ) : RecyclerView.Adapter<TimelineAdapter.ViewHolder>() {
-    private var list: MutableList<String> = initialList.toMutableList()
+    private var list: MutableList<ActivityRecord> = initialList.toMutableList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(layoutInflater.inflate(R.layout.timeline_list_item, parent, false))
@@ -21,23 +22,19 @@ class TimelineAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
-        val parts = item.split(";")
-        holder.timeText.text = parts[1]
-        holder.titleText.text = parts[0]
+        holder.timeText.text = item.time
+        holder.titleText.text = item.title
+        holder.dateText.text = item.date
     }
 
-    fun updateList(items: List<String>) {
+    fun updateList(items: List<ActivityRecord>) {
         list = items.toMutableList()
         notifyDataSetChanged()
-    }
-
-    fun addItem(title: String) {
-        list.add(title)
-        notifyItemInserted(list.size - 1)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val timeText: TextView = view.findViewById(R.id.time)
         val titleText: TextView = view.findViewById(R.id.title)
+        val dateText: TextView = view.findViewById(R.id.date)
     }
 }
