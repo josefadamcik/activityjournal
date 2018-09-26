@@ -62,7 +62,7 @@ dependencies {
     def espresso_version = '3.1.0-alpha4'
     def android_test_version = '1.1.0-alpha4'
     def ktx_version = '1.0.0'
-    def mockito_version = '2.22.0'
+    def mockk_version = '1.8.7'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -78,12 +78,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}"
 
-    //https://static.javadoc.io/org.mockito/mockito-core/2.22.0/org/mockito/Mockito.html
-    testImplementation "org.mockito:mockito-core:$mockito_version"
-    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
-
-    //https://github.com/nhaarman/mockito-kotlin/wiki
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1"
+    //https://mockk.io/#gradlemaven-dependency
+    testImplementation "io.mockk:mockk:$mockk_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
 

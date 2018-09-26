@@ -34,8 +34,9 @@ class AddActivityTitleFragment : Fragment() {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 listener?.onAddActivityTitleFinished(textView.text.toString())
                 true
+            } else {
+                false
             }
-            false
         }
     }
 

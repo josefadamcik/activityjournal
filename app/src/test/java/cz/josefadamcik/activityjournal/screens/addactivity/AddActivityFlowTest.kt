@@ -1,11 +1,10 @@
 package cz.josefadamcik.activityjournal.screens.addactivity
 
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
 import cz.josefadamcik.activityjournal.DateTimeProvider
 import cz.josefadamcik.activityjournal.model.ActivityRecord
 import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
-import org.hamcrest.CoreMatchers.equalTo
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -18,9 +17,9 @@ class AddActivityFlowTest {
     private val currentDate = "12.10.2018"
 
 
-    private val currentDateTimeProvider = mock<DateTimeProvider> {
-        on { provideCurrentTime() } doReturn currentTime
-        on { provideCurrentDate() } doReturn currentDate
+    private val currentDateTimeProvider = mockk<DateTimeProvider>() {
+        every { provideCurrentTime() } returns currentTime
+        every { provideCurrentDate() } returns currentDate
     }
 
     private lateinit var flow : AddActivityFlow
