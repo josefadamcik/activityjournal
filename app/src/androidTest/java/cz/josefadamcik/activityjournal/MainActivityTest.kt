@@ -80,6 +80,9 @@ class MainActivityTest {
                 .check(matches(isDisplayed()))
         onView(withText("10:00"))
                 .check(matches(isDisplayed()))
+
+        onView(withText("Undergoing"))
+                .check(matches(isDisplayed()))
     }
 
     @Test
@@ -99,6 +102,8 @@ class MainActivityTest {
         onView(withText("10:00"))
                 .check(matches(isDisplayed()))
         onView(withText("25.9.2018"))
+                .check(matches(isDisplayed()))
+        onView(withText("Undergoing"))
                 .check(matches(isDisplayed()))
 
     }

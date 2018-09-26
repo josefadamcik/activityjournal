@@ -11,4 +11,5 @@
     <string name="add_activity_default_title">No title provided</string>
     <string name="duration_input_hint">Duration in minutes.</string>
     <string name="duration_input_helper">Enter duration for past activity or leave empty to start tracking.</string>
+    <string name="activity_undergoing">Undergoing</string>
 </resources>

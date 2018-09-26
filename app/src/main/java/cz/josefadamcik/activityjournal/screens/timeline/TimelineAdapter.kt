@@ -27,7 +27,7 @@ class TimelineAdapter(
         holder.titleText.text = item.title
         holder.dateText.text = item.date
         holder.durationText.text = when (item.duration) {
-            is ActivityRecordDuration.Undergoing -> ""
+            is ActivityRecordDuration.Undergoing -> holder.itemView.resources.getString(R.string.activity_undergoing)
             is ActivityRecordDuration.Done -> item.duration.minutes.toString()
         }
     }
