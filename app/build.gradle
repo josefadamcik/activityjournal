@@ -75,11 +75,8 @@ dependencies {
     // https://developer.android.com/kotlin/ktx
     implementation "androidx.core:core-ktx:$ktx_version"
     implementation "androidx.fragment:fragment-ktx:$ktx_version"
-    testImplementation 'io.kotlintest:kotlintest-runner-junit5:3.1.8'
     testImplementation 'junit:junit:4.12'
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}"
-    //https://github.com/npryce/hamkrest
-    testImplementation 'com.natpryce:hamkrest:1.6.0.0'
 
     //https://static.javadoc.io/org.mockito/mockito-core/2.22.0/org/mockito/Mockito.html
     testImplementation "org.mockito:mockito-core:$mockito_version"

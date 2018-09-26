@@ -14,6 +14,7 @@ import cz.josefadamcik.activityjournal.screens.timeline.TimelineFragment
 class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteractionListener,
         AddActivityTitleFragment.OnFragmentInteractionListener,
         AddActivityTimeFragment.OnFragmentInteractionListener {
+
     private val activityRecordsList = mutableListOf<ActivityRecord>()
     private val dateTimeProvider : DateTimeProvider = DateTimeProviderImpl()
     private var addActivityFlow : AddActivityFlow? = null
@@ -54,7 +55,7 @@ class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteraction
                 .commit()
     }
 
-    override fun onAddActivityTimeFinished(time: String, date: String) {
+    override fun onAddActivityTimeFinished(time: String, date: String, duration: String) {
         supportFragmentManager.popBackStackImmediate()
         supportFragmentManager.popBackStackImmediate()
 
@@ -62,6 +63,7 @@ class MainActivity : AppCompatActivity(), TimelineFragment.OnFragmentInteraction
         addActivityFlow?.let {
             it.time = time
             it.date = date
+            it.duration = duration
         }
 
         addActivityFlow?.apply {

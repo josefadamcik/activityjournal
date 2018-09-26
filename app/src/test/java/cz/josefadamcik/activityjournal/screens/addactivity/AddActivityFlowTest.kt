@@ -1,15 +1,16 @@
 package cz.josefadamcik.activityjournal.screens.addactivity
 
-import com.natpryce.hamkrest.and
-import org.junit.Test
-import com.natpryce.hamkrest.assertion.assert
-import com.natpryce.hamkrest.equalTo
-import com.natpryce.hamkrest.isNullOrEmptyString
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import cz.josefadamcik.activityjournal.DateTimeProvider
 import cz.josefadamcik.activityjournal.model.ActivityRecord
+import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
+import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Before
+import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+
 
 class AddActivityFlowTest {
     private val defaultTitle = "default title"
@@ -68,31 +69,56 @@ class AddActivityFlowTest {
     @Test
     fun nullDate_currentTimeIsUsed() {
         flow.date = null
-
         val activityRecord = flow.produceActivityRecord()
 
         assertThatCurrentDateWasUsed(activityRecord)
     }
 
-    @Test
-    fun emptyTime_currentTimeIsUsed() {
-        flow.time = ""
 
+    @Test
+    fun nullDuration_activityRecordContainsNullDuration() {
+        flow.duration = null
         val activityRecord = flow.produceActivityRecord()
 
-        assertThatCurrentTimeWasUsed(activityRecord)
+
+        assertEquals(ActivityRecordDuration.Undergoing, activityRecord.duration)
+    }
+
+    @Test
+    fun emptyDuration_activityRecordContainsNullDuration() {
+        flow.duration = ""
+        val activityRecord = flow.produceActivityRecord()
+
+        assertEquals(ActivityRecordDuration.Undergoing, activityRecord.duration)
+    }
+
+    @Test
+    fun filledDuration_activityRecordContainsNullDuration() {
+        flow.duration = "10"
+        val activityRecord = flow.produceActivityRecord()
+
+        assertTrue {
+            activityRecord.duration is ActivityRecordDuration.Done
+                && (activityRecord.duration as ActivityRecordDuration.Done).minutes == 10
+        }
     }
 
     private fun assertThatDefaultTitleWasUsed(activityRecord: ActivityRecord) {
-        assert.that(activityRecord.title, !isNullOrEmptyString and equalTo(defaultTitle))
+        assertTrue {
+            activityRecord.title.isNotEmpty() && defaultTitle == activityRecord.title
+        }
     }
 
     private fun assertThatCurrentTimeWasUsed(activityRecord: ActivityRecord) {
-        assert.that(activityRecord.time, !isNullOrEmptyString and equalTo(currentTime))
+        assertTrue {
+            activityRecord.time.isNotEmpty() && currentTime == activityRecord.time
+        }
     }
 
     private fun assertThatCurrentDateWasUsed(activityRecord: ActivityRecord) {
-        assert.that(activityRecord.date, !isNullOrEmptyString and equalTo(currentDate))
+        assertTrue {
+            activityRecord.date.isNotEmpty() && currentDate == activityRecord.date
+        }
     }
 
 

@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import cz.josefadamcik.activityjournal.R
 import cz.josefadamcik.activityjournal.model.ActivityRecord
+import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
 
 class TimelineAdapter(
         private val layoutInflater: LayoutInflater,
@@ -25,6 +26,10 @@ class TimelineAdapter(
         holder.timeText.text = item.time
         holder.titleText.text = item.title
         holder.dateText.text = item.date
+        holder.durationText.text = when (item.duration) {
+            is ActivityRecordDuration.Undergoing -> ""
+            is ActivityRecordDuration.Done -> item.duration.minutes.toString()
+        }
     }
 
     fun updateList(items: List<ActivityRecord>) {
@@ -36,5 +41,6 @@ class TimelineAdapter(
         val timeText: TextView = view.findViewById(R.id.time)
         val titleText: TextView = view.findViewById(R.id.title)
         val dateText: TextView = view.findViewById(R.id.date)
+        val durationText: TextView = view.findViewById(R.id.duration)
     }
 }

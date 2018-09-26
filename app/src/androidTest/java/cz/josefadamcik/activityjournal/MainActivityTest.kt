@@ -103,6 +103,30 @@ class MainActivityTest {
 
     }
 
+    @Test
+    fun addActivity_chooseStartTimeAndDateAndDuration() {
+        val testTitle = "a new title for our activity"
+
+        actClickOnFab()
+        actEnterTitleToInputAndSubmit(testTitle)
+        actEnterStartingTime()
+        actEnterDate()
+        actEnterDuration()
+        actClickOnFinishButton()
+
+        assertOnTimeline()
+
+        onView(withText(testTitle))
+                .check(matches(isDisplayed()))
+        onView(withText("10:00"))
+                .check(matches(isDisplayed()))
+        onView(withText("25.9.2018"))
+                .check(matches(isDisplayed()))
+        onView(withText("90"))
+                .check(matches(isDisplayed()))
+
+    }
+
     private fun actEnterDate() {
         onView(withId(R.id.input_date))
                 .check(matches(isDisplayed()))
@@ -113,6 +137,12 @@ class MainActivityTest {
         onView(withId(R.id.input_time))
                 .check(matches(isDisplayed()))
                 .perform(typeText("10:00"))
+    }
+
+    private fun actEnterDuration() {
+        onView(withId(R.id.input_duration))
+                .check(matches(isDisplayed()))
+                .perform(typeText("90"))
     }
 
 

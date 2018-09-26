@@ -9,4 +9,6 @@
     <string name="time_input_hint">Starting time or empty for now.</string>
     <string name="date_input_hint">Date or empty for today.</string>
     <string name="add_activity_default_title">No title provided</string>
+    <string name="duration_input_hint">Duration in minutes.</string>
+    <string name="duration_input_helper">Enter duration for past activity or leave empty to start tracking.</string>
 </resources>

@@ -32,7 +32,7 @@ class AddActivityTimeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         button_add.setOnClickListener {
-            listener?.onAddActivityTimeFinished(input_time.text.toString(), input_date.text.toString())
+            listener?.onAddActivityTimeFinished(input_time.text.toString(), input_date.text.toString(), input_duration.text.toString())
         }
     }
 
@@ -57,7 +57,7 @@ class AddActivityTimeFragment : Fragment() {
      * activity.
      */
     interface OnFragmentInteractionListener {
-        fun onAddActivityTimeFinished(time: String, date: String)
+        fun onAddActivityTimeFinished(time: String, date: String, duration: String)
     }
 
     companion object {
