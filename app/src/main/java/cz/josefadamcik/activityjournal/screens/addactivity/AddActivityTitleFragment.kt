@@ -60,7 +60,6 @@ class AddActivityTitleFragment : Fragment(), Step {
     override fun verifyStep(): VerificationError? = null
     override fun onError(error: VerificationError) {}
 
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

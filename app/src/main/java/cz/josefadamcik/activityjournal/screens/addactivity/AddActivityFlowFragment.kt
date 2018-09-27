@@ -1,6 +1,5 @@
 package cz.josefadamcik.activityjournal.screens.addactivity
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,16 +21,19 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
         AddActivityTimeFragment.OnFragmentInteractionListener, StepperLayout.StepperListener {
     private var listener: OnFragmentInteractionListener? = null
 
-    private var addActivityFlow : AddActivityFlow? = null
-    private val dateTimeProvider : DateTimeProvider = DateTimeProviderImpl()
+    private var addActivityFlow: AddActivityFlow? = null
+    private val dateTimeProvider: DateTimeProvider = DateTimeProviderImpl()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addActivityFlow = AddActivityFlow(getString(R.string.add_activity_default_title), dateTimeProvider)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_add_actitity_flow, container, false)
     }
 
@@ -70,26 +72,22 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
             duration = enteredDuration
             listener?.onAddActivityTimeFinished(produceActivityRecord())
         }
-   }
+    }
 
-    //stepper
+    // stepper
     override fun onStepSelected(newStepPosition: Int) {
-
     }
 
-    //stepper
+    // stepper
     override fun onError(verificationError: VerificationError?) {
-
     }
 
-    //stepper
+    // stepper
     override fun onReturn() {
-
     }
 
-    //stepper
+    // stepper
     override fun onCompleted(completeButton: View?) {
-
     }
 
     /**

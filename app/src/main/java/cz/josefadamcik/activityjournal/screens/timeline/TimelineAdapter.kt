@@ -10,8 +10,8 @@ import cz.josefadamcik.activityjournal.model.ActivityRecord
 import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
 
 class TimelineAdapter(
-        private val layoutInflater: LayoutInflater,
-        initialList: List<ActivityRecord>
+    private val layoutInflater: LayoutInflater,
+    initialList: List<ActivityRecord>
 ) : RecyclerView.Adapter<TimelineAdapter.ViewHolder>() {
     private var list: MutableList<ActivityRecord> = initialList.toMutableList()
 

@@ -8,15 +8,14 @@ import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
  * Captures information form the whole flow of the activity creation.
  */
 class AddActivityFlow(
-        private val defaultTitle: String,
-        private val currentTimeProvider: DateTimeProvider
+    private val defaultTitle: String,
+    private val currentTimeProvider: DateTimeProvider
 ) {
 
     var title: String? = null
     var time: String? = null
     var date: String? = null
     var duration: String? = null
-
 
     fun produceActivityRecord(): ActivityRecord {
         return ActivityRecord(
@@ -29,5 +28,4 @@ class AddActivityFlow(
 
         )
     }
-
 }

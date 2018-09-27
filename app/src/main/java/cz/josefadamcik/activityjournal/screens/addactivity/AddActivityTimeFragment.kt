@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_add_activity_time.*
 /**
  *
  */
-class AddActivityTimeFragment : Fragment(), Step{
+class AddActivityTimeFragment : Fragment(), Step {
 
     private var listener: OnFragmentInteractionListener? = null
 
@@ -56,7 +56,6 @@ class AddActivityTimeFragment : Fragment(), Step{
     override fun onSelected() {}
     override fun verifyStep(): VerificationError? = null
     override fun onError(error: VerificationError) {}
-
 
     /**
      * This interface must be implemented by activities that contain this

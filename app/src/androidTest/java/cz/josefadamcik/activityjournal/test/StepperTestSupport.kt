@@ -57,7 +57,4 @@ fun runWithStepperLayoutSupport(stepperLayoutOrParent: ViewGroup, action: () -> 
         // And remove our tracker listener from ViewPager
         viewPager.removeOnPageChangeListener(customListener)
     }
-
 }
-
-

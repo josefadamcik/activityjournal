@@ -57,14 +57,13 @@ class MainActivityTest {
         onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
                 hasDescendant(withText(testTitle))
         ))
-
     }
 
     @Test
     fun addActivityFlow_nextGoesToSecondStep() {
         actClickOnFab()
 
-        onView(withId(R.id.stepperLayout)).perform(StepperNavigationActions.clickNext());
+        onView(withId(R.id.stepperLayout)).perform(StepperNavigationActions.clickNext())
 
         assertToolbarTitle("Add activity 2/2")
         actClickOnFinishButton()
@@ -81,14 +80,12 @@ class MainActivityTest {
 
         // check if the activity was added to the list
 
-
         onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
                 hasDescendant(withText(testTitle))
         ))
         onRecyclerViewRowAtPositionCheck(R.id.list, 1, allOf(
                 hasDescendant(withText(testTitle2))
         ))
-
     }
 
     @Test
@@ -105,7 +102,6 @@ class MainActivityTest {
                 hasDescendant(withText("10:00")),
                 hasDescendant(withText("Undergoing"))
         ))
-
     }
 
     @Test
@@ -117,8 +113,6 @@ class MainActivityTest {
         actClickOnFinishButton()
 
         assertOnTimeline()
-
-
 
         onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
                 hasDescendant(withText(testTitle)),
@@ -145,8 +139,6 @@ class MainActivityTest {
                 hasDescendant(withText("25.9.2018")),
                 hasDescendant(withText("90"))
         ))
-
-
     }
 
     private fun actEnterDate() {
@@ -156,7 +148,7 @@ class MainActivityTest {
     }
 
     private fun onRecyclerViewRowAtPositionCheck(recyclerViewId: Int, position: Int, itemMatcher: Matcher<View>) {
-        onView(withId(recyclerViewId)).perform(scrollToPosition<RecyclerView.ViewHolder>(position));
+        onView(withId(recyclerViewId)).perform(scrollToPosition<RecyclerView.ViewHolder>(position))
         onView(withRecyclerView(recyclerViewId)
                 .atPosition(position))
                 .check(matches(itemMatcher))
@@ -173,7 +165,6 @@ class MainActivityTest {
                 .check(matches(isDisplayed()))
                 .perform(typeText("90"))
     }
-
 
     private fun actExecuteAddActivityWithoutTimeFlow(testTitle: String) {
         actClickOnFab()

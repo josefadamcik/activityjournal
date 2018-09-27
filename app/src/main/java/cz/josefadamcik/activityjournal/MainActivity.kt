@@ -3,7 +3,6 @@ package cz.josefadamcik.activityjournal
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import cz.josefadamcik.activityjournal.model.ActivityRecord
-import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityFlow
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityFlowFragment
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityTimeFragment
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityTitleFragment
@@ -16,8 +15,7 @@ class MainActivity : AppCompatActivity(),
         TimelineFragment.OnFragmentInteractionListener,
         AddActivityFlowFragment.OnFragmentInteractionListener,
         AddActivityTimeFragment.OnFragmentInteractionListener,
-        AddActivityTitleFragment.OnFragmentInteractionListener
-{
+        AddActivityTitleFragment.OnFragmentInteractionListener {
 
     private val activityRecordsList = mutableListOf<ActivityRecord>()
 
@@ -45,7 +43,6 @@ class MainActivity : AppCompatActivity(),
         supportFragmentManager.popBackStackImmediate()
         activityRecordsList.add(activityRecord)
         findTimelineFragment()?.showRecords(activityRecordsList)
-
     }
 
     private fun findTimelineFragment(): TimelineFragment? {
@@ -56,7 +53,6 @@ class MainActivity : AppCompatActivity(),
         return supportFragmentManager.findFragmentById(android.R.id.content) as AddActivityFlowFragment?
     }
 
-
     override fun onAddActivityTimeFinished(time: String, date: String, duration: String) {
         findAddActivityFlowFragment()?.onAddActivityTimeFinished(time, date, duration)
     }
@@ -64,5 +60,4 @@ class MainActivity : AppCompatActivity(),
     override fun onAddActivityTitleFinished(title: String) {
         findAddActivityFlowFragment()?.onAddActivityTitleFinished(title)
     }
-
 }

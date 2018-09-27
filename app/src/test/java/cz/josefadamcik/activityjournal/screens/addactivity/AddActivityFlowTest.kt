@@ -2,28 +2,23 @@ package cz.josefadamcik.activityjournal.screens.addactivity
 
 import cz.josefadamcik.activityjournal.DateTimeProvider
 import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
-import io.kotlintest.matchers.types.shouldBeTypeOf
 import io.kotlintest.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
-
 
 class AddActivityFlowTest {
     private val defaultTitle = "default title"
     private val currentTime = "12:00"
     private val currentDate = "12.10.2018"
 
-
     private val currentDateTimeProvider = mockk<DateTimeProvider>() {
         every { provideCurrentTime() } returns currentTime
         every { provideCurrentDate() } returns currentDate
     }
 
-    private lateinit var flow : AddActivityFlow
+    private lateinit var flow: AddActivityFlow
 
     @Before
     fun setUp() {
@@ -74,12 +69,10 @@ class AddActivityFlowTest {
         activityRecord.date.shouldBe(currentDate)
     }
 
-
     @Test
     fun nullDuration_activityRecordContainsNullDuration() {
         flow.duration = null
         val activityRecord = flow.produceActivityRecord()
-
 
         activityRecord.duration.shouldBe(ActivityRecordDuration.Undergoing)
     }
@@ -101,6 +94,4 @@ class AddActivityFlowTest {
 
         activityRecord.duration.shouldBe(ActivityRecordDuration.Done(durationMinutes))
     }
-
-
 }
