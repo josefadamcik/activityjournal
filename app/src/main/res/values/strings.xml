@@ -12,4 +12,7 @@
     <string name="duration_input_hint">Duration in minutes.</string>
     <string name="duration_input_helper">Enter duration for past activity or leave empty to start tracking.</string>
     <string name="activity_undergoing">Undergoing</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
