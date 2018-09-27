@@ -42,6 +42,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
+            tools:itemCount="10"
+            tools:listitem="@layout/timeline_list_item"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,13 +1,17 @@
 package cz.josefadamcik.activityjournal
 
+import android.view.View
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
 import org.junit.Rule
@@ -44,8 +48,11 @@ class MainActivityTest {
 
         assertOnTimeline()
         // check if the activity was added to the list
-        onView(withText(testTitle))
-                .check(matches(isDisplayed()))
+
+        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
+                hasDescendant(withText(testTitle))
+        ))
+
     }
 
     @Test
@@ -59,10 +66,15 @@ class MainActivityTest {
         assertOnTimeline()
 
         // check if the activity was added to the list
-        onView(withText(testTitle))
-                .check(matches(isDisplayed()))
-        onView(withText(testTitle2))
-                .check(matches(isDisplayed()))
+
+
+        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
+                hasDescendant(withText(testTitle))
+        ))
+        onRecyclerViewRowAtPositionCheck(R.id.list, 1, allOf(
+                hasDescendant(withText(testTitle2))
+        ))
+
     }
 
     @Test
@@ -76,13 +88,12 @@ class MainActivityTest {
 
         assertOnTimeline()
 
-        onView(withText(testTitle))
-                .check(matches(isDisplayed()))
-        onView(withText("10:00"))
-                .check(matches(isDisplayed()))
+        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
+                hasDescendant(withText(testTitle)),
+                hasDescendant(withText("10:00")),
+                hasDescendant(withText("Undergoing"))
+        ))
 
-        onView(withText("Undergoing"))
-                .check(matches(isDisplayed()))
     }
 
     @Test
@@ -97,15 +108,14 @@ class MainActivityTest {
 
         assertOnTimeline()
 
-        onView(withText(testTitle))
-                .check(matches(isDisplayed()))
-        onView(withText("10:00"))
-                .check(matches(isDisplayed()))
-        onView(withText("25.9.2018"))
-                .check(matches(isDisplayed()))
-        onView(withText("Undergoing"))
-                .check(matches(isDisplayed()))
 
+
+        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
+                hasDescendant(withText(testTitle)),
+                hasDescendant(withText("10:00")),
+                hasDescendant(withText("25.9.2018")),
+                hasDescendant(withText("Undergoing"))
+        ))
     }
 
     @Test
@@ -121,14 +131,13 @@ class MainActivityTest {
 
         assertOnTimeline()
 
-        onView(withText(testTitle))
-                .check(matches(isDisplayed()))
-        onView(withText("10:00"))
-                .check(matches(isDisplayed()))
-        onView(withText("25.9.2018"))
-                .check(matches(isDisplayed()))
-        onView(withText("90"))
-                .check(matches(isDisplayed()))
+        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
+                hasDescendant(withText(testTitle)),
+                hasDescendant(withText("10:00")),
+                hasDescendant(withText("25.9.2018")),
+                hasDescendant(withText("90"))
+        ))
+
 
     }
 
@@ -136,6 +145,13 @@ class MainActivityTest {
         onView(withId(R.id.input_date))
                 .check(matches(isDisplayed()))
                 .perform(typeText("25.9.2018"))
+    }
+
+    private fun onRecyclerViewRowAtPositionCheck(recyclerViewId: Int, position: Int, itemMatcher: Matcher<View>) {
+        onView(withId(recyclerViewId)).perform(scrollToPosition<RecyclerView.ViewHolder>(position));
+        onView(withRecyclerView(recyclerViewId)
+                .atPosition(position))
+                .check(matches(itemMatcher))
     }
 
     private fun actEnterStartingTime() {
