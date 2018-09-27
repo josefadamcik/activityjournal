@@ -59,6 +59,7 @@ dependencies {
     def android_test_version = '1.1.0-alpha4'
     def ktx_version = '1.0.0'
     def mockk_version = '1.8.7'
+    def material_stepper_version = '4.3.1'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -68,7 +69,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    implementation 'com.stepstone.stepper:material-stepper:4.3.1'
 
     // https://developer.android.com/kotlin/ktx
     implementation "androidx.core:core-ktx:$ktx_version"
@@ -87,6 +87,12 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
+    implementation "androidx.test.espresso:espresso-idling-resource:$espresso_version"
+
+    //https://github.com/stepstone-tech/android-material-stepper
+    implementation "com.stepstone.stepper:material-stepper:$material_stepper_version"
+    androidTestImplementation "com.stepstone.stepper:espresso-material-stepper:$material_stepper_version"
+
 }
 
 kotlinter {

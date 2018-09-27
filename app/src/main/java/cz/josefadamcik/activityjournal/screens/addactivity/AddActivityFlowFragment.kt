@@ -6,18 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.stepstone.stepper.StepperLayout
+import com.stepstone.stepper.VerificationError
 import cz.josefadamcik.activityjournal.DateTimeProvider
 import cz.josefadamcik.activityjournal.DateTimeProviderImpl
 
 import cz.josefadamcik.activityjournal.R
 import cz.josefadamcik.activityjournal.model.ActivityRecord
-
+import kotlinx.android.synthetic.main.fragment_add_actitity_flow.*
 
 /**
  *
  */
 class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentInteractionListener,
-        AddActivityTimeFragment.OnFragmentInteractionListener {
+        AddActivityTimeFragment.OnFragmentInteractionListener, StepperLayout.StepperListener {
     private var listener: OnFragmentInteractionListener? = null
 
     private var addActivityFlow : AddActivityFlow? = null
@@ -36,12 +38,8 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (savedInstanceState == null) {
-            childFragmentManager.beginTransaction()
-                    .replace(R.id.flow_content, AddActivityTitleFragment.newInstance())
-                    .addToBackStack(null)
-                    .commit()
-        }
+        stepperLayout.adapter = AddActivityFlowStepperAdapter(childFragmentManager, context!!)
+        stepperLayout.setListener(this)
     }
 
     override fun onAttach(context: Context) {
@@ -62,10 +60,7 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
         // second step finished
         addActivityFlow?.title = title
 
-        childFragmentManager.beginTransaction()
-                .replace(R.id.flow_content, AddActivityTimeFragment.newInstance())
-                .addToBackStack(null)
-                .commit()
+        stepperLayout.currentStepPosition = 1
     }
 
     override fun onAddActivityTimeFinished(enteredTime: String, enteredDate: String, enteredDuration: String) {
@@ -77,6 +72,25 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
         }
    }
 
+    //stepper
+    override fun onStepSelected(newStepPosition: Int) {
+
+    }
+
+    //stepper
+    override fun onError(verificationError: VerificationError?) {
+
+    }
+
+    //stepper
+    override fun onReturn() {
+
+    }
+
+    //stepper
+    override fun onCompleted(completeButton: View?) {
+
+    }
 
     /**
      * This interface must be implemented by activities that contain this

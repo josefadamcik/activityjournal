@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import com.stepstone.stepper.Step
+import com.stepstone.stepper.VerificationError
 import cz.josefadamcik.activityjournal.R
 import kotlinx.android.synthetic.main.fragment_add_activity_title.*
 /**
  *
  */
-class AddActivityTitleFragment : Fragment() {
+class AddActivityTitleFragment : Fragment(), Step {
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +55,11 @@ class AddActivityTitleFragment : Fragment() {
         super.onDetach()
         listener = null
     }
+
+    override fun onSelected() {}
+    override fun verifyStep(): VerificationError? = null
+    override fun onError(error: VerificationError) {}
+
 
     /**
      * This interface must be implemented by activities that contain this

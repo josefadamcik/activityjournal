@@ -11,6 +11,9 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import com.stepstone.stepper.StepperLayout
+import com.stepstone.stepper.test.StepperNavigationActions
+import cz.josefadamcik.activityjournal.test.runWithStepperLayoutSupport
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
@@ -21,6 +24,9 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class MainActivityTest {
+
+    private val testTitle = "a new title for our activity"
+
     @Rule
     @JvmField
     var activityRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
@@ -42,7 +48,6 @@ class MainActivityTest {
 
     @Test
     fun addActivityFlow_titleCanBeEnteredAndTheNewRecordDisplayed() {
-        val testTitle = "a new title for our activity"
 
         actExecuteAddActivityWithoutTimeFlow(testTitle)
 
@@ -56,8 +61,17 @@ class MainActivityTest {
     }
 
     @Test
+    fun addActivityFlow_nextGoesToSecondStep() {
+        actClickOnFab()
+
+        onView(withId(R.id.stepperLayout)).perform(StepperNavigationActions.clickNext());
+
+        assertToolbarTitle("Add activity 2/2")
+        actClickOnFinishButton()
+    }
+
+    @Test
     fun addActivityFlow_titleMultipleActivityRecordsCanBeAdded() {
-        val testTitle = "a new title for our activity"
         actExecuteAddActivityWithoutTimeFlow(testTitle)
         assertOnTimeline()
 
@@ -79,8 +93,6 @@ class MainActivityTest {
 
     @Test
     fun addActivity_chooseStartTime() {
-        val testTitle = "a new title for our activity"
-
         actClickOnFab()
         actEnterTitleToInputAndSubmit(testTitle)
         actEnterStartingTime()
@@ -98,8 +110,6 @@ class MainActivityTest {
 
     @Test
     fun addActivity_chooseStartTimeAndDate() {
-        val testTitle = "a new title for our activity"
-
         actClickOnFab()
         actEnterTitleToInputAndSubmit(testTitle)
         actEnterStartingTime()
@@ -120,8 +130,6 @@ class MainActivityTest {
 
     @Test
     fun addActivity_chooseStartTimeAndDateAndDuration() {
-        val testTitle = "a new title for our activity"
-
         actClickOnFab()
         actEnterTitleToInputAndSubmit(testTitle)
         actEnterStartingTime()
@@ -181,7 +189,10 @@ class MainActivityTest {
                         isDisplayed(),
                         withText("Add activity")
                 )))
-                .perform(click())
+                .perform(
+                        closeSoftKeyboard(),
+                        click()
+                )
     }
 
     private fun assertOnTimeline() {
@@ -190,18 +201,23 @@ class MainActivityTest {
 
     private fun actClickOnFab() {
         onView(withId(R.id.fab))
-                .check(matches(isDisplayed()))
+                .check(matches(isCompletelyDisplayed()))
                 .perform(click())
     }
 
     private fun actEnterTitleToInputAndSubmit(testTitle: String) {
-        onView(withId(R.id.input_title))
-                .check(matches(isCompletelyDisplayed()))
-                .perform(typeText(testTitle), pressImeActionButton())
+        runWithStepperLayoutSupport(activityRule.activity.findViewById<StepperLayout>(R.id.stepperLayout)) {
+            onView(withId(R.id.input_title))
+                    .check(matches(isCompletelyDisplayed()))
+                    .perform(typeText(testTitle), pressImeActionButton())
+        }
     }
 
     private fun assertToolbarTitle(title: String) {
-        onView(allOf(instanceOf(TextView::class.java), withParent(withId(R.id.toolbar))))
-                .check(matches(withText(title)))
+        onView(allOf(
+                instanceOf(TextView::class.java),
+                withParent(withId(R.id.toolbar)),
+                withText(title)))
+            .check(matches(withText(title)))
     }
 }
