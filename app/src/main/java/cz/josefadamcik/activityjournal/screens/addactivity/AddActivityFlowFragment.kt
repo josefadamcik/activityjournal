@@ -42,6 +42,7 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
 
         stepperLayout.adapter = AddActivityFlowStepperAdapter(childFragmentManager, context!!)
         stepperLayout.setListener(this)
+
     }
 
     override fun onAttach(context: Context) {
