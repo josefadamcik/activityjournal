@@ -52,10 +52,6 @@ android {
             includeAndroidResources = true
         }
     }
-    //https://developer.android.com/training/testing/set-up-project
-//    useLibrary 'android.test.runner'
-//    useLibrary 'android.test.base'
-//    useLibrary 'android.test.mock'
 }
 
 dependencies {
@@ -76,12 +72,13 @@ dependencies {
     implementation "androidx.core:core-ktx:$ktx_version"
     implementation "androidx.fragment:fragment-ktx:$ktx_version"
     testImplementation 'junit:junit:4.12'
+    //matchers from the kotlintest library https://github.com/kotlintest/kotlintest/blob/master/doc/matchers.md
+    testImplementation "io.kotlintest:kotlintest-assertions:3.1.10"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}"
 
     //https://mockk.io/#gradlemaven-dependency
     testImplementation "io.mockk:mockk:$mockk_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-
 
     androidTestImplementation "androidx.test:runner:$android_test_version"
     androidTestImplementation "androidx.test:rules:$android_test_version"

@@ -1,8 +1,9 @@
 package cz.josefadamcik.activityjournal.screens.addactivity
 
 import cz.josefadamcik.activityjournal.DateTimeProvider
-import cz.josefadamcik.activityjournal.model.ActivityRecord
 import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
+import io.kotlintest.matchers.types.shouldBeTypeOf
+import io.kotlintest.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Before
@@ -35,7 +36,7 @@ class AddActivityFlowTest {
 
         val activityRecord = flow.produceActivityRecord()
 
-        assertThatDefaultTitleWasUsed(activityRecord)
+        activityRecord.title.shouldBe(defaultTitle)
     }
 
     @Test
@@ -44,7 +45,7 @@ class AddActivityFlowTest {
 
         val activityRecord = flow.produceActivityRecord()
 
-        assertThatDefaultTitleWasUsed(activityRecord)
+        activityRecord.title.shouldBe(defaultTitle)
     }
 
     @Test
@@ -53,7 +54,7 @@ class AddActivityFlowTest {
 
         val activityRecord = flow.produceActivityRecord()
 
-        assertThatCurrentTimeWasUsed(activityRecord)
+        activityRecord.time.shouldBe(currentTime)
     }
 
     @Test
@@ -62,7 +63,7 @@ class AddActivityFlowTest {
 
         val activityRecord = flow.produceActivityRecord()
 
-        assertThatCurrentDateWasUsed(activityRecord)
+        activityRecord.date.shouldBe(currentDate)
     }
 
     @Test
@@ -70,7 +71,7 @@ class AddActivityFlowTest {
         flow.date = null
         val activityRecord = flow.produceActivityRecord()
 
-        assertThatCurrentDateWasUsed(activityRecord)
+        activityRecord.date.shouldBe(currentDate)
     }
 
 
@@ -80,7 +81,7 @@ class AddActivityFlowTest {
         val activityRecord = flow.produceActivityRecord()
 
 
-        assertEquals(ActivityRecordDuration.Undergoing, activityRecord.duration)
+        activityRecord.duration.shouldBe(ActivityRecordDuration.Undergoing)
     }
 
     @Test
@@ -88,36 +89,17 @@ class AddActivityFlowTest {
         flow.duration = ""
         val activityRecord = flow.produceActivityRecord()
 
-        assertEquals(ActivityRecordDuration.Undergoing, activityRecord.duration)
+        activityRecord.duration.shouldBe(ActivityRecordDuration.Undergoing)
     }
 
     @Test
     fun filledDuration_activityRecordContainsNullDuration() {
-        flow.duration = "10"
+        val durationMinutes = 10
+        flow.duration = "$durationMinutes"
+
         val activityRecord = flow.produceActivityRecord()
 
-        assertTrue {
-            activityRecord.duration is ActivityRecordDuration.Done
-                && (activityRecord.duration as ActivityRecordDuration.Done).minutes == 10
-        }
-    }
-
-    private fun assertThatDefaultTitleWasUsed(activityRecord: ActivityRecord) {
-        assertTrue {
-            activityRecord.title.isNotEmpty() && defaultTitle == activityRecord.title
-        }
-    }
-
-    private fun assertThatCurrentTimeWasUsed(activityRecord: ActivityRecord) {
-        assertTrue {
-            activityRecord.time.isNotEmpty() && currentTime == activityRecord.time
-        }
-    }
-
-    private fun assertThatCurrentDateWasUsed(activityRecord: ActivityRecord) {
-        assertTrue {
-            activityRecord.date.isNotEmpty() && currentDate == activityRecord.date
-        }
+        activityRecord.duration.shouldBe(ActivityRecordDuration.Done(durationMinutes))
     }
 
 
