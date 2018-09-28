@@ -34,6 +34,10 @@ class AddActivityTitleFragment : Fragment(), Step {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        toolbar.setNavigationOnClickListener {
+            listener?.onCancelFlow()
+        }
+
         input_title.setOnEditorActionListener { textView, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 fillAddActivityFlow()
@@ -79,6 +83,7 @@ class AddActivityTitleFragment : Fragment(), Step {
      */
     interface OnFragmentInteractionListener {
         fun requestMoveToNextStep()
+        fun onCancelFlow()
     }
 
     companion object {

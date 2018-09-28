@@ -38,6 +38,11 @@ class AddActivityTimeFragment : Fragment(), Step {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        toolbar.setNavigationOnClickListener {
+            listener?.onCancelFlow()
+        }
+
         button_add.setOnClickListener {
             fillDataIIntoActivitFlow()
             listener?.onAddActivityTimeFinished()
@@ -98,6 +103,7 @@ class AddActivityTimeFragment : Fragment(), Step {
      */
     interface OnFragmentInteractionListener {
         fun onAddActivityTimeFinished()
+        fun onCancelFlow()
     }
 
     companion object {

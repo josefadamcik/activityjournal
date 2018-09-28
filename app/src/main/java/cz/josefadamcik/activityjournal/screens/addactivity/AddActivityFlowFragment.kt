@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.VerificationError
+import cz.josefadamcik.activityjournal.BackButtonPressConsumer
 import cz.josefadamcik.activityjournal.DateTimeProvider
 import cz.josefadamcik.activityjournal.DateTimeProviderImpl
 
@@ -18,7 +19,9 @@ import kotlinx.android.synthetic.main.fragment_add_actitity_flow.*
  *
  */
 class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentInteractionListener,
-        AddActivityTimeFragment.OnFragmentInteractionListener, StepperLayout.StepperListener {
+       AddActivityTimeFragment.OnFragmentInteractionListener, StepperLayout.StepperListener,
+        BackButtonPressConsumer
+{
     private var listener: OnFragmentInteractionListener? = null
 
     private var addActivityFlow: AddActivityFlow? = null
@@ -41,8 +44,6 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
     ): View? {
         return inflater.inflate(R.layout.fragment_add_actitity_flow, container, false)
     }
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,9 +72,22 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
         stepperLayout.currentStepPosition = 1
     }
 
+    override fun onCancelFlow() {
+        // nop, see MainActivity#onCancelFlow
+    }
+
     override fun onAddActivityTimeFinished() {
         addActivityFlow?.apply {
-            listener?.onAddActivityTimeFinished(produceActivityRecord())
+            listener?.onAddActivityFlowFinished(produceActivityRecord())
+        }
+    }
+
+    override fun onBackPressed(): Boolean {
+        return if (stepperLayout.currentStepPosition > 0) {
+            stepperLayout.onBackClicked()
+            true
+        } else {
+            false
         }
     }
 
@@ -101,7 +115,7 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
      * activity.
      */
     interface OnFragmentInteractionListener {
-        fun onAddActivityTimeFinished(activityRecord: ActivityRecord)
+        fun onAddActivityFlowFinished(activityRecord: ActivityRecord)
     }
 
     companion object {

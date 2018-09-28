@@ -3,6 +3,7 @@ package cz.josefadamcik.activityjournal
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -14,17 +15,16 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.test.StepperNavigationActions
-import cz.josefadamcik.activityjournal.test.runWithStepperLayoutSupport
+import cz.josefadamcik.activityjournal.test.*
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.instanceOf
+import org.hamcrest.Matchers.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class MainActivityTest {
+class AddActivityFlowTest {
 
     private val testTitle = "a new title for our activity"
     private val duration = "90"
@@ -36,14 +36,6 @@ class MainActivityTest {
     @Rule
     @JvmField
     var activityRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
-
-    @Test
-    fun applicationStart_activityDisplays() {
-        onView(withId(R.id.fab))
-                .check(matches(isDisplayed()))
-        onView(withId(R.id.toolbar))
-                .check(matches(isDisplayed()))
-    }
 
     @Test
     fun fabPressed_addActivityFlowDisplayed() {
@@ -74,8 +66,7 @@ class MainActivityTest {
                 .check(matches(isCompletelyDisplayed()))
                 .perform(typeText(testTitle))
 
-        onView(withId(R.id.stepperLayout))
-                .perform(StepperNavigationActions.clickNext())
+        actMoveToNextStep()
 
         assertStepIs(2)
         actClickOnFinishButton(buttonTextStartTracking)
@@ -92,7 +83,7 @@ class MainActivityTest {
     @Test
     fun addActivityFlow_nextGoesToSecondStep() {
         actClickOnFab()
-        onView(withId(R.id.stepperLayout)).perform(StepperNavigationActions.clickNext())
+        actMoveToNextStep()
         assertStepIs(2)
     }
 
@@ -175,11 +166,23 @@ class MainActivityTest {
         actEnterTitleToInputAndSubmit(testTitle)
 
         assertStepIs(2)
-        onView(withId(R.id.stepperLayout))
-                .perform(StepperNavigationActions.clickBack())
+        actMoveToPrevStep()
 
         assertStepIs(1)
     }
+
+    @Test
+    fun addActivity_backButtonReturnsToPreviousStep() {
+        actClickOnFab()
+        actMoveToNextStep()
+
+        assertStepIs(2)
+
+        Espresso.pressBack()
+
+        assertStepIs(1)
+    }
+
 
     @Test
     fun addActivity_stepperBackAndForwardWorks() {
@@ -190,13 +193,11 @@ class MainActivityTest {
         actEnterDate()
         actEnterDuration()
 
-        onView(withId(R.id.stepperLayout))
-                .perform(StepperNavigationActions.clickBack())
+        actMoveToPrevStep()
 
         assertStepIs(1)
 
-        onView(withId(R.id.stepperLayout))
-                .perform(StepperNavigationActions.clickNext())
+        actMoveToNextStep()
 
         assertStepIs(2)
 
@@ -209,18 +210,32 @@ class MainActivityTest {
     }
 
 
+    @Test
+    fun addActivity_navUpJumpsOutOfTheFirstStep() {
+        actClickOnFab()
+        assertStepIs(1)
+        actClickOnNavUpButton()
+        assertOnTimeline()
+    }
+
+    @Test
+    fun addActivity_navUpJumpsOutOfTheSecondStep() {
+        actClickOnFab()
+        actMoveToNextStep()
+        assertStepIs(2)
+        actClickOnNavUpButton()
+        assertOnTimeline()
+    }
+
+
+
     private fun actEnterDate() {
         onView(withId(R.id.input_date))
                 .check(matches(isDisplayed()))
                 .perform(typeText(date))
     }
 
-    private fun onRecyclerViewRowAtPositionCheck(recyclerViewId: Int, position: Int, itemMatcher: Matcher<View>) {
-        onView(withId(recyclerViewId)).perform(scrollToPosition<RecyclerView.ViewHolder>(position))
-        onView(withRecyclerView(recyclerViewId)
-                .atPosition(position))
-                .check(matches(itemMatcher))
-    }
+
 
     private fun actEnterStartingTime() {
         onView(withId(R.id.input_time))
@@ -258,10 +273,6 @@ class MainActivityTest {
                 )
     }
 
-    private fun assertOnTimeline() {
-        assertToolbarTitle("Timeline")
-    }
-
     private fun actClickOnFab() {
         onView(withId(R.id.fab))
                 .check(matches(isCompletelyDisplayed()))
@@ -276,12 +287,15 @@ class MainActivityTest {
         }
     }
 
-    private fun assertToolbarTitle(title: String) {
-        onView(allOf(
-                instanceOf(TextView::class.java),
-                withParent(withId(R.id.toolbar)),
-                isCompletelyDisplayed(),
-                withText(title)))
-            .check(matches(withText(title)))
+    private fun actMoveToNextStep() {
+        onView(withId(R.id.stepperLayout)).perform(StepperNavigationActions.clickNext())
     }
+
+    private fun actMoveToPrevStep() {
+        onView(withId(R.id.stepperLayout))
+                .perform(StepperNavigationActions.clickBack())
+    }
+
+
+
 }

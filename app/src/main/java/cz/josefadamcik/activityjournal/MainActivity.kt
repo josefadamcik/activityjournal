@@ -39,14 +39,22 @@ class MainActivity : AppCompatActivity(),
                 .commit()
     }
 
-    override fun onAddActivityTimeFinished(activityRecord: ActivityRecord) {
+    override fun onAddActivityFlowFinished(activityRecord: ActivityRecord) {
         supportFragmentManager.popBackStackImmediate()
         activityRecordsList.add(activityRecord)
         findTimelineFragment()?.showRecords(activityRecordsList)
     }
 
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(android.R.id.content)
+        if (fragment is BackButtonPressConsumer && fragment.onBackPressed()) {
+            return
+        }
+        super.onBackPressed()
+    }
+
     private fun findTimelineFragment(): TimelineFragment? {
-        return supportFragmentManager.findFragmentById(android.R.id.content) as TimelineFragment?
+        return  supportFragmentManager.findFragmentById(android.R.id.content) as TimelineFragment?
     }
 
     private fun findAddActivityFlowFragment(): AddActivityFlowFragment? {
@@ -59,5 +67,9 @@ class MainActivity : AppCompatActivity(),
 
     override fun requestMoveToNextStep() {
         findAddActivityFlowFragment()?.requestMoveToNextStep()
+    }
+
+    override fun onCancelFlow() {
+        supportFragmentManager.popBackStack()
     }
 }
