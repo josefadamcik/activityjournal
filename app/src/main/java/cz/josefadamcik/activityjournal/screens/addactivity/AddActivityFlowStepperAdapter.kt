@@ -9,13 +9,21 @@ import com.stepstone.stepper.viewmodel.StepViewModel
 import androidx.annotation.IntRange
 import androidx.fragment.app.FragmentManager
 
-class AddActivityFlowStepperAdapter(fm: FragmentManager, context: Context) : AbstractFragmentStepAdapter(fm, context) {
+class AddActivityFlowStepperAdapter(
+        fm: FragmentManager,
+        context: Context,
+        private val addActivityFlow: AddActivityFlow) : AbstractFragmentStepAdapter(fm, context) {
 
     override fun createStep(position: Int): Step {
         return if (position == 0) {
-            AddActivityTitleFragment()
+            AddActivityTitleFragment().apply {
+                this.addActivityFlow = this@AddActivityFlowStepperAdapter.addActivityFlow
+            }
+
         } else {
-            AddActivityTimeFragment()
+            AddActivityTimeFragment().apply {
+                this.addActivityFlow = this@AddActivityFlowStepperAdapter.addActivityFlow
+            }
         }
     }
 

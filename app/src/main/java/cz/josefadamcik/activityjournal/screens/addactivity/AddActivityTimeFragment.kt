@@ -2,6 +2,8 @@ package cz.josefadamcik.activityjournal.screens.addactivity
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +22,8 @@ class AddActivityTimeFragment : Fragment(), Step {
 
     private var listener: OnFragmentInteractionListener? = null
 
+    lateinit var addActivityFlow: AddActivityFlow
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -35,8 +39,27 @@ class AddActivityTimeFragment : Fragment(), Step {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         button_add.setOnClickListener {
-            listener?.onAddActivityTimeFinished(input_time.text.toString(), input_date.text.toString(), input_duration.text.toString())
+            fillDataIIntoActivitFlow()
+            listener?.onAddActivityTimeFinished()
         }
+
+        input_duration.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(view: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (text.isNullOrBlank()) {
+                    button_add.text = resources.getString(R.string.start_tracking_finish_button)
+                } else {
+                    button_add.text = resources.getString(R.string.add_activity_finish_button)
+                }
+            }
+
+        })
     }
 
     override fun onAttach(context: Context) {
@@ -54,7 +77,17 @@ class AddActivityTimeFragment : Fragment(), Step {
     }
 
     override fun onSelected() {}
-    override fun verifyStep(): VerificationError? = null
+    override fun verifyStep(): VerificationError? {
+        fillDataIIntoActivitFlow()
+        return null
+    }
+
+    private fun fillDataIIntoActivitFlow() {
+        addActivityFlow.time = input_time.text.toString()
+        addActivityFlow.date = input_date.text.toString()
+        addActivityFlow.duration = input_duration.text.toString()
+    }
+
     override fun onError(error: VerificationError) {}
 
     /**
@@ -64,7 +97,7 @@ class AddActivityTimeFragment : Fragment(), Step {
      * activity.
      */
     interface OnFragmentInteractionListener {
-        fun onAddActivityTimeFinished(time: String, date: String, duration: String)
+        fun onAddActivityTimeFinished()
     }
 
     companion object {

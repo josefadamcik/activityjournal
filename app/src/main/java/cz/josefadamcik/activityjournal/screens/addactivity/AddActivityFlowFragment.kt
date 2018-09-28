@@ -23,10 +23,15 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
 
     private var addActivityFlow: AddActivityFlow? = null
     private val dateTimeProvider: DateTimeProvider = DateTimeProviderImpl()
+    private lateinit var stepperAdapter: AddActivityFlowStepperAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addActivityFlow = AddActivityFlow(getString(R.string.add_activity_default_title), dateTimeProvider)
+        addActivityFlow?.apply {
+            stepperAdapter = AddActivityFlowStepperAdapter(childFragmentManager, context!!, this)
+        }
+
     }
 
     override fun onCreateView(
@@ -37,10 +42,13 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
         return inflater.inflate(R.layout.fragment_add_actitity_flow, container, false)
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        stepperLayout.adapter = AddActivityFlowStepperAdapter(childFragmentManager, context!!)
+
+        stepperLayout.adapter = stepperAdapter
         stepperLayout.setListener(this)
 
     }
@@ -59,24 +67,19 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
         listener = null
     }
 
-    override fun onAddActivityTitleFinished(title: String) {
-        // second step finished
-        addActivityFlow?.title = title
-
+    override fun requestMoveToNextStep() {
         stepperLayout.currentStepPosition = 1
     }
 
-    override fun onAddActivityTimeFinished(enteredTime: String, enteredDate: String, enteredDuration: String) {
+    override fun onAddActivityTimeFinished() {
         addActivityFlow?.apply {
-            time = enteredTime
-            date = enteredDate
-            duration = enteredDuration
             listener?.onAddActivityTimeFinished(produceActivityRecord())
         }
     }
 
     // stepper
     override fun onStepSelected(newStepPosition: Int) {
+
     }
 
     // stepper

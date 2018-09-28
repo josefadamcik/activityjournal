@@ -17,6 +17,8 @@ import kotlinx.android.synthetic.main.fragment_add_activity_title.*
 class AddActivityTitleFragment : Fragment(), Step {
     private var listener: OnFragmentInteractionListener? = null
 
+    lateinit var addActivityFlow: AddActivityFlow
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -34,7 +36,8 @@ class AddActivityTitleFragment : Fragment(), Step {
 
         input_title.setOnEditorActionListener { textView, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                listener?.onAddActivityTitleFinished(textView.text.toString())
+                fillAddActivityFlow()
+                listener?.requestMoveToNextStep()
                 true
             } else {
                 false
@@ -46,8 +49,6 @@ class AddActivityTitleFragment : Fragment(), Step {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
             listener = context
-        } else {
-            throw IllegalStateException(context.toString() + " must implement OnFragmentInteractionListener")
         }
     }
 
@@ -56,8 +57,18 @@ class AddActivityTitleFragment : Fragment(), Step {
         listener = null
     }
 
-    override fun onSelected() {}
-    override fun verifyStep(): VerificationError? = null
+    override fun onSelected() {
+
+    }
+    override fun verifyStep(): VerificationError? {
+        fillAddActivityFlow()
+        return null
+    }
+
+    private fun fillAddActivityFlow() {
+        addActivityFlow.title = input_title.text.toString()
+    }
+
     override fun onError(error: VerificationError) {}
 
     /**
@@ -67,7 +78,7 @@ class AddActivityTitleFragment : Fragment(), Step {
      * activity.
      */
     interface OnFragmentInteractionListener {
-        fun onAddActivityTitleFinished(title: String)
+        fun requestMoveToNextStep()
     }
 
     companion object {

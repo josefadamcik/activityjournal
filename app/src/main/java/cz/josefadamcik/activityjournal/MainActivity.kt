@@ -53,11 +53,11 @@ class MainActivity : AppCompatActivity(),
         return supportFragmentManager.findFragmentById(android.R.id.content) as AddActivityFlowFragment?
     }
 
-    override fun onAddActivityTimeFinished(time: String, date: String, duration: String) {
-        findAddActivityFlowFragment()?.onAddActivityTimeFinished(time, date, duration)
+    override fun onAddActivityTimeFinished() {
+        findAddActivityFlowFragment()?.onAddActivityTimeFinished()
     }
 
-    override fun onAddActivityTitleFinished(title: String) {
-        findAddActivityFlowFragment()?.onAddActivityTitleFinished(title)
+    override fun requestMoveToNextStep() {
+        findAddActivityFlowFragment()?.requestMoveToNextStep()
     }
 }
