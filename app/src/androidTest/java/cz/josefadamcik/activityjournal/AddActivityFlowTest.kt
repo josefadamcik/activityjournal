@@ -98,10 +98,10 @@ class AddActivityFlowTest {
 
         // check if the activity was added to the list
 
-        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
+        onRecyclerViewRowAtPositionCheck(R.id.list, 1, allOf(
                 hasDescendant(withText(testTitle))
         ))
-        onRecyclerViewRowAtPositionCheck(R.id.list, 1, allOf(
+        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
                 hasDescendant(withText(testTitle2))
         ))
     }

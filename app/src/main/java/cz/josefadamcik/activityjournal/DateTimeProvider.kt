@@ -1,6 +1,9 @@
 package cz.josefadamcik.activityjournal
 
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalTime
+
 interface DateTimeProvider {
-    fun provideCurrentTime(): String
-    fun provideCurrentDate(): String
+    fun provideCurrentLocalTime(): LocalTime
+    fun provideCurrentLocalDate(): LocalDate
 }

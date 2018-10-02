@@ -1,17 +1,14 @@
 package cz.josefadamcik.activityjournal
 
+import org.threeten.bp.Clock
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalTime
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class DateTimeProviderImpl : DateTimeProvider {
-    private val timeFormat = SimpleDateFormat("H:mm")
-    private val dateFormat = SimpleDateFormat("dd.MM.yyyy")
-
-    override fun provideCurrentTime(): String {
-        return timeFormat.format(Date())
-    }
-
-    override fun provideCurrentDate(): String {
-        return dateFormat.format(Date())
-    }
+class DateTimeProviderImpl(
+    private val clock : Clock = Clock.systemDefaultZone()
+) : DateTimeProvider {
+    override fun provideCurrentLocalTime(): LocalTime = LocalTime.now(clock)
+    override fun provideCurrentLocalDate(): LocalDate = LocalDate.now(clock)
 }

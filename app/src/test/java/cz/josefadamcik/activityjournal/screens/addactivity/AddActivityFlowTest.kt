@@ -19,8 +19,8 @@ class AddActivityFlowTest {
     private val currentDate = "12.10.2018"
 
     private val currentDateTimeProvider = mockk<DateTimeProvider>() {
-        every { provideCurrentTime() } returns currentTime
-        every { provideCurrentDate() } returns currentDate
+        every { provideCurrentLocalTime() } returns LocalTime.of(12, 0)
+        every { provideCurrentLocalDate() } returns LocalDate.of(2018, Month.OCTOBER, 12)
     }
 
     private lateinit var flow: AddActivityFlow

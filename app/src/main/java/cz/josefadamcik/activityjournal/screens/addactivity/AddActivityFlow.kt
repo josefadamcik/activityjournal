@@ -4,6 +4,7 @@ import cz.josefadamcik.activityjournal.DateTimeProvider
 import cz.josefadamcik.activityjournal.model.ActivityRecord
 import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
 import cz.josefadamcik.activityjournal.model.ActivityRecordTimeParser
+import org.threeten.bp.LocalDateTime
 
 /**
  * Captures information form the whole flow of the activity creation.
@@ -22,14 +23,24 @@ class AddActivityFlow(
     fun produceActivityRecord(): ActivityRecord {
         return ActivityRecord(
                 if (title.isNullOrEmpty()) defaultTitle else title as String,
-                startParser.parseFromFields(
-                        if (date.isNullOrEmpty()) currentTimeProvider.provideCurrentDate() else date as String,
-                        if (time.isNullOrEmpty()) currentTimeProvider.provideCurrentTime() else time as String
-                ),
+                processStartDateTime(),
                 if (duration.isNullOrEmpty())
                     ActivityRecordDuration.Undergoing
                 else ActivityRecordDuration.Done(duration?.toInt() as Int)
 
+        )
+    }
+
+    private fun processStartDateTime(): LocalDateTime {
+        return LocalDateTime.of(
+                if (date.isNullOrEmpty())
+                    currentTimeProvider.provideCurrentLocalDate()
+                else
+                    startParser.parseDateField(date as String),
+                if (time.isNullOrEmpty())
+                    currentTimeProvider.provideCurrentLocalTime()
+                else
+                    startParser.parseTimeField(time as String)
         )
     }
 }
