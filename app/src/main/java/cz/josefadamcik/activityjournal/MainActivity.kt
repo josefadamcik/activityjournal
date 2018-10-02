@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //todo: refactor into a proper DI
         activityRecordsRepository = CompositionRoot.repository
 
         if (savedInstanceState == null) {
@@ -58,7 +57,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun findTimelineFragment(): TimelineFragment? {
-        return  supportFragmentManager.findFragmentById(android.R.id.content) as TimelineFragment?
+        return supportFragmentManager.findFragmentById(android.R.id.content) as TimelineFragment?
     }
 
     private fun findAddActivityFlowFragment(): AddActivityFlowFragment? {

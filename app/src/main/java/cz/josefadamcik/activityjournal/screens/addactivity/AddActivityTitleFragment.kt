@@ -62,7 +62,6 @@ class AddActivityTitleFragment : Fragment(), Step {
     }
 
     override fun onSelected() {
-
     }
     override fun verifyStep(): VerificationError? {
         fillAddActivityFlow()

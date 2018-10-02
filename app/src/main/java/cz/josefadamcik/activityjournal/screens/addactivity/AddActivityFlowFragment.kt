@@ -15,14 +15,14 @@ import cz.josefadamcik.activityjournal.R
 import cz.josefadamcik.activityjournal.model.ActivityRecord
 import cz.josefadamcik.activityjournal.model.ActivityRecordTimeParser
 import kotlinx.android.synthetic.main.fragment_add_actitity_flow.*
+import java.lang.IllegalStateException
 
 /**
  *
  */
 class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentInteractionListener,
-       AddActivityTimeFragment.OnFragmentInteractionListener, StepperLayout.StepperListener,
-        BackButtonPressConsumer
-{
+        AddActivityTimeFragment.OnFragmentInteractionListener, StepperLayout.StepperListener,
+        BackButtonPressConsumer {
     private var listener: OnFragmentInteractionListener? = null
 
     private var addActivityFlow: AddActivityFlow? = null
@@ -31,11 +31,13 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addActivityFlow = AddActivityFlow(getString(R.string.add_activity_default_title), dateTimeProvider, ActivityRecordTimeParser())
+        addActivityFlow = AddActivityFlow(
+                getString(R.string.add_activity_default_title),
+                dateTimeProvider,
+                ActivityRecordTimeParser())
         addActivityFlow?.apply {
             stepperAdapter = AddActivityFlowStepperAdapter(childFragmentManager, context!!, this)
         }
-
     }
 
     override fun onCreateView(
@@ -49,10 +51,8 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         stepperLayout.adapter = stepperAdapter
         stepperLayout.setListener(this)
-
     }
 
     override fun onAttach(context: Context) {
@@ -60,7 +60,7 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
         if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            throw IllegalStateException(context.toString() + " must implement OnFragmentInteractionListener")
         }
     }
 
@@ -94,7 +94,6 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
 
     // stepper
     override fun onStepSelected(newStepPosition: Int) {
-
     }
 
     // stepper

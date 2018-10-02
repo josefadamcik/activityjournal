@@ -1,13 +1,9 @@
 package cz.josefadamcik.activityjournal
 
-import android.view.View
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
@@ -16,7 +12,6 @@ import androidx.test.runner.AndroidJUnit4
 import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.test.StepperNavigationActions
 import cz.josefadamcik.activityjournal.test.*
-import org.hamcrest.Matcher
 import org.hamcrest.Matchers.*
 import org.junit.Before
 import org.junit.Rule
@@ -42,7 +37,6 @@ class AddActivityFlowTest {
     fun setUp() {
         CompositionRoot.repository.clear()
     }
-
 
     @Test
     fun fabPressed_addActivityFlowDisplayed() {
@@ -83,7 +77,6 @@ class AddActivityFlowTest {
                 hasDescendant(withText(testTitle))
         ))
     }
-
 
     @Test
     fun addActivityFlow_nextGoesToSecondStep() {
@@ -126,7 +119,6 @@ class AddActivityFlowTest {
                 hasDescendant(withText("Undergoing"))
         ))
     }
-
 
     @Test
     fun addActivity_chooseStartTimeAndDate() {
@@ -188,7 +180,6 @@ class AddActivityFlowTest {
         assertStepIs(1)
     }
 
-
     @Test
     fun addActivity_stepperBackAndForwardWorks() {
         actClickOnFab()
@@ -213,7 +204,6 @@ class AddActivityFlowTest {
         onView(withId(R.id.input_date))
                 .check(matches(allOf(ViewMatchers.withText(date))))
     }
-
 
     @Test
     fun addActivity_navUpJumpsOutOfTheFirstStep() {
@@ -247,17 +237,11 @@ class AddActivityFlowTest {
         ))
     }
 
-
-
-
-
     private fun actEnterDate() {
         onView(withId(R.id.input_date))
                 .check(matches(isDisplayed()))
                 .perform(typeText(date))
     }
-
-
 
     private fun actEnterStartingTime() {
         onView(withId(R.id.input_time))
@@ -317,7 +301,4 @@ class AddActivityFlowTest {
         onView(withId(R.id.stepperLayout))
                 .perform(StepperNavigationActions.clickBack())
     }
-
-
-
 }

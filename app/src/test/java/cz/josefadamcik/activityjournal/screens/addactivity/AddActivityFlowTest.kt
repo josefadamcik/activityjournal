@@ -9,7 +9,6 @@ import io.mockk.mockk
 import org.junit.Before
 import org.junit.Test
 import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 import org.threeten.bp.Month
 
@@ -55,7 +54,7 @@ class AddActivityFlowTest {
         val activityRecord = flow.produceActivityRecord()
 
         activityRecord.start.toLocalTime().shouldBe(
-                LocalTime.of(12,0)
+                LocalTime.of(12, 0)
         )
     }
 
@@ -74,7 +73,6 @@ class AddActivityFlowTest {
     fun nullDate_currentTimeIsUsed() {
         flow.date = null
         val activityRecord = flow.produceActivityRecord()
-
 
         activityRecord.start.toLocalDate().shouldBe(
                 LocalDate.of(2018, Month.OCTOBER, 12)

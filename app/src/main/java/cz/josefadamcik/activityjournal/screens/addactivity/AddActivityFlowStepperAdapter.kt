@@ -10,16 +10,16 @@ import androidx.annotation.IntRange
 import androidx.fragment.app.FragmentManager
 
 class AddActivityFlowStepperAdapter(
-        fm: FragmentManager,
-        context: Context,
-        private val addActivityFlow: AddActivityFlow) : AbstractFragmentStepAdapter(fm, context) {
+    fm: FragmentManager,
+    context: Context,
+    private val addActivityFlow: AddActivityFlow
+) : AbstractFragmentStepAdapter(fm, context) {
 
     override fun createStep(position: Int): Step {
         return if (position == 0) {
             AddActivityTitleFragment().apply {
                 this.addActivityFlow = this@AddActivityFlowStepperAdapter.addActivityFlow
             }
-
         } else {
             AddActivityTimeFragment().apply {
                 this.addActivityFlow = this@AddActivityFlowStepperAdapter.addActivityFlow

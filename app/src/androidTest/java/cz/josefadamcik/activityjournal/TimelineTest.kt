@@ -23,8 +23,7 @@ class TimelineTest {
 
     @Rule
     @JvmField
-    var activityRule: ActivityTestRule<MainActivity> = ActivityTestRule<MainActivity>(MainActivity::class.java, false, false )
-
+    var activityRule: ActivityTestRule<MainActivity> = ActivityTestRule<MainActivity>(MainActivity::class.java, false, false)
 
     @Before
     fun setUp() {
@@ -92,7 +91,6 @@ class TimelineTest {
         )
     }
 
-
     private fun arrangeData(vararg items: ActivityRecord) {
         items.forEach {
             CompositionRoot.repository.add(it)
@@ -102,6 +100,4 @@ class TimelineTest {
     private fun actLaunchActivity() {
         activityRule.launchActivity(null)
     }
-
-
 }

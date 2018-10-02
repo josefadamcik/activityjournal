@@ -50,7 +50,6 @@ class AddActivityTimeFragment : Fragment(), Step {
 
         input_duration.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(view: Editable?) {
-
             }
 
             override fun beforeTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -63,7 +62,6 @@ class AddActivityTimeFragment : Fragment(), Step {
                     button_add.text = resources.getString(R.string.add_activity_finish_button)
                 }
             }
-
         })
     }
 

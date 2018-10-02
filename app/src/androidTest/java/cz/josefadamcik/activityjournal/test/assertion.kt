@@ -13,7 +13,6 @@ import cz.josefadamcik.activityjournal.withRecyclerView
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 
-
 fun assertToolbarTitle(title: String) {
     Espresso.onView(Matchers.allOf(
             Matchers.instanceOf(TextView::class.java),
@@ -33,7 +32,6 @@ fun onRecyclerViewRowAtPositionCheck(recyclerViewId: Int, position: Int, itemMat
             .atPosition(position))
             .check(ViewAssertions.matches(itemMatcher))
 }
-
 
 fun actClickOnNavUpButton() {
     Espresso.onView(Matchers.allOf(

@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import cz.josefadamcik.activityjournal.R
 import cz.josefadamcik.activityjournal.model.ActivityRecord
 import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
-import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.DateTimeFormatterBuilder
 
 class TimelineAdapter(
@@ -18,8 +17,8 @@ class TimelineAdapter(
     initialList: List<ActivityRecord>
 ) : RecyclerView.Adapter<TimelineAdapter.ViewHolder>() {
     private var list: MutableList<ActivityRecord> = initialList.toMutableList()
-    private val timeFormatter  = DateTimeFormatterBuilder().appendPattern("H:mm").toFormatter()
-    private val dateFormatter  = DateTimeFormatterBuilder().appendPattern("d.M.YYYY").toFormatter()
+    private val timeFormatter = DateTimeFormatterBuilder().appendPattern("H:mm").toFormatter()
+    private val dateFormatter = DateTimeFormatterBuilder().appendPattern("d.M.YYYY").toFormatter()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(layoutInflater.inflate(R.layout.timeline_list_item, parent, false))
