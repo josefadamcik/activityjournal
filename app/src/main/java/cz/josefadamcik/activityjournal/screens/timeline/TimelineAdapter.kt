@@ -3,7 +3,9 @@ package cz.josefadamcik.activityjournal.screens.timeline
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import cz.josefadamcik.activityjournal.R
 import cz.josefadamcik.activityjournal.model.ActivityRecord
@@ -34,6 +36,7 @@ class TimelineAdapter(
             is ActivityRecordDuration.Undergoing -> holder.itemView.resources.getString(R.string.activity_undergoing)
             is ActivityRecordDuration.Done -> item.duration.minutes.toString()
         }
+        holder.finishButton.isVisible = item.duration == ActivityRecordDuration.Undergoing
     }
 
     fun updateList(items: List<ActivityRecord>) {
@@ -46,5 +49,6 @@ class TimelineAdapter(
         val titleText: TextView = view.findViewById(R.id.title)
         val dateText: TextView = view.findViewById(R.id.date)
         val durationText: TextView = view.findViewById(R.id.duration)
+        val finishButton: Button = view.findViewById(R.id.button_finish)
     }
 }

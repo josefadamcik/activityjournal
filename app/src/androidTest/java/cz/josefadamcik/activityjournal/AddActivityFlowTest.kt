@@ -18,6 +18,7 @@ import com.stepstone.stepper.test.StepperNavigationActions
 import cz.josefadamcik.activityjournal.test.*
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.*
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -37,14 +38,18 @@ class AddActivityFlowTest {
     @JvmField
     var activityRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
 
+    @Before
+    fun setUp() {
+        CompositionRoot.repository.clear()
+    }
+
+
     @Test
     fun fabPressed_addActivityFlowDisplayed() {
         actClickOnFab()
 
         assertStepIs(1)
     }
-
-
 
     @Test
     fun addActivityFlow_titleCanBeEnteredAndTheNewRecordDisplayed() {
@@ -226,6 +231,23 @@ class AddActivityFlowTest {
         actClickOnNavUpButton()
         assertOnTimeline()
     }
+
+    @Test
+    fun addActivityFlow_undergoingActivityHasAFinishButton() {
+        actExecuteAddActivityWithoutTimeFlow(testTitle)
+
+        assertOnTimeline()
+        // check if the activity was added to the list
+        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
+                hasDescendant(withText(testTitle)),
+                hasDescendant(allOf(
+                        withId(R.id.button_finish),
+                        isDisplayed()
+                ))
+        ))
+    }
+
+
 
 
 

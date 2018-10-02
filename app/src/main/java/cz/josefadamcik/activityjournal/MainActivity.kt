@@ -18,11 +18,14 @@ class MainActivity : AppCompatActivity(),
         AddActivityTimeFragment.OnFragmentInteractionListener,
         AddActivityTitleFragment.OnFragmentInteractionListener {
 
-    private val activityRecordsRepository = ActivityRecordsRepository()
+    private lateinit var activityRecordsRepository: ActivityRecordsRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //todo: refactor into a proper DI
+        activityRecordsRepository = CompositionRoot.repository
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()

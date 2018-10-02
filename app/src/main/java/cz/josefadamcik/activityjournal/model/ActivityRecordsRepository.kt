@@ -22,4 +22,7 @@ class ActivityRecordsRepository {
     }
 
     fun getActivityRecords(): List<ActivityRecord> = activityRecordsList
+    fun clear() {
+        activityRecordsList.clear()
+    }
 }
