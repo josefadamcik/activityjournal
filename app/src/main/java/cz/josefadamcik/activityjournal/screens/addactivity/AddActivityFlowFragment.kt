@@ -13,6 +13,7 @@ import cz.josefadamcik.activityjournal.DateTimeProviderImpl
 
 import cz.josefadamcik.activityjournal.R
 import cz.josefadamcik.activityjournal.model.ActivityRecord
+import cz.josefadamcik.activityjournal.model.ActivityRecordTimeParser
 import kotlinx.android.synthetic.main.fragment_add_actitity_flow.*
 
 /**
@@ -30,7 +31,7 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addActivityFlow = AddActivityFlow(getString(R.string.add_activity_default_title), dateTimeProvider)
+        addActivityFlow = AddActivityFlow(getString(R.string.add_activity_default_title), dateTimeProvider, ActivityRecordTimeParser())
         addActivityFlow?.apply {
             stepperAdapter = AddActivityFlowStepperAdapter(childFragmentManager, context!!, this)
         }

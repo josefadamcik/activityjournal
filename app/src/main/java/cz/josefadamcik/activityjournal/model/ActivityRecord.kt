@@ -13,26 +13,25 @@ sealed class ActivityRecordDuration {
     data class Done(val minutes: Int) : ActivityRecordDuration()
 }
 
-data class ActivityRecord(
-    val title: String,
-    val date: String,
-    val time: String,
-    val duration: ActivityRecordDuration
-) {
-    companion object {
-        private val timeFormatter = DateTimeFormatterBuilder()
-                .appendPattern("H:mm")
-                .toFormatter()
+class ActivityRecordTimeParser {
+    private val timeFormatter = DateTimeFormatterBuilder()
+            .appendPattern("H:mm")
+            .toFormatter()
 
-        private val dateFormatter = DateTimeFormatterBuilder()
-                .appendPattern("d.M.yyyy")
-                .toFormatter()
-    }
+    private val dateFormatter = DateTimeFormatterBuilder()
+            .appendPattern("d.M.yyyy")
+            .toFormatter()
 
-    val parsedDateTime : LocalDateTime
-        get() = LocalDateTime.of(
-                LocalDate.parse(date, dateFormatter),
-                LocalTime.parse(time, timeFormatter)
-        )
+    fun parseFromFields(date: String, time: String) : LocalDateTime = LocalDateTime.of(
+            LocalDate.parse(date, dateFormatter),
+            LocalTime.parse(time, timeFormatter)
+    )
+
 
 }
+
+data class ActivityRecord(
+    val title: String,
+    val start: LocalDateTime,
+    val duration: ActivityRecordDuration
+)

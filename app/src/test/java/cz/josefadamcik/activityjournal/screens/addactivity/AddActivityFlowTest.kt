@@ -2,11 +2,16 @@ package cz.josefadamcik.activityjournal.screens.addactivity
 
 import cz.josefadamcik.activityjournal.DateTimeProvider
 import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
+import cz.josefadamcik.activityjournal.model.ActivityRecordTimeParser
 import io.kotlintest.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Before
 import org.junit.Test
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
+import org.threeten.bp.Month
 
 class AddActivityFlowTest {
     private val defaultTitle = "default title"
@@ -22,7 +27,7 @@ class AddActivityFlowTest {
 
     @Before
     fun setUp() {
-        flow = AddActivityFlow(defaultTitle, currentDateTimeProvider)
+        flow = AddActivityFlow(defaultTitle, currentDateTimeProvider, ActivityRecordTimeParser())
     }
 
     @Test
@@ -49,7 +54,9 @@ class AddActivityFlowTest {
 
         val activityRecord = flow.produceActivityRecord()
 
-        activityRecord.time.shouldBe(currentTime)
+        activityRecord.start.toLocalTime().shouldBe(
+                LocalTime.of(12,0)
+        )
     }
 
     @Test
@@ -58,7 +65,9 @@ class AddActivityFlowTest {
 
         val activityRecord = flow.produceActivityRecord()
 
-        activityRecord.date.shouldBe(currentDate)
+        activityRecord.start.toLocalDate().shouldBe(
+                LocalDate.of(2018, Month.OCTOBER, 12)
+        )
     }
 
     @Test
@@ -66,7 +75,10 @@ class AddActivityFlowTest {
         flow.date = null
         val activityRecord = flow.produceActivityRecord()
 
-        activityRecord.date.shouldBe(currentDate)
+
+        activityRecord.start.toLocalDate().shouldBe(
+                LocalDate.of(2018, Month.OCTOBER, 12)
+        )
     }
 
     @Test

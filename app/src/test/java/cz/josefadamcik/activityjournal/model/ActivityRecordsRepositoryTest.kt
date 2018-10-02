@@ -3,6 +3,11 @@ package cz.josefadamcik.activityjournal.model
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
+import org.threeten.bp.Month
+
 
 
 /**
@@ -17,10 +22,14 @@ import org.junit.Test
 class ActivityRecordsRepositoryTest {
 
 
+    private val todayDate = LocalDate.of(2018, Month.OCTOBER, 12)
+    private val time10AM = LocalTime.of(10, 0)
+    private val time12AM = LocalTime.of(12, 0)
+    private val time8AM = LocalTime.of(8, 0)
+
     private val activityRecord = ActivityRecord(
             title = "first activity",
-            time = "10:00",
-            date = "12.10.2018",
+            start = LocalDateTime.of(todayDate, time10AM),
             duration = ActivityRecordDuration.Done(60)
     )
 
@@ -32,7 +41,7 @@ class ActivityRecordsRepositoryTest {
     @Test
     fun `when new item's time is before first it should be returned as second`() {
         //arrange
-        val record = activityRecord.copy(time = "8:00")
+        val record = activityRecord.copy(start = LocalDateTime.of(todayDate, time8AM))
 
         //act
         repository.add(record)
@@ -45,7 +54,7 @@ class ActivityRecordsRepositoryTest {
     @Test
     fun `when new item's time is after first it should be returned as first`() {
         //arrange
-        val record = activityRecord.copy(time = "12:00")
+        val record = activityRecord.copy(start = LocalDateTime.of(todayDate, time12AM))
 
         //act
         repository.add(record)
@@ -57,7 +66,7 @@ class ActivityRecordsRepositoryTest {
     @Test
     fun `when new item is before first but undergoing it should be returned as first`() {
         //arrange
-        val record = activityRecord.copy(time = "8:00", duration = ActivityRecordDuration.Undergoing)
+        val record = activityRecord.copy(start = LocalDateTime.of(todayDate, time8AM), duration = ActivityRecordDuration.Undergoing)
 
         //act
         repository.add(record)
@@ -69,8 +78,12 @@ class ActivityRecordsRepositoryTest {
     @Test
     fun `when two undergoing items are added they should be ordered by time`() {
         //arrange
-        val record = activityRecord.copy(time = "8:00", duration = ActivityRecordDuration.Undergoing)
-        val record2 = activityRecord.copy(time = "9:00", duration = ActivityRecordDuration.Undergoing)
+        val record = activityRecord.copy(
+                start = LocalDateTime.of(todayDate, time8AM),
+                duration = ActivityRecordDuration.Undergoing)
+        val record2 = activityRecord.copy(
+                start = LocalDateTime.of(todayDate, LocalTime.of(9,0)),
+                duration = ActivityRecordDuration.Undergoing)
 
         //act
         repository.add(record)
@@ -85,7 +98,10 @@ class ActivityRecordsRepositoryTest {
     @Test
     fun `when new item's date is after first it should be returned as first`() {
         //arrange
-        val record = activityRecord.copy(date = "13.10.2018")
+        val record = activityRecord.copy(start = LocalDateTime.of(
+                LocalDate.of(2018, Month.OCTOBER, 13),
+                time10AM
+        ))
 
         //act
         repository.add(record)
