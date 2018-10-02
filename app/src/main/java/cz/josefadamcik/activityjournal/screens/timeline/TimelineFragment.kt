@@ -60,7 +60,7 @@ class TimelineFragment : Fragment() {
         listener = null
     }
 
-    fun showRecords(list: MutableList<ActivityRecord>) {
+    fun showRecords(list: List<ActivityRecord>) {
         listOfRecords = list
         adapter?.updateList(list)
     }

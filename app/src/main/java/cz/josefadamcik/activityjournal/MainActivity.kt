@@ -3,6 +3,7 @@ package cz.josefadamcik.activityjournal
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import cz.josefadamcik.activityjournal.model.ActivityRecord
+import cz.josefadamcik.activityjournal.model.ActivityRecordsRepository
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityFlowFragment
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityTimeFragment
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityTitleFragment
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity(),
         AddActivityTimeFragment.OnFragmentInteractionListener,
         AddActivityTitleFragment.OnFragmentInteractionListener {
 
-    private val activityRecordsList = mutableListOf<ActivityRecord>()
+    private val activityRecordsRepository = ActivityRecordsRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity(),
                     .add(android.R.id.content, TimelineFragment.newInstance())
                     .commit()
             supportFragmentManager.executePendingTransactions()
-            findTimelineFragment()?.showRecords(activityRecordsList)
+            findTimelineFragment()?.showRecords(activityRecordsRepository.getActivityRecords())
         }
     }
 
@@ -41,8 +42,8 @@ class MainActivity : AppCompatActivity(),
 
     override fun onAddActivityFlowFinished(activityRecord: ActivityRecord) {
         supportFragmentManager.popBackStackImmediate()
-        activityRecordsList.add(activityRecord)
-        findTimelineFragment()?.showRecords(activityRecordsList)
+        activityRecordsRepository.add(activityRecord)
+        findTimelineFragment()?.showRecords(activityRecordsRepository.getActivityRecords())
     }
 
     override fun onBackPressed() {

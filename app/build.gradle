@@ -68,7 +68,9 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha2"
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-
+    // https://github.com/JakeWharton/ThreeTenABP
+    // https://docs.oracle.com/javase/8/docs/api/java/time/package-summary.html
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
 
     // https://developer.android.com/kotlin/ktx
     implementation "androidx.core:core-ktx:$ktx_version"
