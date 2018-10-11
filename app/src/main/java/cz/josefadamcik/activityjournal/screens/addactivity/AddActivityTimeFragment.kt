@@ -69,8 +69,6 @@ class AddActivityTimeFragment : Fragment(), Step {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
             listener = context
-        } else {
-            throw IllegalStateException(context.toString() + " must implement OnFragmentInteractionListener")
         }
     }
 
@@ -104,12 +102,4 @@ class AddActivityTimeFragment : Fragment(), Step {
         fun onCancelFlow()
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         */
-        @JvmStatic
-        fun newInstance() = AddActivityTimeFragment()
-    }
 }

@@ -1,6 +1,9 @@
 package cz.josefadamcik.activityjournal.model
 
 import cz.josefadamcik.activityjournal.DateTimeProviderImpl
+import io.kotlintest.matchers.collections.shouldBeEmpty
+import io.kotlintest.matchers.types.shouldBeTypeOf
+import io.kotlintest.shouldBe
 import org.junit.Assert.*
 import org.junit.Test
 import org.threeten.bp.LocalDate
@@ -102,5 +105,27 @@ class ActivityRecordsRepositoryTest {
 
         // assert
         assertEquals(record, repository.getActivityRecords()[0])
+    }
+
+    @Test
+    fun `clear empties repository`() {
+        repository.add(activityRecord)
+        repository.add(activityRecord.copy(title = "record 2"))
+
+        repository.clear()
+
+        repository.getActivityRecords().shouldBeEmpty()
+    }
+
+    @Test
+    fun `markItemDone should mark only selected item done`() {
+        val item = activityRecord.copy(duration = ActivityRecordDuration.Undergoing)
+        repository.add(item)
+        repository.add(activityRecord.copy(title = "record 2", duration = ActivityRecordDuration.Undergoing))
+
+        repository.makeItemDone(item)
+
+        repository.getActivityRecords()[0].duration.shouldBeTypeOf<ActivityRecordDuration.Done>()
+        repository.getActivityRecords()[1].duration.shouldBe(ActivityRecordDuration.Undergoing)
     }
 }

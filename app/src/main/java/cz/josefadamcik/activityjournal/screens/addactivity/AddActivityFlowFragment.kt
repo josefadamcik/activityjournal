@@ -51,8 +51,6 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
             listener = context
-        } else {
-            throw IllegalStateException(context.toString() + " must implement OnFragmentInteractionListener")
         }
     }
 

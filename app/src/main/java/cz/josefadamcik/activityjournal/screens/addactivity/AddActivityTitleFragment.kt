@@ -85,10 +85,4 @@ class AddActivityTitleFragment : Fragment(), Step {
         fun onCancelFlow()
     }
 
-    companion object {
-        fun newInstance() =
-                AddActivityTitleFragment().apply {
-                    arguments = Bundle()
-                }
-    }
 }
