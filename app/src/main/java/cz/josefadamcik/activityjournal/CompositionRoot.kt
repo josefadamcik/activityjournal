@@ -3,5 +3,6 @@ package cz.josefadamcik.activityjournal
 import cz.josefadamcik.activityjournal.model.ActivityRecordsRepository
 
 object CompositionRoot {
-    val repository: ActivityRecordsRepository by lazy { ActivityRecordsRepository() }
+    var dateTimeProvider: DateTimeProvider = DateTimeProviderImpl()
+    var repository: ActivityRecordsRepository =  ActivityRecordsRepository(dateTimeProvider)
 }

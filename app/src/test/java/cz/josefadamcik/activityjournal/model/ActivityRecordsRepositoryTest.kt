@@ -1,5 +1,7 @@
 package cz.josefadamcik.activityjournal.model
 
+import cz.josefadamcik.activityjournal.DateTimeProviderImpl
+import io.mockk.impl.annotations.MockK
 import org.junit.Assert.*
 import org.junit.Test
 import org.threeten.bp.LocalDate
@@ -29,7 +31,7 @@ class ActivityRecordsRepositoryTest {
             duration = ActivityRecordDuration.Done(60)
     )
 
-    private val repository = ActivityRecordsRepository().apply {
+    private val repository = ActivityRecordsRepository(DateTimeProviderImpl()).apply {
         add(activityRecord)
     }
 

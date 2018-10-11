@@ -1,6 +1,12 @@
 package cz.josefadamcik.activityjournal.model
 
-class ActivityRecordsRepository {
+import cz.josefadamcik.activityjournal.DateTimeProvider
+import org.threeten.bp.Duration
+import org.threeten.bp.LocalDateTime
+
+class ActivityRecordsRepository(
+        private val dateTimeProvider: DateTimeProvider
+) {
     private var activityRecordsList = mutableListOf<ActivityRecord>()
     private val parser = ActivityRecordTimeParser()
 
@@ -30,9 +36,10 @@ class ActivityRecordsRepository {
     }
 
     fun makeItemDone(item: ActivityRecord) {
+        val now = dateTimeProvider.provideCurrentLocalDateTime()
         activityRecordsList = activityRecordsList.asSequence().map {
             if (item == it) {
-                it.copy(duration = ActivityRecordDuration.Done(0))
+                it.copy(duration = ActivityRecordDuration.Done(Duration.between(it.start, now).toMinutes().toInt()))
             } else {
                 it
             }

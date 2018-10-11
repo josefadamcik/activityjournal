@@ -7,11 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.VerificationError
-import cz.josefadamcik.activityjournal.BackButtonPressConsumer
-import cz.josefadamcik.activityjournal.DateTimeProvider
-import cz.josefadamcik.activityjournal.DateTimeProviderImpl
+import cz.josefadamcik.activityjournal.*
 
-import cz.josefadamcik.activityjournal.R
 import cz.josefadamcik.activityjournal.model.ActivityRecord
 import cz.josefadamcik.activityjournal.model.ActivityRecordTimeParser
 import kotlinx.android.synthetic.main.fragment_add_actitity_flow.*
@@ -26,7 +23,7 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
     private var listener: OnFragmentInteractionListener? = null
 
     private var addActivityFlow: AddActivityFlow? = null
-    private val dateTimeProvider: DateTimeProvider = DateTimeProviderImpl()
+    private val dateTimeProvider: DateTimeProvider = CompositionRoot.dateTimeProvider
     private lateinit var stepperAdapter: AddActivityFlowStepperAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
