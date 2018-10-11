@@ -8,6 +8,7 @@ import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityFlowFragme
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityTimeFragment
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityTitleFragment
 import cz.josefadamcik.activityjournal.screens.timeline.TimelineFragment
+import org.koin.android.ext.android.inject
 
 /**
  * The main and only activity in the application.
@@ -18,14 +19,12 @@ class MainActivity : AppCompatActivity(),
         AddActivityTimeFragment.OnFragmentInteractionListener,
         AddActivityTitleFragment.OnFragmentInteractionListener {
 
-    private lateinit var activityRecordsRepository: ActivityRecordsRepository
+    private val activityRecordsRepository: ActivityRecordsRepository by inject()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        activityRecordsRepository = CompositionRoot.repository
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()

@@ -12,6 +12,7 @@ import cz.josefadamcik.activityjournal.*
 import cz.josefadamcik.activityjournal.model.ActivityRecord
 import cz.josefadamcik.activityjournal.model.ActivityRecordTimeParser
 import kotlinx.android.synthetic.main.fragment_add_actitity_flow.*
+import org.koin.android.ext.android.inject
 import java.lang.IllegalStateException
 
 /**
@@ -23,7 +24,7 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
     private var listener: OnFragmentInteractionListener? = null
 
     private var addActivityFlow: AddActivityFlow? = null
-    private val dateTimeProvider: DateTimeProvider = CompositionRoot.dateTimeProvider
+    private val dateTimeProvider: DateTimeProvider by inject()
     private lateinit var stepperAdapter: AddActivityFlowStepperAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -11,16 +11,22 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.test.StepperNavigationActions
+import cz.josefadamcik.activityjournal.di.appModule
+import cz.josefadamcik.activityjournal.model.ActivityRecordsRepository
 import cz.josefadamcik.activityjournal.test.*
 import org.hamcrest.Matchers.*
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.StandAloneContext
+import org.koin.standalone.inject
+import org.koin.test.KoinTest
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class AddActivityFlowTest {
+class AddActivityFlowTest : KoinTest {
 
     private val testTitle = "a new title for our activity"
     private val duration = "90"
@@ -31,12 +37,7 @@ class AddActivityFlowTest {
 
     @Rule
     @JvmField
-    var activityRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
-
-    @Before
-    fun setUp() {
-        CompositionRoot.repository.clear()
-    }
+    var activityRule: ActivityTestRule<MainActivity> = KoinActivityTestRule(MainActivity::class.java)
 
     @Test
     fun fabPressed_addActivityFlowDisplayed() {

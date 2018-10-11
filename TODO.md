@@ -8,7 +8,7 @@
     - [X] add a finish button _@done (2018-10-02 15:11)_
     - [X] react to a press _@done (2018-10-11 11:44)_
     - [X] The item should have correct duration when finished. _@done (2018-10-11 12:28)_
-
+- [ ] **Refactor in DI** 
 - [ ] Refactor AddActivityFlowTest in a way that it won't depend on timeline's functionality.
 
 - [ ] what about date / time validation?
