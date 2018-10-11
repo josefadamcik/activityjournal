@@ -1,7 +1,7 @@
 package cz.josefadamcik.activityjournal.model
 
 class ActivityRecordsRepository {
-    private val activityRecordsList = mutableListOf<ActivityRecord>()
+    private var activityRecordsList = mutableListOf<ActivityRecord>()
     private val parser = ActivityRecordTimeParser()
 
     fun add(item: ActivityRecord) {
@@ -27,5 +27,15 @@ class ActivityRecordsRepository {
     fun getActivityRecords(): List<ActivityRecord> = activityRecordsList
     fun clear() {
         activityRecordsList.clear()
+    }
+
+    fun makeItemDone(item: ActivityRecord) {
+        activityRecordsList = activityRecordsList.asSequence().map {
+            if (item == it) {
+                it.copy(duration = ActivityRecordDuration.Done(0))
+            } else {
+                it
+            }
+        }.toMutableList()
     }
 }

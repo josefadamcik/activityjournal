@@ -9,7 +9,6 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import cz.josefadamcik.activityjournal.R
-import cz.josefadamcik.activityjournal.withRecyclerView
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 

@@ -14,11 +14,16 @@ import org.threeten.bp.format.DateTimeFormatterBuilder
 
 class TimelineAdapter(
     private val layoutInflater: LayoutInflater,
+    private val listener: Listener,
     initialList: List<ActivityRecord>
 ) : RecyclerView.Adapter<TimelineAdapter.ViewHolder>() {
     private var list: MutableList<ActivityRecord> = initialList.toMutableList()
     private val timeFormatter = DateTimeFormatterBuilder().appendPattern("H:mm").toFormatter()
     private val dateFormatter = DateTimeFormatterBuilder().appendPattern("d.M.YYYY").toFormatter()
+
+    interface Listener {
+        fun onFinishClicked(position: Int, item: ActivityRecord)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(layoutInflater.inflate(R.layout.timeline_list_item, parent, false))
@@ -43,11 +48,21 @@ class TimelineAdapter(
         notifyDataSetChanged()
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val timeText: TextView = view.findViewById(R.id.time)
         val titleText: TextView = view.findViewById(R.id.title)
         val dateText: TextView = view.findViewById(R.id.date)
         val durationText: TextView = view.findViewById(R.id.duration)
         val finishButton: Button = view.findViewById(R.id.button_finish)
+
+        init {
+            finishButton.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            listener.onFinishClicked(adapterPosition, list[adapterPosition])
+        }
+
+
     }
 }

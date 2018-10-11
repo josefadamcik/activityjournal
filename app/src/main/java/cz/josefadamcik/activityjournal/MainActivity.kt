@@ -48,6 +48,11 @@ class MainActivity : AppCompatActivity(),
         findTimelineFragment()?.showRecords(activityRecordsRepository.getActivityRecords())
     }
 
+    override fun onFinishForActivityRecordClicked(item: ActivityRecord) {
+        activityRecordsRepository.makeItemDone(item)
+        findTimelineFragment()?.showRecords(activityRecordsRepository.getActivityRecords())
+    }
+
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(android.R.id.content)
         if (fragment is BackButtonPressConsumer && fragment.onBackPressed()) {

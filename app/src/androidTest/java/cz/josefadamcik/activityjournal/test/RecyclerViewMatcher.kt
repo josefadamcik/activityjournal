@@ -2,7 +2,7 @@
  * https://spin.atomicobject.com/2016/04/15/espresso-testing-recyclerviews/
  * Licensed Under MIT
  */
-package cz.josefadamcik.activityjournal
+package cz.josefadamcik.activityjournal.test
 
 import android.content.res.Resources
 import android.view.View

@@ -10,12 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cz.josefadamcik.activityjournal.R
 import cz.josefadamcik.activityjournal.model.ActivityRecord
+import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
 import kotlinx.android.synthetic.main.fragment_timeline.*
 
 /**
  *
  */
-class TimelineFragment : Fragment() {
+class TimelineFragment : Fragment(),  TimelineAdapter.Listener {
     private var listener: OnFragmentInteractionListener? = null
     private var listOfRecords: List<ActivityRecord> = emptyList()
     private var adapter: TimelineAdapter? = null
@@ -37,7 +38,7 @@ class TimelineFragment : Fragment() {
 
         fab.setOnClickListener { _ -> listener?.onNavigationToAddActivityRecord() }
 
-        adapter = TimelineAdapter(LayoutInflater.from(context), listOfRecords)
+        adapter = TimelineAdapter(LayoutInflater.from(context), this, listOfRecords)
 
         list.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -53,6 +54,10 @@ class TimelineFragment : Fragment() {
         } else {
             throw IllegalStateException(context.toString() + " must implement OnFragmentInteractionListener")
         }
+    }
+
+    override fun onFinishClicked(position: Int, item: ActivityRecord) {
+        listener?.onFinishForActivityRecordClicked(item)
     }
 
     override fun onDetach() {
@@ -73,6 +78,7 @@ class TimelineFragment : Fragment() {
      */
     interface OnFragmentInteractionListener {
         fun onNavigationToAddActivityRecord()
+        fun onFinishForActivityRecordClicked(item: ActivityRecord)
     }
 
     companion object {
