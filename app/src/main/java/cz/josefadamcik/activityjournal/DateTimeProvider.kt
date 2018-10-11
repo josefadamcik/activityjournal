@@ -8,5 +8,4 @@ interface DateTimeProvider {
     fun provideCurrentLocalTime(): LocalTime
     fun provideCurrentLocalDate(): LocalDate
     fun provideCurrentLocalDateTime(): LocalDateTime
-
 }

@@ -63,7 +63,5 @@ class TimelineAdapter(
         override fun onClick(v: View?) {
             listener.onFinishClicked(adapterPosition, list[adapterPosition])
         }
-
-
     }
 }

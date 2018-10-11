@@ -15,4 +15,3 @@ val appModule = module {
     factory { ActivityRecordTimeParser() }
     factory { AddActivityFlow(androidContext().resources.getString(R.string.add_activity_default_title), get(), get()) }
 }
-

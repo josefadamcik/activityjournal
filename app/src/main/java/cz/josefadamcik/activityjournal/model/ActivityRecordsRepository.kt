@@ -2,10 +2,9 @@ package cz.josefadamcik.activityjournal.model
 
 import cz.josefadamcik.activityjournal.DateTimeProvider
 import org.threeten.bp.Duration
-import org.threeten.bp.LocalDateTime
 
 class ActivityRecordsRepository(
-        private val dateTimeProvider: DateTimeProvider
+    private val dateTimeProvider: DateTimeProvider
 ) {
     private var activityRecordsList = mutableListOf<ActivityRecord>()
     private val parser = ActivityRecordTimeParser()
@@ -23,9 +22,9 @@ class ActivityRecordsRepository(
                 -1
             } else if (record1.duration != ActivityRecordDuration.Undergoing &&
                     record2.duration == ActivityRecordDuration.Undergoing) {
-                 1
+                1
             } else {
-                 record2.start.compareTo(record1.start)
+                record2.start.compareTo(record1.start)
             }
         })
     }

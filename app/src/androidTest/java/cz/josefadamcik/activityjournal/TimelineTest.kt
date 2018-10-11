@@ -46,7 +46,6 @@ class TimelineTest : KoinTest {
     private val dateTimeProvider by inject<DateTimeProvider>()
     private val activityRecordsRepository by inject<ActivityRecordsRepository>()
 
-
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxUnitFun = true) // turn relaxUnitFun on for all mocks
@@ -105,7 +104,6 @@ class TimelineTest : KoinTest {
         val position = 0
         val buttonId = R.id.button_finish
 
-
         actLaunchActivity()
         actClickOnDescendantButtonInListItem(position, buttonId)
 
@@ -121,13 +119,11 @@ class TimelineTest : KoinTest {
         val position = 0
         val buttonId = R.id.button_finish
 
-
         actLaunchActivity()
         actClickOnDescendantButtonInListItem(position, buttonId)
 
         assertNoFinishButtonDisplayed(position, buttonId)
     }
-
 
     @Test
     fun clickOnFinishButton_changesActivityDurationToCorrectNumber() {
@@ -142,7 +138,6 @@ class TimelineTest : KoinTest {
 
         val position = 0
         val buttonId = R.id.button_finish
-
 
         actLaunchActivity()
         actClickOnDescendantButtonInListItem(position, buttonId)
@@ -169,7 +164,6 @@ class TimelineTest : KoinTest {
         Espresso.onIdle()
     }
 
-
     private fun arrangeFinishedActivity(): ActivityRecord {
         return ActivityRecord(
                 title = testTitle,
@@ -191,7 +185,6 @@ class TimelineTest : KoinTest {
             activityRecordsRepository.add(it)
         }
     }
-
 
     private fun actLaunchActivity() {
         activityRule.launchActivity(null)

@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cz.josefadamcik.activityjournal.R
 import cz.josefadamcik.activityjournal.model.ActivityRecord
-import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
 import cz.josefadamcik.activityjournal.model.ActivityRecordsRepository
 import kotlinx.android.synthetic.main.fragment_timeline.*
 import org.koin.android.ext.android.inject
@@ -18,11 +17,10 @@ import org.koin.android.ext.android.inject
 /**
  *
  */
-class TimelineFragment : Fragment(),  TimelineAdapter.Listener {
+class TimelineFragment : Fragment(), TimelineAdapter.Listener {
     private var listener: OnFragmentInteractionListener? = null
     private var listOfRecords: List<ActivityRecord> = emptyList()
     private var adapter: TimelineAdapter? = null
-
 
     private val activityRecordsRepository: ActivityRecordsRepository by inject()
 

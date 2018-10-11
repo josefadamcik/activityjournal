@@ -9,8 +9,6 @@ import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.VerificationError
 import cz.josefadamcik.activityjournal.*
 
-import cz.josefadamcik.activityjournal.model.ActivityRecord
-import cz.josefadamcik.activityjournal.model.ActivityRecordTimeParser
 import cz.josefadamcik.activityjournal.model.ActivityRecordsRepository
 import kotlinx.android.synthetic.main.fragment_add_actitity_flow.*
 import org.koin.android.ext.android.inject
