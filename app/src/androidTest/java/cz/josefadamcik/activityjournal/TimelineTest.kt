@@ -16,6 +16,7 @@ import cz.josefadamcik.activityjournal.model.ActivityRecordsRepository
 import cz.josefadamcik.activityjournal.test.clickChildViewWithId
 import cz.josefadamcik.activityjournal.test.declareMockK
 import cz.josefadamcik.activityjournal.test.onRecyclerViewRowAtPositionCheck
+import cz.josefadamcik.activityjournal.test.startKoin
 import io.kotlintest.matchers.types.shouldBeTypeOf
 import io.kotlintest.shouldBe
 import io.mockk.MockKAnnotations
@@ -27,6 +28,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.android.ext.android.startKoin
 import org.koin.standalone.StandAloneContext
 import org.koin.standalone.inject
 import org.koin.test.KoinTest
@@ -48,7 +50,7 @@ class TimelineTest : KoinTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxUnitFun = true) // turn relaxUnitFun on for all mocks
-        StandAloneContext.startKoin(listOf(appModule))
+        activityRule.startKoin(listOf(appModule))
     }
 
     @After

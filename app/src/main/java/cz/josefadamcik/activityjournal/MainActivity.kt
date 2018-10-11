@@ -2,13 +2,10 @@ package cz.josefadamcik.activityjournal
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import cz.josefadamcik.activityjournal.model.ActivityRecord
-import cz.josefadamcik.activityjournal.model.ActivityRecordsRepository
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityFlowFragment
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityTimeFragment
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityTitleFragment
 import cz.josefadamcik.activityjournal.screens.timeline.TimelineFragment
-import org.koin.android.ext.android.inject
 
 /**
  * The main and only activity in the application.
@@ -19,9 +16,6 @@ class MainActivity : AppCompatActivity(),
         AddActivityTimeFragment.OnFragmentInteractionListener,
         AddActivityTitleFragment.OnFragmentInteractionListener {
 
-    private val activityRecordsRepository: ActivityRecordsRepository by inject()
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,7 +25,7 @@ class MainActivity : AppCompatActivity(),
                     .add(android.R.id.content, TimelineFragment.newInstance())
                     .commit()
             supportFragmentManager.executePendingTransactions()
-            findTimelineFragment()?.showRecords(activityRecordsRepository.getActivityRecords())
+            findTimelineFragment()?.refreshList()
         }
     }
 
@@ -42,15 +36,13 @@ class MainActivity : AppCompatActivity(),
                 .commit()
     }
 
-    override fun onAddActivityFlowFinished(activityRecord: ActivityRecord) {
+    override fun onAddActivityFlowFinished() {
         supportFragmentManager.popBackStackImmediate()
-        activityRecordsRepository.add(activityRecord)
-        findTimelineFragment()?.showRecords(activityRecordsRepository.getActivityRecords())
+        findTimelineFragment()?.refreshList()
     }
 
-    override fun onFinishForActivityRecordClicked(item: ActivityRecord) {
-        activityRecordsRepository.makeItemDone(item)
-        findTimelineFragment()?.showRecords(activityRecordsRepository.getActivityRecords())
+    override fun onFinishForActivityRecordClicked() {
+        findTimelineFragment()?.refreshList()
     }
 
     override fun onBackPressed() {

@@ -11,6 +11,7 @@ import cz.josefadamcik.activityjournal.*
 
 import cz.josefadamcik.activityjournal.model.ActivityRecord
 import cz.josefadamcik.activityjournal.model.ActivityRecordTimeParser
+import cz.josefadamcik.activityjournal.model.ActivityRecordsRepository
 import kotlinx.android.synthetic.main.fragment_add_actitity_flow.*
 import org.koin.android.ext.android.inject
 import java.lang.IllegalStateException
@@ -23,19 +24,14 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
         BackButtonPressConsumer {
     private var listener: OnFragmentInteractionListener? = null
 
-    private var addActivityFlow: AddActivityFlow? = null
+    private val addActivityFlow: AddActivityFlow by inject()
     private val dateTimeProvider: DateTimeProvider by inject()
+    private val activityRecordsRepository by inject<ActivityRecordsRepository>()
     private lateinit var stepperAdapter: AddActivityFlowStepperAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addActivityFlow = AddActivityFlow(
-                getString(R.string.add_activity_default_title),
-                dateTimeProvider,
-                ActivityRecordTimeParser())
-        addActivityFlow?.apply {
-            stepperAdapter = AddActivityFlowStepperAdapter(childFragmentManager, context!!, this)
-        }
+        stepperAdapter = AddActivityFlowStepperAdapter(childFragmentManager, context!!, addActivityFlow)
     }
 
     override fun onCreateView(
@@ -76,9 +72,8 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
     }
 
     override fun onAddActivityTimeFinished() {
-        addActivityFlow?.apply {
-            listener?.onAddActivityFlowFinished(produceActivityRecord())
-        }
+        activityRecordsRepository.add(addActivityFlow.produceActivityRecord())
+        listener?.onAddActivityFlowFinished()
     }
 
     override fun onBackPressed(): Boolean {
@@ -113,7 +108,7 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
      * activity.
      */
     interface OnFragmentInteractionListener {
-        fun onAddActivityFlowFinished(activityRecord: ActivityRecord)
+        fun onAddActivityFlowFinished()
     }
 
     companion object {

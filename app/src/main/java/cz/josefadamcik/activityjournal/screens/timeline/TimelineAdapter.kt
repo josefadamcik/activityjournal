@@ -18,6 +18,7 @@ class TimelineAdapter(
     initialList: List<ActivityRecord>
 ) : RecyclerView.Adapter<TimelineAdapter.ViewHolder>() {
     private var list: MutableList<ActivityRecord> = initialList.toMutableList()
+
     private val timeFormatter = DateTimeFormatterBuilder().appendPattern("H:mm").toFormatter()
     private val dateFormatter = DateTimeFormatterBuilder().appendPattern("d.M.YYYY").toFormatter()
 

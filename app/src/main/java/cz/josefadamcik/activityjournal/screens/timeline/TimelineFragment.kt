@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import cz.josefadamcik.activityjournal.R
 import cz.josefadamcik.activityjournal.model.ActivityRecord
 import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
+import cz.josefadamcik.activityjournal.model.ActivityRecordsRepository
 import kotlinx.android.synthetic.main.fragment_timeline.*
+import org.koin.android.ext.android.inject
 
 /**
  *
@@ -20,6 +22,9 @@ class TimelineFragment : Fragment(),  TimelineAdapter.Listener {
     private var listener: OnFragmentInteractionListener? = null
     private var listOfRecords: List<ActivityRecord> = emptyList()
     private var adapter: TimelineAdapter? = null
+
+
+    private val activityRecordsRepository: ActivityRecordsRepository by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +62,8 @@ class TimelineFragment : Fragment(),  TimelineAdapter.Listener {
     }
 
     override fun onFinishClicked(position: Int, item: ActivityRecord) {
-        listener?.onFinishForActivityRecordClicked(item)
+        activityRecordsRepository.makeItemDone(item)
+        listener?.onFinishForActivityRecordClicked()
     }
 
     override fun onDetach() {
@@ -65,9 +71,9 @@ class TimelineFragment : Fragment(),  TimelineAdapter.Listener {
         listener = null
     }
 
-    fun showRecords(list: List<ActivityRecord>) {
-        listOfRecords = list
-        adapter?.updateList(list)
+    fun refreshList() {
+        listOfRecords = activityRecordsRepository.getActivityRecords()
+        adapter?.updateList(listOfRecords)
     }
 
     /**
@@ -78,7 +84,7 @@ class TimelineFragment : Fragment(),  TimelineAdapter.Listener {
      */
     interface OnFragmentInteractionListener {
         fun onNavigationToAddActivityRecord()
-        fun onFinishForActivityRecordClicked(item: ActivityRecord)
+        fun onFinishForActivityRecordClicked()
     }
 
     companion object {
