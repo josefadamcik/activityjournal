@@ -13,7 +13,7 @@
 
 - [ ] prevent data loss when the device is rotated
     - [ ] add activity flow 
-        - [ ] when rotated, it should stay on the same step
+        - [X] when rotated, it should stay on the same step _@done (2018-10-12 11:07)_
         - [ ] when rotatet, it sohuld not crash when we move between steps
     - [X] timeline - content should be present after rotation _@done (2018-10-12 10:57)_
 

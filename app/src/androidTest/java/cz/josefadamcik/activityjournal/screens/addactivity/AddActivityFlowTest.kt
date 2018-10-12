@@ -92,6 +92,17 @@ class AddActivityFlowTest : KoinTest {
     }
 
     @Test
+    fun addActivityFlow_weStayOnTheSecondStepWhenRotated() {
+        actClickOnFab()
+        actMoveToNextStep()
+        assertStepIs(2)
+
+        onView(isRoot()).perform(OrientationChangeAction.orientationLandscape())
+
+        assertStepIs(2)
+    }
+
+    @Test
     fun addActivityFlow_titleMultipleActivityRecordsCanBeAdded() {
         actExecuteAddActivityWithoutTimeFlow(testTitle)
         assertOnTimeline()

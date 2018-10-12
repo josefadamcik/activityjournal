@@ -15,6 +15,8 @@ import cz.josefadamcik.activityjournal.model.ActivityRecordsRepository
 import kotlinx.android.synthetic.main.fragment_add_actitity_flow.*
 import org.koin.android.ext.android.inject
 
+
+private const val STATE_CURRENT_POSITION = "state_current_position"
 /**
  *
  */
@@ -31,6 +33,7 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         stepperAdapter = AddActivityFlowStepperAdapter(childFragmentManager, context!!, addActivityModelFlow)
+
     }
 
     override fun onCreateView(
@@ -46,6 +49,11 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
 
         stepperLayout.adapter = stepperAdapter
         stepperLayout.setListener(this)
+
+        if (savedInstanceState != null) {
+            stepperLayout.currentStepPosition = savedInstanceState.getInt(STATE_CURRENT_POSITION, 0)
+        }
+
     }
 
     override fun onAttach(context: Context) {
@@ -58,6 +66,12 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
     override fun onDetach() {
         super.onDetach()
         listener = null
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putInt(STATE_CURRENT_POSITION, stepperLayout.currentStepPosition)
     }
 
     override fun requestMoveToNextStep() {
