@@ -7,11 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.lifecycle.LifecycleOwner
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
 import cz.josefadamcik.activityjournal.R
+import cz.josefadamcik.activityjournal.di.sharedViewModelForNestFragment
 import kotlinx.android.synthetic.main.fragment_add_activity_title.*
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.ViewModelStoreOwnerDefinition
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  *
@@ -19,7 +24,7 @@ import org.koin.android.ext.android.inject
 class AddActivityTitleFragment : Fragment(), Step {
     private var listener: OnFragmentInteractionListener? = null
 
-    private val addActivityModelFlow: AddActivityModelFlow by inject()
+    private val addActivityFlowModel: AddActivityFlowModel by sharedViewModelForNestFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +76,7 @@ class AddActivityTitleFragment : Fragment(), Step {
     }
 
     private fun fillAddActivityFlow() {
-        addActivityModelFlow.title = input_title.text.toString()
+        addActivityFlowModel.title = input_title.text.toString()
     }
 
     override fun onError(error: VerificationError) {}

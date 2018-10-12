@@ -14,6 +14,7 @@ import cz.josefadamcik.activityjournal.common.ui.BackButtonPressConsumer
 import cz.josefadamcik.activityjournal.model.ActivityRecordsRepository
 import kotlinx.android.synthetic.main.fragment_add_actitity_flow.*
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 private const val STATE_CURRENT_POSITION = "state_current_position"
@@ -25,7 +26,7 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
         BackButtonPressConsumer {
     private var listener: OnFragmentInteractionListener? = null
 
-    private val addActivityModelFlow: AddActivityModelFlow by inject()
+    private val addActivityFlowModel: AddActivityFlowModel by viewModel()
     private val dateTimeProvider: DateTimeProvider by inject()
     private val activityRecordsRepository by inject<ActivityRecordsRepository>()
     private lateinit var stepperAdapter: AddActivityFlowStepperAdapter
@@ -83,7 +84,7 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
     }
 
     override fun onAddActivityTimeFinished() {
-        activityRecordsRepository.add(addActivityModelFlow.produceActivityRecord())
+        activityRecordsRepository.add(addActivityFlowModel.produceActivityRecord())
         listener?.onAddActivityFlowFinished()
     }
 

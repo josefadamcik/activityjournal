@@ -12,9 +12,11 @@ import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
 
 import cz.josefadamcik.activityjournal.R
+import cz.josefadamcik.activityjournal.di.sharedViewModelForNestFragment
 
 import kotlinx.android.synthetic.main.fragment_add_activity_time.*
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.ViewModelStoreOwnerDefinition
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  *
@@ -23,7 +25,7 @@ class AddActivityTimeFragment : Fragment(), Step {
 
     private var listener: OnFragmentInteractionListener? = null
 
-    private val addActivityModelFlow: AddActivityModelFlow by inject()
+    private val addActivityFlowModel: AddActivityFlowModel by sharedViewModelForNestFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,9 +87,9 @@ class AddActivityTimeFragment : Fragment(), Step {
     }
 
     private fun fillDataIIntoActivitFlow() {
-        addActivityModelFlow.time = input_time.text.toString()
-        addActivityModelFlow.date = input_date.text.toString()
-        addActivityModelFlow.duration = input_duration.text.toString()
+        addActivityFlowModel.time = input_time.text.toString()
+        addActivityFlowModel.date = input_date.text.toString()
+        addActivityFlowModel.duration = input_duration.text.toString()
     }
 
     override fun onError(error: VerificationError) {}

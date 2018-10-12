@@ -1,5 +1,6 @@
 package cz.josefadamcik.activityjournal.screens.addactivity
 
+import androidx.lifecycle.ViewModel
 import cz.josefadamcik.activityjournal.common.DateTimeProvider
 import cz.josefadamcik.activityjournal.model.ActivityRecord
 import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
@@ -9,11 +10,11 @@ import org.threeten.bp.LocalDateTime
 /**
  * Captures information form the whole flow of the activity creation.
  */
-class AddActivityModelFlow(
+class AddActivityFlowModel(
         private val defaultTitle: String,
         private val currentTimeProvider: DateTimeProvider,
         private val startParser: ActivityRecordTimeParser
-) {
+) : ViewModel() {
 
     var title: String? = null
     var time: String? = null
@@ -30,6 +31,8 @@ class AddActivityModelFlow(
 
         )
     }
+
+
 
     private fun processStartDateTime(): LocalDateTime {
         return LocalDateTime.of(

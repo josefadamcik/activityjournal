@@ -22,36 +22,36 @@ class AddActivityFlowModelTest {
         every { provideCurrentLocalDate() } returns LocalDate.of(2018, Month.OCTOBER, 12)
     }
 
-    private lateinit var modelFlow: AddActivityModelFlow
+    private lateinit var flowModel: AddActivityFlowModel
 
     @Before
     fun setUp() {
-        modelFlow = AddActivityModelFlow(defaultTitle, currentDateTimeProvider, ActivityRecordTimeParser())
+        flowModel = AddActivityFlowModel(defaultTitle, currentDateTimeProvider, ActivityRecordTimeParser())
     }
 
     @Test
     fun nullTitle_defaultTitleIsProvided() {
-        modelFlow.title = null
+        flowModel.title = null
 
-        val activityRecord = modelFlow.produceActivityRecord()
+        val activityRecord = flowModel.produceActivityRecord()
 
         activityRecord.title.shouldBe(defaultTitle)
     }
 
     @Test
     fun emptyTitle_defaultTitleIsProvided() {
-        modelFlow.title = ""
+        flowModel.title = ""
 
-        val activityRecord = modelFlow.produceActivityRecord()
+        val activityRecord = flowModel.produceActivityRecord()
 
         activityRecord.title.shouldBe(defaultTitle)
     }
 
     @Test
     fun nullTime_currentTimeIsUsed() {
-        modelFlow.time = null
+        flowModel.time = null
 
-        val activityRecord = modelFlow.produceActivityRecord()
+        val activityRecord = flowModel.produceActivityRecord()
 
         activityRecord.start.toLocalTime().shouldBe(
                 LocalTime.of(12, 0)
@@ -60,9 +60,9 @@ class AddActivityFlowModelTest {
 
     @Test
     fun emptyDate_currentTimeIsUsed() {
-        modelFlow.date = ""
+        flowModel.date = ""
 
-        val activityRecord = modelFlow.produceActivityRecord()
+        val activityRecord = flowModel.produceActivityRecord()
 
         activityRecord.start.toLocalDate().shouldBe(
                 LocalDate.of(2018, Month.OCTOBER, 12)
@@ -71,8 +71,8 @@ class AddActivityFlowModelTest {
 
     @Test
     fun nullDate_currentTimeIsUsed() {
-        modelFlow.date = null
-        val activityRecord = modelFlow.produceActivityRecord()
+        flowModel.date = null
+        val activityRecord = flowModel.produceActivityRecord()
 
         activityRecord.start.toLocalDate().shouldBe(
                 LocalDate.of(2018, Month.OCTOBER, 12)
@@ -81,16 +81,16 @@ class AddActivityFlowModelTest {
 
     @Test
     fun nullDuration_activityRecordContainsNullDuration() {
-        modelFlow.duration = null
-        val activityRecord = modelFlow.produceActivityRecord()
+        flowModel.duration = null
+        val activityRecord = flowModel.produceActivityRecord()
 
         activityRecord.duration.shouldBe(ActivityRecordDuration.Undergoing)
     }
 
     @Test
     fun emptyDuration_activityRecordContainsNullDuration() {
-        modelFlow.duration = ""
-        val activityRecord = modelFlow.produceActivityRecord()
+        flowModel.duration = ""
+        val activityRecord = flowModel.produceActivityRecord()
 
         activityRecord.duration.shouldBe(ActivityRecordDuration.Undergoing)
     }
@@ -98,9 +98,9 @@ class AddActivityFlowModelTest {
     @Test
     fun filledDuration_activityRecordContainsNullDuration() {
         val durationMinutes = 10
-        modelFlow.duration = "$durationMinutes"
+        flowModel.duration = "$durationMinutes"
 
-        val activityRecord = modelFlow.produceActivityRecord()
+        val activityRecord = flowModel.produceActivityRecord()
 
         activityRecord.duration.shouldBe(ActivityRecordDuration.Done(durationMinutes))
     }
