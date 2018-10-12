@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity(),
                     .add(android.R.id.content, TimelineFragment.newInstance())
                     .commit()
             supportFragmentManager.executePendingTransactions()
-            findTimelineFragment()?.refreshList()
         }
     }
 
@@ -38,8 +37,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onAddActivityFlowFinished() {
-        supportFragmentManager.popBackStackImmediate()
-        findTimelineFragment()?.refreshList()
+        supportFragmentManager.popBackStack()
     }
 
     override fun onFinishForActivityRecordClicked() {

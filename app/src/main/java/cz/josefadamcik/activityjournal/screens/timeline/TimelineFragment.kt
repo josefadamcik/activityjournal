@@ -50,6 +50,11 @@ class TimelineFragment : Fragment(), TimelineAdapter.Listener {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        refreshList()
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {

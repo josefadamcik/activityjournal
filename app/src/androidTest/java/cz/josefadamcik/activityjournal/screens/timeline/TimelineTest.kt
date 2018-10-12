@@ -16,10 +16,7 @@ import cz.josefadamcik.activityjournal.di.appModule
 import cz.josefadamcik.activityjournal.model.ActivityRecord
 import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
 import cz.josefadamcik.activityjournal.model.ActivityRecordsRepository
-import cz.josefadamcik.activityjournal.test.clickChildViewWithId
-import cz.josefadamcik.activityjournal.test.declareMockK
-import cz.josefadamcik.activityjournal.test.onRecyclerViewRowAtPositionCheck
-import cz.josefadamcik.activityjournal.test.startKoin
+import cz.josefadamcik.activityjournal.test.*
 import io.kotlintest.matchers.types.shouldBeTypeOf
 import io.kotlintest.shouldBe
 import io.mockk.MockKAnnotations
@@ -187,6 +184,25 @@ class TimelineTest : KoinTest {
                         withId(R.id.button_finish),
                         not(isDisplayed())
                 ))
+        ))
+    }
+
+    @Test
+    fun content_shouldSurviveRotation() {
+        arrangeData(
+                arrangeFinishedActivity(arrangeStartDate())
+        )
+
+        actLaunchActivity()
+
+        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
+                hasDescendant(withText(testTitle))
+        ))
+
+        onView(isRoot()).perform(OrientationChangeAction.orientationLandscape())
+
+        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
+                hasDescendant(withText(testTitle))
         ))
     }
 

@@ -11,22 +11,27 @@
 - [X] Refactor in DI  _@done (2018-10-11 14:41)_
 - [X] Refactor AddActivityFlowTest in a way that it won't depend on timeline's functionality. _@done (2018-10-12 10:31)_
 
+- [ ] prevent data loss when the device is rotated
+    - [ ] add activity flow 
+        - [ ] when rotated, it should stay on the same step
+        - [ ] when rotatet, it sohuld not crash when we move between steps
+    - [X] timeline - content should be present after rotation _@done (2018-10-12 10:57)_
+
+- [ ] get rid of the communication between nested fragments and activity
+- [ ] improper handling of fragments -> data and commands are sent from main activy directy to instance
+
 
 - [ ] what about date / time validation?
 - [ ] what about date formats?
 - [ ] timeline - display dates relatively ("yesterday" and so on)
-- [ ] get rid of the communication between nested fragments and activity
 - [ ] add activity - use chooses the category
-- [ ] remove addActivityFlow_titleCanBeEnteredAndTheNewRecordDisplayed2
-- [ ] improper handling of fragments -> data and commands are sent from main activy directy to instance
 - [ ] main activity contains state of the application
-- [ ] add activity -  solve problem with rotation (a crash, because the dependency for nested fragments is not set)
-- [ ] prevent data loss when the device is rotated
 - [ ] prevent data loos when the application is killed
 - [ ] prevent data loos when the user quits the application
 - [ ] use nice dialogues for date and time
-- [ ] list of activities in the timeiline
-- [ ] refactor tests from mainactivitytest class to more classes
+- [X] refactor tests from mainactivitytest class to more classes _@done (2018-10-12 10:38)_
+- [X] list of activities in the timeiline _@done (2018-10-12 10:38)_
+- [X] remove addActivityFlow_titleCanBeEnteredAndTheNewRecordDisplayed2 _@done (2018-10-12 10:37)_
 
 ## TODO archive
 
@@ -40,7 +45,7 @@
 - [X] project and testing setup _@done (2018-09-24 20:43)_
 
 - [ ] **timeline - show activities, alow interactions with them.**
-- [ ] **add activity - allow user to add an activity with category, title,start, duration. The activity might be in undergoing state, which means that it started in the past and don't have duration yet and needs to be finished by users interaction. Acivity is displayed once **
+- [ ] **add activity - allow user to add an activity with category, title,start, duration. The activity might be in undergoing state, which means that it started in the past and don't have duration yet and needs to be finished by users interaction. Acivity is displayed once**
 
 - [ ] activity detail
 - [ ] edit activity
