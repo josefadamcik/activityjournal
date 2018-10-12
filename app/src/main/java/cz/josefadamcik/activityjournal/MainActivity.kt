@@ -2,6 +2,7 @@ package cz.josefadamcik.activityjournal
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import cz.josefadamcik.activityjournal.common.ui.BackButtonPressConsumer
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityFlowFragment
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityTimeFragment
 import cz.josefadamcik.activityjournal.screens.addactivity.AddActivityTitleFragment

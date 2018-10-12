@@ -1,4 +1,4 @@
-package cz.josefadamcik.activityjournal
+package cz.josefadamcik.activityjournal.common
 
 import org.threeten.bp.Clock
 import org.threeten.bp.LocalDate

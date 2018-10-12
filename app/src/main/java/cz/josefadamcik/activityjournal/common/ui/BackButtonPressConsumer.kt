@@ -1,4 +1,4 @@
-package cz.josefadamcik.activityjournal
+package cz.josefadamcik.activityjournal.common.ui
 
 interface BackButtonPressConsumer {
     fun onBackPressed(): Boolean

@@ -8,11 +8,12 @@ import androidx.fragment.app.Fragment
 import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.VerificationError
 import cz.josefadamcik.activityjournal.*
+import cz.josefadamcik.activityjournal.common.DateTimeProvider
+import cz.josefadamcik.activityjournal.common.ui.BackButtonPressConsumer
 
 import cz.josefadamcik.activityjournal.model.ActivityRecordsRepository
 import kotlinx.android.synthetic.main.fragment_add_actitity_flow.*
 import org.koin.android.ext.android.inject
-import java.lang.IllegalStateException
 
 /**
  *
@@ -22,14 +23,14 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
         BackButtonPressConsumer {
     private var listener: OnFragmentInteractionListener? = null
 
-    private val addActivityFlow: AddActivityFlow by inject()
+    private val addActivityModelFlow: AddActivityModelFlow by inject()
     private val dateTimeProvider: DateTimeProvider by inject()
     private val activityRecordsRepository by inject<ActivityRecordsRepository>()
     private lateinit var stepperAdapter: AddActivityFlowStepperAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        stepperAdapter = AddActivityFlowStepperAdapter(childFragmentManager, context!!, addActivityFlow)
+        stepperAdapter = AddActivityFlowStepperAdapter(childFragmentManager, context!!, addActivityModelFlow)
     }
 
     override fun onCreateView(
@@ -68,7 +69,7 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
     }
 
     override fun onAddActivityTimeFinished() {
-        activityRecordsRepository.add(addActivityFlow.produceActivityRecord())
+        activityRecordsRepository.add(addActivityModelFlow.produceActivityRecord())
         listener?.onAddActivityFlowFinished()
     }
 

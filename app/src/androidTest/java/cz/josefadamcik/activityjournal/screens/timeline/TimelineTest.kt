@@ -1,4 +1,4 @@
-package cz.josefadamcik.activityjournal
+package cz.josefadamcik.activityjournal.screens.timeline
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso
@@ -9,6 +9,9 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import cz.josefadamcik.activityjournal.common.DateTimeProvider
+import cz.josefadamcik.activityjournal.MainActivity
+import cz.josefadamcik.activityjournal.R
 import cz.josefadamcik.activityjournal.di.appModule
 import cz.josefadamcik.activityjournal.model.ActivityRecord
 import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
@@ -28,7 +31,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.android.ext.android.startKoin
 import org.koin.standalone.StandAloneContext
 import org.koin.standalone.inject
 import org.koin.test.KoinTest
@@ -127,7 +129,7 @@ class TimelineTest : KoinTest {
 
     @Test
     fun clickOnFinishButton_changesActivityDurationToCorrectNumber() {
-        val start = LocalDateTime.of(2018, 10, 11, 8, 0)
+        val start = arrangeStartDate()
         val durationMin: Long = 60
         declareMockK<DateTimeProvider>()
         every { dateTimeProvider.provideCurrentLocalDateTime() } returns start.plusMinutes(durationMin)
@@ -146,6 +148,48 @@ class TimelineTest : KoinTest {
         activityRecords[position].duration.shouldBe(ActivityRecordDuration.Done(durationMin.toInt()))
     }
 
+    @Test
+    fun undergoingRecord_isProperlyDisplayed() {
+        val start = arrangeStartDate()
+        arrangeData(
+                arrangeUndergoingActivity(start)
+        )
+
+        actLaunchActivity()
+
+        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
+                hasDescendant(withText(testTitle)),
+                hasDescendant(withText("8:00")),
+                hasDescendant(withText("11.10.2018")),
+                hasDescendant(withText("Undergoing")),
+                hasDescendant(allOf(
+                        withId(R.id.button_finish),
+                        isDisplayed()
+                ))
+        ))
+    }
+
+    @Test
+    fun doneRecord_isProperlyDisplayed() {
+        val start = arrangeStartDate()
+        arrangeData(
+                arrangeFinishedActivity(start)
+        )
+
+        actLaunchActivity()
+
+        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
+                hasDescendant(withText(testTitle)),
+                hasDescendant(withText("8:00")),
+                hasDescendant(withText("11.10.2018")),
+                hasDescendant(withText("60")),
+                hasDescendant(allOf(
+                        withId(R.id.button_finish),
+                        not(isDisplayed())
+                ))
+        ))
+    }
+
     private fun assertNoFinishButtonDisplayed(position: Int, buttonId: Int) {
         onRecyclerViewRowAtPositionCheck(R.id.list, position, allOf(
                 hasDescendant(allOf(
@@ -154,6 +198,8 @@ class TimelineTest : KoinTest {
                 ))
         ))
     }
+
+    private fun arrangeStartDate() = LocalDateTime.of(2018, 10, 11, 8, 0)
 
     private fun actClickOnDescendantButtonInListItem(position: Int, buttonId: Int) {
         onView(withId(R.id.list))
@@ -164,10 +210,10 @@ class TimelineTest : KoinTest {
         Espresso.onIdle()
     }
 
-    private fun arrangeFinishedActivity(): ActivityRecord {
+    private fun arrangeFinishedActivity(start: LocalDateTime = LocalDateTime.now()): ActivityRecord {
         return ActivityRecord(
                 title = testTitle,
-                start = LocalDateTime.now(),
+                start = start,
                 duration = ActivityRecordDuration.Done(60)
         )
     }

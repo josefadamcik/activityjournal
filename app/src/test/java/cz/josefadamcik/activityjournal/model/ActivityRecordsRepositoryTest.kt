@@ -1,6 +1,6 @@
 package cz.josefadamcik.activityjournal.model
 
-import cz.josefadamcik.activityjournal.DateTimeProviderImpl
+import cz.josefadamcik.activityjournal.common.DateTimeProviderImpl
 import io.kotlintest.matchers.collections.shouldBeEmpty
 import io.kotlintest.matchers.types.shouldBeTypeOf
 import io.kotlintest.shouldBe

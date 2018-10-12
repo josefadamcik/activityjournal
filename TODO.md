@@ -9,7 +9,8 @@
     - [X] react to a press _@done (2018-10-11 11:44)_
     - [X] The item should have correct duration when finished. _@done (2018-10-11 12:28)_
 - [X] Refactor in DI  _@done (2018-10-11 14:41)_
-- [ ] Refactor AddActivityFlowTest in a way that it won't depend on timeline's functionality.
+- [X] Refactor AddActivityFlowTest in a way that it won't depend on timeline's functionality. _@done (2018-10-12 10:31)_
+
 
 - [ ] what about date / time validation?
 - [ ] what about date formats?

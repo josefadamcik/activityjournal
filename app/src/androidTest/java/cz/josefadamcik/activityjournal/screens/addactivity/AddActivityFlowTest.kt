@@ -1,4 +1,4 @@
-package cz.josefadamcik.activityjournal
+package cz.josefadamcik.activityjournal.screens.addactivity
 
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
@@ -11,12 +11,27 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.stepstone.stepper.StepperLayout
 import com.stepstone.stepper.test.StepperNavigationActions
+import cz.josefadamcik.activityjournal.MainActivity
+import cz.josefadamcik.activityjournal.R
+import cz.josefadamcik.activityjournal.model.ActivityRecord
+import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
+import cz.josefadamcik.activityjournal.model.ActivityRecordsRepository
 import cz.josefadamcik.activityjournal.test.*
+import io.kotlintest.*
+import io.kotlintest.matchers.collections.shouldHaveSize
+import io.kotlintest.matchers.collections.shouldNotContainExactlyInAnyOrder
+import io.kotlintest.matchers.shouldHave
+import io.kotlintest.matchers.string.shouldNotBeEmpty
 import org.hamcrest.Matchers.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.standalone.inject
 import org.koin.test.KoinTest
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
+
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
@@ -33,6 +48,8 @@ class AddActivityFlowTest : KoinTest {
     @JvmField
     var activityRule: ActivityTestRule<MainActivity> = KoinActivityTestRule(MainActivity::class.java)
 
+    private val activityRecordsRepository by inject<ActivityRecordsRepository>()
+
     @Test
     fun fabPressed_addActivityFlowDisplayed() {
         actClickOnFab()
@@ -46,11 +63,8 @@ class AddActivityFlowTest : KoinTest {
         actExecuteAddActivityWithoutTimeFlow(testTitle)
 
         assertOnTimeline()
-        // check if the activity was added to the list
 
-        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
-                hasDescendant(withText(testTitle))
-        ))
+        assertAnItemWithTitleWasAdded()
     }
 
     @Test
@@ -66,11 +80,8 @@ class AddActivityFlowTest : KoinTest {
         actClickOnFinishButton(buttonTextStartTracking)
 
         assertOnTimeline()
-        // check if the activity was added to the list
 
-        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
-                hasDescendant(withText(testTitle))
-        ))
+        assertAnItemWithTitleWasAdded()
     }
 
     @Test
@@ -90,13 +101,11 @@ class AddActivityFlowTest : KoinTest {
         assertOnTimeline()
 
         // check if the activity was added to the list
-
-        onRecyclerViewRowAtPositionCheck(R.id.list, 1, allOf(
-                hasDescendant(withText(testTitle))
-        ))
-        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
-                hasDescendant(withText(testTitle2))
-        ))
+        activityRecordsRepository.getActivityRecords().apply {
+            shouldHaveSize(2)
+            find { testTitle == it.title } .shouldNotBe(null)
+            find { testTitle2 == it.title} .shouldNotBe(null)
+        }
     }
 
     @Test
@@ -108,11 +117,11 @@ class AddActivityFlowTest : KoinTest {
 
         assertOnTimeline()
 
-        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
-                hasDescendant(withText(testTitle)),
-                hasDescendant(withText("10:00")),
-                hasDescendant(withText("Undergoing"))
-        ))
+        activityRecordsRepository.getActivityRecords().shouldContainOneItemWhich {
+            title.shouldBe(testTitle)
+            duration.shouldBe(ActivityRecordDuration.Undergoing)
+            start.toLocalTime().shouldBe(LocalTime.of(10,0))
+        }
     }
 
     @Test
@@ -125,13 +134,15 @@ class AddActivityFlowTest : KoinTest {
 
         assertOnTimeline()
 
-        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
-                hasDescendant(withText(testTitle)),
-                hasDescendant(withText("10:00")),
-                hasDescendant(withText(date)),
-                hasDescendant(withText("Undergoing"))
-        ))
+        activityRecordsRepository.getActivityRecords().shouldContainOneItemWhich {
+            title.shouldBe(testTitle)
+            duration.shouldBe(ActivityRecordDuration.Undergoing)
+            start.toLocalTime().shouldBe(LocalTime.of(10,0))
+            start.toLocalDate().shouldBe(LocalDate.of(2018, 9, 25))
+        }
     }
+
+
 
     @Test
     fun addActivity_chooseStartTimeAndDateAndDuration() {
@@ -144,12 +155,12 @@ class AddActivityFlowTest : KoinTest {
 
         assertOnTimeline()
 
-        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
-                hasDescendant(withText(testTitle)),
-                hasDescendant(withText("10:00")),
-                hasDescendant(withText(date)),
-                hasDescendant(withText(duration))
-        ))
+        activityRecordsRepository.getActivityRecords().shouldContainOneItemWhich {
+            title.shouldBe(testTitle)
+            start.toLocalTime().shouldBe(LocalTime.of(10,0))
+            start.toLocalDate().shouldBe(LocalDate.of(2018, 9, 25))
+            duration.shouldBe(ActivityRecordDuration.Done(90))
+        }
     }
 
     @Test
@@ -217,19 +228,10 @@ class AddActivityFlowTest : KoinTest {
         assertOnTimeline()
     }
 
-    @Test
-    fun addActivityFlow_undergoingActivityHasAFinishButton() {
-        actExecuteAddActivityWithoutTimeFlow(testTitle)
-
-        assertOnTimeline()
-        // check if the activity was added to the list
-        onRecyclerViewRowAtPositionCheck(R.id.list, 0, allOf(
-                hasDescendant(withText(testTitle)),
-                hasDescendant(allOf(
-                        withId(R.id.button_finish),
-                        isDisplayed()
-                ))
-        ))
+    private fun assertAnItemWithTitleWasAdded() {
+        activityRecordsRepository.getActivityRecords().shouldContainOneItemWhich {
+            title.shouldBe(testTitle)
+        }
     }
 
     private fun actEnterDate() {
@@ -295,5 +297,13 @@ class AddActivityFlowTest : KoinTest {
     private fun actMoveToPrevStep() {
         onView(withId(R.id.stepperLayout))
                 .perform(StepperNavigationActions.clickBack())
+    }
+}
+
+
+inline fun List<ActivityRecord>.shouldContainOneItemWhich(block:  ActivityRecord.() -> Unit ) {
+    apply {
+        shouldHaveSize(1)
+        get(0).apply(block)
     }
 }

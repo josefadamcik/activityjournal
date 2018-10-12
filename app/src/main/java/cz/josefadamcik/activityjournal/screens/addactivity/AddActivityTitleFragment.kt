@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_add_activity_title.*
 class AddActivityTitleFragment : Fragment(), Step {
     private var listener: OnFragmentInteractionListener? = null
 
-    lateinit var addActivityFlow: AddActivityFlow
+    lateinit var addActivityModelFlow: AddActivityModelFlow
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +69,7 @@ class AddActivityTitleFragment : Fragment(), Step {
     }
 
     private fun fillAddActivityFlow() {
-        addActivityFlow.title = input_title.text.toString()
+        addActivityModelFlow.title = input_title.text.toString()
     }
 
     override fun onError(error: VerificationError) {}

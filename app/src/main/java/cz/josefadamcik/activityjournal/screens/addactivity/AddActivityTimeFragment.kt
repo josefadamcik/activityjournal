@@ -22,7 +22,7 @@ class AddActivityTimeFragment : Fragment(), Step {
 
     private var listener: OnFragmentInteractionListener? = null
 
-    lateinit var addActivityFlow: AddActivityFlow
+    lateinit var addActivityModelFlow: AddActivityModelFlow
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,9 +84,9 @@ class AddActivityTimeFragment : Fragment(), Step {
     }
 
     private fun fillDataIIntoActivitFlow() {
-        addActivityFlow.time = input_time.text.toString()
-        addActivityFlow.date = input_date.text.toString()
-        addActivityFlow.duration = input_duration.text.toString()
+        addActivityModelFlow.time = input_time.text.toString()
+        addActivityModelFlow.date = input_date.text.toString()
+        addActivityModelFlow.duration = input_duration.text.toString()
     }
 
     override fun onError(error: VerificationError) {}

@@ -1,6 +1,6 @@
 package cz.josefadamcik.activityjournal.screens.addactivity
 
-import cz.josefadamcik.activityjournal.DateTimeProvider
+import cz.josefadamcik.activityjournal.common.DateTimeProvider
 import cz.josefadamcik.activityjournal.model.ActivityRecord
 import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
 import cz.josefadamcik.activityjournal.model.ActivityRecordTimeParser
@@ -9,10 +9,10 @@ import org.threeten.bp.LocalDateTime
 /**
  * Captures information form the whole flow of the activity creation.
  */
-class AddActivityFlow(
-    private val defaultTitle: String,
-    private val currentTimeProvider: DateTimeProvider,
-    private val startParser: ActivityRecordTimeParser
+class AddActivityModelFlow(
+        private val defaultTitle: String,
+        private val currentTimeProvider: DateTimeProvider,
+        private val startParser: ActivityRecordTimeParser
 ) {
 
     var title: String? = null

@@ -1,6 +1,6 @@
 package cz.josefadamcik.activityjournal.model
 
-import cz.josefadamcik.activityjournal.DateTimeProvider
+import cz.josefadamcik.activityjournal.common.DateTimeProvider
 import org.threeten.bp.Duration
 
 class ActivityRecordsRepository(
