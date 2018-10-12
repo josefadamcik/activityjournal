@@ -11,13 +11,15 @@ import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
 import cz.josefadamcik.activityjournal.R
 import kotlinx.android.synthetic.main.fragment_add_activity_title.*
+import org.koin.android.ext.android.inject
+
 /**
  *
  */
 class AddActivityTitleFragment : Fragment(), Step {
     private var listener: OnFragmentInteractionListener? = null
 
-    lateinit var addActivityModelFlow: AddActivityModelFlow
+    private val addActivityModelFlow: AddActivityModelFlow by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

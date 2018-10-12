@@ -13,5 +13,5 @@ val appModule = module {
     single<DateTimeProvider> { DateTimeProviderImpl() }
     single<ActivityRecordsRepository> { ActivityRecordsRepository(get()) }
     factory { ActivityRecordTimeParser() }
-    factory { AddActivityModelFlow(androidContext().resources.getString(R.string.add_activity_default_title), get(), get()) }
+    single { AddActivityModelFlow(androidContext().resources.getString(R.string.add_activity_default_title), get(), get()) }
 }

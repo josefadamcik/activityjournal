@@ -11,21 +11,11 @@ import androidx.fragment.app.FragmentManager
 
 class AddActivityFlowStepperAdapter(
     fm: FragmentManager,
-    context: Context,
-    private val addActivityModelFlow: AddActivityModelFlow
+    context: Context
 ) : AbstractFragmentStepAdapter(fm, context) {
 
-    override fun createStep(position: Int): Step {
-        return if (position == 0) {
-            AddActivityTitleFragment().apply {
-                this.addActivityModelFlow = this@AddActivityFlowStepperAdapter.addActivityModelFlow
-            }
-        } else {
-            AddActivityTimeFragment().apply {
-                this.addActivityModelFlow = this@AddActivityFlowStepperAdapter.addActivityModelFlow
-            }
-        }
-    }
+    override fun createStep(position: Int): Step =
+            if (position == 0) AddActivityTitleFragment() else AddActivityTimeFragment()
 
     override fun getCount(): Int {
         return 2

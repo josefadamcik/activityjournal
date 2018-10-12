@@ -103,6 +103,18 @@ class AddActivityFlowTest : KoinTest {
     }
 
     @Test
+    fun addActivityFlow_nextGoesToSecondStepAfterRotation() {
+        actClickOnFab()
+
+        onView(isRoot()).perform(OrientationChangeAction.orientationLandscape())
+
+        assertStepIs(1)
+
+        actMoveToNextStep()
+    }
+
+
+    @Test
     fun addActivityFlow_titleMultipleActivityRecordsCanBeAdded() {
         actExecuteAddActivityWithoutTimeFlow(testTitle)
         assertOnTimeline()

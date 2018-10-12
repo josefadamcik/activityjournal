@@ -14,6 +14,7 @@ import com.stepstone.stepper.VerificationError
 import cz.josefadamcik.activityjournal.R
 
 import kotlinx.android.synthetic.main.fragment_add_activity_time.*
+import org.koin.android.ext.android.inject
 
 /**
  *
@@ -22,7 +23,7 @@ class AddActivityTimeFragment : Fragment(), Step {
 
     private var listener: OnFragmentInteractionListener? = null
 
-    lateinit var addActivityModelFlow: AddActivityModelFlow
+    private val addActivityModelFlow: AddActivityModelFlow by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -32,7 +32,7 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        stepperAdapter = AddActivityFlowStepperAdapter(childFragmentManager, context!!, addActivityModelFlow)
+        stepperAdapter = AddActivityFlowStepperAdapter(childFragmentManager, context!!)
 
     }
 
