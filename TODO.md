@@ -11,17 +11,17 @@
 - [X] Refactor in DI  _@done (2018-10-11 14:41)_
 - [X] Refactor AddActivityFlowTest in a way that it won't depend on timeline's functionality. _@done (2018-10-12 10:31)_
 
-- [ ] prevent data loss when the device is rotated
-    - [ ] add activity flow 
+- [X] prevent data loss when the device is rotated _@done (2018-10-12 11:58)_
+    - [X] add activity flow  _@done (2018-10-12 11:58)_
         - [X] when rotated, it should stay on the same step _@done (2018-10-12 11:07)_
-        - [ ] when rotated, it sohuld not crash when we move between steps
+        - [X] when rotated, it sohuld not crash when we move between steps _@done (2018-10-12 11:58)_
     - [X] timeline - content should be present after rotation _@done (2018-10-12 10:57)_
+
+- [ ] what about date / time validation?
+    - there ase crashes when user inserts wrong time/date/duration
 
 - [ ] get rid of the communication between nested fragments and activity
 - [ ] improper handling of fragments -> data and commands are sent from main activy directy to instance
-
-
-- [ ] what about date / time validation?
 - [ ] what about date formats?
 - [ ] timeline - display dates relatively ("yesterday" and so on)
 - [ ] add activity - use chooses the category
