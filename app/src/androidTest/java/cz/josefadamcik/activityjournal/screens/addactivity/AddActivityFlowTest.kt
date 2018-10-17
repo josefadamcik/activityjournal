@@ -233,7 +233,6 @@ class AddActivityFlowTest : KoinTest {
         assertStepIs(2)
 
         Espresso.pressBack()
-        Espresso.pressBack()
 
         assertStepIs(1)
     }
