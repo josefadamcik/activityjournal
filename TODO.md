@@ -17,13 +17,15 @@
         - [X] when rotated, it sohuld not crash when we move between steps _@done (2018-10-12 11:58)_
     - [X] timeline - content should be present after rotation _@done (2018-10-12 10:57)_
 
-- [ ] what about moving more  responsibilites to the add activity flow model? 
-    - [ ] viewmodel should take care of steps in the stepper
+- [X] what about moving more  responsibilites to the add activity flow model?  _@done (2018-10-17 11:26)_
+    - [X] viewmodel should take care of steps in the stepper _@done (2018-10-17 11:26)_
     - [X] it should be responsible for storing a new rocord _@done (2018-10-17 10:14)_
-- [ ] what about databinding?
-- [ ] what about date / time validation?
+
+- [ ] **valide title before moving to the second step**
+- [ ] What about databinding?
+- [ ] What about date / time validation?
     - there ase crashes when user inserts wrong time/date/duration
-- [ ] what about using BlockingStep for our stepper in order to move all the responsibility for changing of steps to our ViewModel?
+- [ ] What about using BlockingStep for our stepper in order to move all the responsibility for changing of steps to our ViewModel?
 
 - [ ] what about abstracting the navigation to a dedicated class
 - [ ] get rid of the communication between nested fragments and activity

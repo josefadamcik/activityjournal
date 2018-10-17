@@ -87,6 +87,7 @@ class AddActivityFlowTest : KoinTest {
     @Test
     fun addActivityFlow_nextGoesToSecondStep() {
         actClickOnFab()
+        actEnterTitle(testTitle)
         actMoveToNextStep()
         assertStepIs(2)
     }
@@ -94,6 +95,7 @@ class AddActivityFlowTest : KoinTest {
     @Test
     fun addActivityFlow_weStayOnTheSecondStepWhenRotated() {
         actClickOnFab()
+        actEnterTitle(testTitle)
         actMoveToNextStep()
         assertStepIs(2)
 
@@ -107,6 +109,7 @@ class AddActivityFlowTest : KoinTest {
     @Test
     fun addActivityFlow_nextGoesToSecondStepAfterRotation() {
         actClickOnFab()
+        actEnterTitle(testTitle)
 
         onView(isRoot()).perform(OrientationChangeAction.orientationLandscape())
 
@@ -202,6 +205,7 @@ class AddActivityFlowTest : KoinTest {
     @Test
     fun addActivity_backButtonReturnsToPreviousStep() {
         actClickOnFab()
+        actEnterTitle(testTitle)
         actMoveToNextStep()
 
         assertStepIs(2)
@@ -257,6 +261,7 @@ class AddActivityFlowTest : KoinTest {
     @Test
     fun addActivity_navUpJumpsOutOfTheSecondStep() {
         actClickOnFab()
+        actEnterTitle(testTitle)
         actMoveToNextStep()
         assertStepIs(2)
         actClickOnNavUpButton()
@@ -323,6 +328,12 @@ class AddActivityFlowTest : KoinTest {
                     .check(matches(isCompletelyDisplayed()))
                     .perform(typeText(testTitle), pressImeActionButton())
         }
+    }
+
+    private fun actEnterTitle(testTitle: String) {
+        onView(withId(R.id.input_title))
+                .check(matches(isCompletelyDisplayed()))
+                .perform(typeText(testTitle))
     }
 
     private fun actMoveToNextStep() {
