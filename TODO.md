@@ -21,7 +21,9 @@
     - [X] viewmodel should take care of steps in the stepper _@done (2018-10-17 11:26)_
     - [X] it should be responsible for storing a new rocord _@done (2018-10-17 10:14)_
 
-- [ ] **valide title before moving to the second step**
+- [ ] force keyboard to appear when user enters the add activity flow
+    - [ ] implementation was ready, but there's is a problem with fragile tests. Se we should actually make this only reall app feature and exclude it from testing somehow.
+- [ ] valide title before moving to the second step
 - [ ] What about databinding?
 - [ ] What about date / time validation?
     - there ase crashes when user inserts wrong time/date/duration

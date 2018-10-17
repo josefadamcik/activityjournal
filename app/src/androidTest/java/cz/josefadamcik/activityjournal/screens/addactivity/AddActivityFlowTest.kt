@@ -244,7 +244,6 @@ class AddActivityFlowTest : KoinTest {
 
         runWithStepperLayoutSupport(activityRule.activity.findViewById<StepperLayout>(R.id.stepperLayout)) {
             Espresso.pressBack()
-            Espresso.pressBack()
             assertOnTimeline()
         }
     }

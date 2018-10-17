@@ -66,9 +66,9 @@ class AddActivityTitleFragment : Fragment(), Step {
 
     private fun forceKeyboardPresent() {
         input_title.requestFocus()
-        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-        imm!!.showSoftInput(input_title, SHOW_IMPLICIT)
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+//        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+//        imm!!.showSoftInput(input_title, SHOW_IMPLICIT)
+//        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
     }
 
     override fun onAttach(context: Context) {
