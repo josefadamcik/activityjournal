@@ -23,7 +23,7 @@
 - [ ] what about databinding?
 - [ ] what about date / time validation?
     - there ase crashes when user inserts wrong time/date/duration
-
+- [ ] what about using BlockingStep for our stepper in order to move all the responsibility for changing of steps to our ViewModel?
 
 - [ ] what about abstracting the navigation to a dedicated class
 - [ ] get rid of the communication between nested fragments and activity

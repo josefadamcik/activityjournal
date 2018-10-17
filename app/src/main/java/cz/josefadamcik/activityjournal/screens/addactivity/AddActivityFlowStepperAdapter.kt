@@ -23,8 +23,20 @@ class AddActivityFlowStepperAdapter(
 
     override fun getViewModel(@IntRange(from = 0) position: Int): StepViewModel {
         // Override this method to set Step title for the Tabs, not necessary for other stepper types
-        return StepViewModel.Builder(context)
-                .setTitle("") // can be a CharSequence instead
-                .create()
+        return when (position) {
+            0 -> StepViewModel.Builder(context)
+                    .setTitle("") // can be a CharSequence instead
+                    .setEndButtonVisible(true)
+                    .create()
+            1 -> StepViewModel.Builder(context)
+                    .setTitle("") // can be a CharSequence instead
+                    .setEndButtonVisible(false)
+                    .create()
+            else -> StepViewModel.Builder(context)
+                    .setTitle("") // can be a CharSequence instead
+                    .setEndButtonVisible(true)
+                    .create()
+        }
+
     }
 }

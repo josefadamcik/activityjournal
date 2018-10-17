@@ -102,6 +102,8 @@ class AddActivityFlowTest : KoinTest {
         assertStepIs(2)
     }
 
+
+
     @Test
     fun addActivityFlow_nextGoesToSecondStepAfterRotation() {
         actClickOnFab()
@@ -207,6 +209,16 @@ class AddActivityFlowTest : KoinTest {
         Espresso.pressBack()
 
         assertStepIs(1)
+    }
+
+    @Test
+    fun addActivity_backButtonFromTheFirstStepQuitsTheFlow() {
+        actClickOnFab()
+
+        runWithStepperLayoutSupport(activityRule.activity.findViewById<StepperLayout>(R.id.stepperLayout)) {
+            Espresso.pressBack()
+            assertOnTimeline()
+        }
     }
 
     @Test

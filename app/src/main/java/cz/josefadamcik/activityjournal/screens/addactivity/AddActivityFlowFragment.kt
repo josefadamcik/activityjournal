@@ -49,11 +49,10 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
 
         stepperLayout.adapter = stepperAdapter
         stepperLayout.setListener(this)
-
         if (savedInstanceState != null) {
-            stepperLayout.currentStepPosition = savedInstanceState.getInt(STATE_CURRENT_POSITION, 0)
+            addActivityFlowModel.restoreState(savedInstanceState.getInt(STATE_CURRENT_POSITION, 0))
         }
-
+        stepperLayout.currentStepPosition = addActivityFlowModel.currentStep
     }
 
     override fun onAttach(context: Context) {
@@ -61,22 +60,25 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
         if (context is OnFragmentInteractionListener) {
             listener = context
         }
+        addActivityFlowModel.onCurrentStepChangeRequired = { step ->
+            if (stepperLayout.currentStepPosition !=  step) {
+                stepperLayout.currentStepPosition = step
+            }
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
         listener = null
+        addActivityFlowModel.onCurrentStepChangeRequired = {} //TODO: leak or not?
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
-        outState.putInt(STATE_CURRENT_POSITION, stepperLayout.currentStepPosition)
+        outState.putInt(STATE_CURRENT_POSITION, addActivityFlowModel.produceState())
     }
 
-    override fun requestMoveToNextStep() {
-        stepperLayout.currentStepPosition = 1
-    }
+
 
     override fun onCancelFlow() {
         // nop, see MainActivity#onCancelFlow
@@ -84,16 +86,13 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
 
 
     override fun onBackPressed(): Boolean {
-        return if (stepperLayout.currentStepPosition > 0) {
-            stepperLayout.onBackClicked()
-            true
-        } else {
-            false
-        }
+        stepperLayout.onBackClicked()
+        return true
     }
 
     // stepper
     override fun onStepSelected(newStepPosition: Int) {
+        addActivityFlowModel.onStepSelected(newStepPosition)
     }
 
     // stepper
@@ -102,6 +101,8 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
 
     // stepper
     override fun onReturn() {
+        //Back was pressed but not handled or user pressed back button on the first step
+        listener?.onCancelFlow()
     }
 
     // stepper
@@ -115,6 +116,7 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
      * activity.
      */
     interface OnFragmentInteractionListener {
+        fun onCancelFlow()
     }
 
     companion object {

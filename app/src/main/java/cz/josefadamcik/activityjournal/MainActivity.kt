@@ -62,11 +62,6 @@ class MainActivity : AppCompatActivity(),
         supportFragmentManager.popBackStack()
     }
 
-
-    override fun requestMoveToNextStep() {
-        findAddActivityFlowFragment()?.requestMoveToNextStep()
-    }
-
     override fun onCancelFlow() {
         supportFragmentManager.popBackStack()
     }

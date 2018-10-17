@@ -48,7 +48,7 @@ class AddActivityTitleFragment : Fragment(), Step {
         input_title.setOnEditorActionListener { textView, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 fillAddActivityFlow()
-                listener?.requestMoveToNextStep()
+                addActivityFlowModel.moveToNextStep()
                 true
             } else {
                 false
@@ -88,7 +88,6 @@ class AddActivityTitleFragment : Fragment(), Step {
      * activity.
      */
     interface OnFragmentInteractionListener {
-        fun requestMoveToNextStep()
         fun onCancelFlow()
     }
 
