@@ -17,6 +17,7 @@
         - [X] when rotated, it sohuld not crash when we move between steps _@done (2018-10-12 11:58)_
     - [X] timeline - content should be present after rotation _@done (2018-10-12 10:57)_
 
+- [ ] what about moving more  responsibilites to the add activity flow model? 
 - [ ] what about date / time validation?
     - there ase crashes when user inserts wrong time/date/duration
 
