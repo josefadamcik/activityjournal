@@ -3,7 +3,9 @@ package cz.josefadamcik.activityjournal.screens.addactivity
 import cz.josefadamcik.activityjournal.common.DateTimeProvider
 import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
 import cz.josefadamcik.activityjournal.model.ActivityRecordTimeParser
+import cz.josefadamcik.activityjournal.model.ActivityRecordsRepository
 import io.kotlintest.shouldBe
+import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Before
@@ -22,11 +24,12 @@ class AddActivityFlowModelTest {
         every { provideCurrentLocalDate() } returns LocalDate.of(2018, Month.OCTOBER, 12)
     }
 
+    private val activityRecordRepository = mockk<ActivityRecordsRepository>()
     private lateinit var flowModel: AddActivityFlowModel
 
     @Before
     fun setUp() {
-        flowModel = AddActivityFlowModel(defaultTitle, currentDateTimeProvider, ActivityRecordTimeParser())
+        flowModel = AddActivityFlowModel(defaultTitle, currentDateTimeProvider, ActivityRecordTimeParser(), activityRecordsRepository = activityRecordRepository)
     }
 
     @Test

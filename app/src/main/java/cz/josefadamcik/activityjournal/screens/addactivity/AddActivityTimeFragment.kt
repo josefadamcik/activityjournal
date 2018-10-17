@@ -15,8 +15,6 @@ import cz.josefadamcik.activityjournal.R
 import cz.josefadamcik.activityjournal.di.sharedViewModelForNestFragment
 
 import kotlinx.android.synthetic.main.fragment_add_activity_time.*
-import org.koin.androidx.viewmodel.ext.android.ViewModelStoreOwnerDefinition
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 /**
  *
@@ -47,8 +45,9 @@ class AddActivityTimeFragment : Fragment(), Step {
         }
 
         button_add.setOnClickListener {
-            fillDataIIntoActivitFlow()
-            listener?.onAddActivityTimeFinished()
+            fillDataIIntoActivityFlow()
+            addActivityFlowModel.storeNewActivityRecord()
+            listener?.onAddActivityFlowFinished()
         }
 
         input_duration.addTextChangedListener(object : TextWatcher {
@@ -82,11 +81,11 @@ class AddActivityTimeFragment : Fragment(), Step {
 
     override fun onSelected() {}
     override fun verifyStep(): VerificationError? {
-        fillDataIIntoActivitFlow()
+        fillDataIIntoActivityFlow()
         return null
     }
 
-    private fun fillDataIIntoActivitFlow() {
+    private fun fillDataIIntoActivityFlow() {
         addActivityFlowModel.time = input_time.text.toString()
         addActivityFlowModel.date = input_date.text.toString()
         addActivityFlowModel.duration = input_duration.text.toString()
@@ -101,7 +100,7 @@ class AddActivityTimeFragment : Fragment(), Step {
      * activity.
      */
     interface OnFragmentInteractionListener {
-        fun onAddActivityTimeFinished()
+        fun onAddActivityFlowFinished()
         fun onCancelFlow()
     }
 

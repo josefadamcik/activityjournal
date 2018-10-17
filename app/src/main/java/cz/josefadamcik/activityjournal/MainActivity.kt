@@ -36,9 +36,7 @@ class MainActivity : AppCompatActivity(),
                 .commit()
     }
 
-    override fun onAddActivityFlowFinished() {
-        supportFragmentManager.popBackStack()
-    }
+
 
     override fun onFinishForActivityRecordClicked() {
         findTimelineFragment()?.refreshList()
@@ -60,9 +58,10 @@ class MainActivity : AppCompatActivity(),
         return supportFragmentManager.findFragmentById(android.R.id.content) as AddActivityFlowFragment?
     }
 
-    override fun onAddActivityTimeFinished() {
-        findAddActivityFlowFragment()?.onAddActivityTimeFinished()
+    override fun onAddActivityFlowFinished() {
+        supportFragmentManager.popBackStack()
     }
+
 
     override fun requestMoveToNextStep() {
         findAddActivityFlowFragment()?.requestMoveToNextStep()

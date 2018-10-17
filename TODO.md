@@ -18,9 +18,14 @@
     - [X] timeline - content should be present after rotation _@done (2018-10-12 10:57)_
 
 - [ ] what about moving more  responsibilites to the add activity flow model? 
+    - [ ] viewmodel should take care of steps in the stepper
+    - [X] it should be responsible for storing a new rocord _@done (2018-10-17 10:14)_
+- [ ] what about databinding?
 - [ ] what about date / time validation?
     - there ase crashes when user inserts wrong time/date/duration
 
+
+- [ ] what about abstracting the navigation to a dedicated class
 - [ ] get rid of the communication between nested fragments and activity
 - [ ] improper handling of fragments -> data and commands are sent from main activy directy to instance
 - [ ] what about date formats?

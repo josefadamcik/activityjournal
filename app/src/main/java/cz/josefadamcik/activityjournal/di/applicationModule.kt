@@ -20,6 +20,7 @@ val appModule = module {
             AddActivityFlowModel(
                     androidContext().resources.getString(R.string.add_activity_default_title),
                     get(),
+                    get(),
                     get()
             )
         }

@@ -22,7 +22,7 @@ private const val STATE_CURRENT_POSITION = "state_current_position"
  *
  */
 class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentInteractionListener,
-        AddActivityTimeFragment.OnFragmentInteractionListener, StepperLayout.StepperListener,
+        StepperLayout.StepperListener,
         BackButtonPressConsumer {
     private var listener: OnFragmentInteractionListener? = null
 
@@ -82,10 +82,6 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
         // nop, see MainActivity#onCancelFlow
     }
 
-    override fun onAddActivityTimeFinished() {
-        activityRecordsRepository.add(addActivityFlowModel.produceActivityRecord())
-        listener?.onAddActivityFlowFinished()
-    }
 
     override fun onBackPressed(): Boolean {
         return if (stepperLayout.currentStepPosition > 0) {
@@ -119,7 +115,6 @@ class AddActivityFlowFragment : Fragment(), AddActivityTitleFragment.OnFragmentI
      * activity.
      */
     interface OnFragmentInteractionListener {
-        fun onAddActivityFlowFinished()
     }
 
     companion object {

@@ -5,6 +5,7 @@ import cz.josefadamcik.activityjournal.common.DateTimeProvider
 import cz.josefadamcik.activityjournal.model.ActivityRecord
 import cz.josefadamcik.activityjournal.model.ActivityRecordDuration
 import cz.josefadamcik.activityjournal.model.ActivityRecordTimeParser
+import cz.josefadamcik.activityjournal.model.ActivityRecordsRepository
 import org.threeten.bp.LocalDateTime
 
 /**
@@ -13,7 +14,8 @@ import org.threeten.bp.LocalDateTime
 class AddActivityFlowModel(
         private val defaultTitle: String,
         private val currentTimeProvider: DateTimeProvider,
-        private val startParser: ActivityRecordTimeParser
+        private val startParser: ActivityRecordTimeParser,
+        private val activityRecordsRepository: ActivityRecordsRepository
 ) : ViewModel() {
 
     var title: String? = null
@@ -45,5 +47,9 @@ class AddActivityFlowModel(
                 else
                     startParser.parseTimeField(time as String)
         )
+    }
+
+    fun storeNewActivityRecord() {
+        activityRecordsRepository.add(produceActivityRecord())
     }
 }
