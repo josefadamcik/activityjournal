@@ -1,5 +1,7 @@
 package cz.josefadamcik.activityjournal.screens.addactivity
 
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
@@ -7,6 +9,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.stepstone.stepper.StepperLayout
@@ -56,6 +59,25 @@ class AddActivityFlowTest : KoinTest {
 
         assertStepIs(1)
     }
+
+    @Test
+    fun fabPressed_inputIsFocusedAndKeyboardDisplayed() {
+        actClickOnFab()
+
+        onView(withId(R.id.input_title))
+                .check(matches(allOf(
+                        ViewMatchers.isFocusable(),
+                        ViewMatchers.hasFocus()
+                )))
+
+        isKeyboardShown()
+    }
+
+    fun isKeyboardShown(): Boolean {
+        val inputMethodManager = InstrumentationRegistry.getInstrumentation().targetContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        return inputMethodManager.isAcceptingText
+    }
+
 
     @Test
     fun addActivityFlow_titleCanBeEnteredAndTheNewRecordDisplayed() {
@@ -211,6 +233,7 @@ class AddActivityFlowTest : KoinTest {
         assertStepIs(2)
 
         Espresso.pressBack()
+        Espresso.pressBack()
 
         assertStepIs(1)
     }
@@ -220,6 +243,7 @@ class AddActivityFlowTest : KoinTest {
         actClickOnFab()
 
         runWithStepperLayoutSupport(activityRule.activity.findViewById<StepperLayout>(R.id.stepperLayout)) {
+            Espresso.pressBack()
             Espresso.pressBack()
             assertOnTimeline()
         }

@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.LifecycleOwner
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
@@ -17,6 +19,10 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.ViewModelStoreOwnerDefinition
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
+import androidx.core.content.ContextCompat.getSystemService
+
+
 
 /**
  *
@@ -54,6 +60,15 @@ class AddActivityTitleFragment : Fragment(), Step {
                 false
             }
         }
+
+        forceKeyboardPresent()
+    }
+
+    private fun forceKeyboardPresent() {
+        input_title.requestFocus()
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        imm!!.showSoftInput(input_title, SHOW_IMPLICIT)
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
     }
 
     override fun onAttach(context: Context) {
