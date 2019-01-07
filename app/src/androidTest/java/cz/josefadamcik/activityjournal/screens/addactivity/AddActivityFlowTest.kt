@@ -23,6 +23,7 @@ import cz.josefadamcik.activityjournal.test.*
 import io.kotlintest.*
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.matchers.collections.shouldNotContainExactlyInAnyOrder
+import io.kotlintest.matchers.match
 import io.kotlintest.matchers.shouldHave
 import io.kotlintest.matchers.string.shouldNotBeEmpty
 import org.hamcrest.Matchers.*
@@ -122,6 +123,19 @@ class AddActivityFlowTest : KoinTest {
         assertStepIs(1)
     }
 
+    @Test
+    fun addActivityFlow_errorIsDisplayedWhenNextButtonPressedWithoutTitle() {
+        actClickOnFab()
+        actMoveToNextStep()
+        assertEmptyTitleErrorDisplayed()
+    }
+
+    @Test
+    fun addActivityFlow_errorIsDisplayedWhenImeActionUsedAndTitleEmpty() {
+        actClickOnFab()
+        actEnterTitleToInputAndSubmit("")
+        assertEmptyTitleErrorDisplayed()
+    }
 
     @Test
     fun addActivityFlow_weStayOnTheSecondStepWhenRotated() {
@@ -299,6 +313,10 @@ class AddActivityFlowTest : KoinTest {
         activityRecordsRepository.getActivityRecords().shouldContainOneItemWhich {
             title.shouldBe(testTitle)
         }
+    }
+
+    private fun assertEmptyTitleErrorDisplayed() {
+        onView(withText(R.string.err_empty_title)).check(matches(isDisplayed()))
     }
 
     private fun isKeyboardShown(): Boolean {

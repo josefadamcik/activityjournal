@@ -56,6 +56,8 @@ class AddActivityTitleFragment : Fragment(), Step {
                 val error = fillAddActivityFlow()
                 if (error == null) {
                     addActivityFlowModel.moveToNextStep()
+                } else {
+                    onError(error)
                 }
                 true
             } else {
@@ -99,7 +101,9 @@ class AddActivityTitleFragment : Fragment(), Step {
         return null
     }
 
-    override fun onError(error: VerificationError) {}
+    override fun onError(error: VerificationError) {
+        title_input_layout.error = error.errorMessage
+    }
 
     /**
      * This interface must be implemented by activities that contain this
