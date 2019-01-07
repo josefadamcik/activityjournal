@@ -35,7 +35,6 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 
-
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class AddActivityFlowTest : KoinTest {
@@ -73,12 +72,6 @@ class AddActivityFlowTest : KoinTest {
         isKeyboardShown()
     }
 
-    fun isKeyboardShown(): Boolean {
-        val inputMethodManager = InstrumentationRegistry.getInstrumentation().targetContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        return inputMethodManager.isAcceptingText
-    }
-
-
     @Test
     fun addActivityFlow_titleCanBeEnteredAndTheNewRecordDisplayed() {
 
@@ -88,6 +81,7 @@ class AddActivityFlowTest : KoinTest {
 
         assertAnItemWithTitleWasAdded()
     }
+
 
     @Test
     fun addActivity_nextButtonOnStepperShouldWork() {
@@ -115,6 +109,21 @@ class AddActivityFlowTest : KoinTest {
     }
 
     @Test
+    fun addActivityFlow_nextDoesNotGoAnywhereWhenTitleNotInserted() {
+        actClickOnFab()
+        actMoveToNextStep()
+        assertStepIs(1)
+    }
+
+    @Test
+    fun addActivityFlow_imeActionDoesNotGoAnywhereWhenEmptyTitleInserted() {
+        actClickOnFab()
+        actEnterTitleToInputAndSubmit("")
+        assertStepIs(1)
+    }
+
+
+    @Test
     fun addActivityFlow_weStayOnTheSecondStepWhenRotated() {
         actClickOnFab()
         actEnterTitle(testTitle)
@@ -125,8 +134,6 @@ class AddActivityFlowTest : KoinTest {
 
         assertStepIs(2)
     }
-
-
 
     @Test
     fun addActivityFlow_nextGoesToSecondStepAfterRotation() {
@@ -139,7 +146,6 @@ class AddActivityFlowTest : KoinTest {
 
         actMoveToNextStep()
     }
-
 
     @Test
     fun addActivityFlow_titleMultipleActivityRecordsCanBeAdded() {
@@ -191,8 +197,6 @@ class AddActivityFlowTest : KoinTest {
             start.toLocalDate().shouldBe(LocalDate.of(2018, 9, 25))
         }
     }
-
-
 
     @Test
     fun addActivity_chooseStartTimeAndDateAndDuration() {
@@ -295,6 +299,11 @@ class AddActivityFlowTest : KoinTest {
         activityRecordsRepository.getActivityRecords().shouldContainOneItemWhich {
             title.shouldBe(testTitle)
         }
+    }
+
+    private fun isKeyboardShown(): Boolean {
+        val inputMethodManager = InstrumentationRegistry.getInstrumentation().targetContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        return inputMethodManager.isAcceptingText
     }
 
     private fun actEnterDate() {

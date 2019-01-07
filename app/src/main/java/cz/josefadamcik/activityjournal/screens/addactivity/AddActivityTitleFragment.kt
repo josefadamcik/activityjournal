@@ -53,8 +53,10 @@ class AddActivityTitleFragment : Fragment(), Step {
 
         input_title.setOnEditorActionListener { textView, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                fillAddActivityFlow()
-                addActivityFlowModel.moveToNextStep()
+                val error = fillAddActivityFlow()
+                if (error == null) {
+                    addActivityFlowModel.moveToNextStep()
+                }
                 true
             } else {
                 false
@@ -86,12 +88,15 @@ class AddActivityTitleFragment : Fragment(), Step {
     override fun onSelected() {
     }
     override fun verifyStep(): VerificationError? {
-        fillAddActivityFlow()
-        return null
+        return fillAddActivityFlow()
     }
 
-    private fun fillAddActivityFlow() {
+    private fun fillAddActivityFlow(): VerificationError? {
         addActivityFlowModel.title = input_title.text.toString()
+        if (addActivityFlowModel.title == null || addActivityFlowModel.title.equals("")) {
+            return VerificationError(getString(R.string.err_empty_title))
+        }
+        return null
     }
 
     override fun onError(error: VerificationError) {}

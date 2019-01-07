@@ -23,7 +23,16 @@
 
 - [ ] force keyboard to appear when user enters the add activity flow
     - [ ] implementation was ready, but there's is a problem with fragile tests. Se we should actually make this only reall app feature and exclude it from testing somehow.
-- [ ] valide title before moving to the second step
+    
+- [ ] **validate title before moving to the second step**
+    - [X] next _@done (2019-01-07 18:28)_
+    - [X] ime action _@done (2019-01-07 18:28)_
+    - [ ] message is shown
+        - [ ] next
+        - [ ] ime action
+    - [ ] message is cleared
+        - [ ] next
+        - [ ] ime action  
 - [ ] What about databinding?
 - [ ] What about date / time validation?
     - there ase crashes when user inserts wrong time/date/duration
@@ -36,15 +45,14 @@
 - [ ] timeline - display dates relatively ("yesterday" and so on)
 - [ ] add activity - use chooses the category
 - [ ] main activity contains state of the application
-- [ ] prevent data loos when the application is killed
-- [ ] prevent data loos when the user quits the application
+- [ ] prevent data los when the application is killed
+- [ ] prevent data los when the user quits the application
 - [ ] use nice dialogues for date and time
 - [X] refactor tests from mainactivitytest class to more classes _@done (2018-10-12 10:38)_
 - [X] list of activities in the timeiline _@done (2018-10-12 10:38)_
 - [X] remove addActivityFlow_titleCanBeEnteredAndTheNewRecordDisplayed2 _@done (2018-10-12 10:37)_
 
 ## TODO archive
-
 
 - [X] find a way how te refactor mainactivity in a way, that we will be able to test sorting of activity recods. _@done (2018-10-02 14:22)_
 - [X] timeline - activities are sorted by date and time, but undergoing activities are always at the beginning of the list _@done (2018-10-02 14:22)_
