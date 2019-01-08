@@ -27,9 +27,9 @@
 - [ ] **validate title before moving to the second step**
     - [X] next _@done (2019-01-07 18:28)_
     - [X] ime action _@done (2019-01-07 18:28)_
-    - [ ] message is shown
-        - [ ] next
-        - [ ] ime action
+    - [X] message is shown _@done (2019-01-07 18:40)_
+        - [X] next _@done (2019-01-07 18:40)_
+        - [X] ime action _@done (2019-01-07 18:40)_
     - [ ] message is cleared
         - [ ] next
         - [ ] ime action  

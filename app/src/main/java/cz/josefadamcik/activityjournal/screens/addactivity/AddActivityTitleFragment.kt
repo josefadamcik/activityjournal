@@ -2,6 +2,8 @@ package cz.josefadamcik.activityjournal.screens.addactivity
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -64,6 +66,18 @@ class AddActivityTitleFragment : Fragment(), Step {
                 false
             }
         }
+
+        input_title.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (title_input_layout.error != null && s != null && s.length > 0) {
+                    title_input_layout.error = null
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         forceKeyboardPresent()
     }

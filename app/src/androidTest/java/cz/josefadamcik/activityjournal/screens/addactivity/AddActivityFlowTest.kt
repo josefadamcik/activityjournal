@@ -5,6 +5,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -148,6 +149,15 @@ class AddActivityFlowTest : KoinTest {
 
         assertStepIs(2)
     }
+
+    @Test
+    fun addActivityFlow_emptyTitleMessageIsClearedOnceUserEntersAtLeastOneCharacter() {
+        actClickOnFab()
+        actEnterTitleToInputAndSubmit("")
+        actEnterTitle("a")
+        assertNoEmptyTitleErrorDisplayed()
+    }
+
 
     @Test
     fun addActivityFlow_nextGoesToSecondStepAfterRotation() {
@@ -317,6 +327,10 @@ class AddActivityFlowTest : KoinTest {
 
     private fun assertEmptyTitleErrorDisplayed() {
         onView(withText(R.string.err_empty_title)).check(matches(isDisplayed()))
+    }
+
+    private fun assertNoEmptyTitleErrorDisplayed() {
+        onView(withText(R.string.err_empty_title)).check(doesNotExist())
     }
 
     private fun isKeyboardShown(): Boolean {
